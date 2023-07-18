@@ -9,27 +9,44 @@ const Header: React.FC = () => {
   };
 
   return (
-    <Box sx={{ backgroundColor: colors.black }}>
+    <Box
+      sx={{
+        backgroundColor: colors.black,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        width: "100%",
+      }}
+    >
       <Spacer height={"24px"} />
       <Box
         sx={{
-          paddingX: [3, 5, 10],
-          display: "flex",
-          justifyContent: "space-between",
+          maxWidth: "1440px",
+          width: "100%",
         }}
       >
-        <img
-          src="https://www.nulondon.ac.uk/wp-content/themes/new-college-of-the-humanities/assets/images/logo-northeastern-uni-london-nch.svg"
-          alt="Northeastern University London"
-        />
-        <Button
-          variant="text"
-          sx={{ color: colors.white }}
-          onClick={onLoginClick}
+        <Box
+          sx={{
+            // width: "100%",
+            display: "flex",
+            justifyContent: "space-between",
+            marginX: [3, 5, 10],
+          }}
         >
-          Log In
-        </Button>
+          <img
+            src="https://www.nulondon.ac.uk/wp-content/themes/new-college-of-the-humanities/assets/images/logo-northeastern-uni-london-nch.svg"
+            alt="Northeastern University London"
+          />
+          <Button
+            variant="text"
+            sx={{ color: colors.white }}
+            onClick={onLoginClick}
+          >
+            Log In
+          </Button>
+        </Box>
       </Box>
+
       <Spacer height={"24px"} />
     </Box>
   );

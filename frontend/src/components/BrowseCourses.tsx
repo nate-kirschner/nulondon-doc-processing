@@ -28,13 +28,14 @@ const BrowseCourses: React.FC = () => {
         backgroundColor: "white",
         justifyContent: "center",
         display: "flex",
+        width: "100%",
         maxWidth: "1440px",
-        paddingX: [3, 5, 10],
       }}
     >
       <Box
         sx={{
-          width: ["100%"],
+          width: "100%",
+          marginX: [3, 5, 10],
           display: "flex",
           flexDirection: "column",
         }}
