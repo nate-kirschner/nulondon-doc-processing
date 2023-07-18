@@ -1,13 +1,14 @@
+import React from "react";
 import "./App.css";
 import BrowseCourses from "./components/BrowseCourses";
-import { ThemeProvider } from "@emotion/react";
-import { theme } from "./theme";
+import Header from "./components/Header";
 
 function App() {
   return (
-    // <ThemeProvider theme={theme}>
-    <BrowseCourses />
-    // </ThemeProvider>
+    <React.Fragment>
+      <Header />
+      <BrowseCourses />
+    </React.Fragment>
   );
 }
 

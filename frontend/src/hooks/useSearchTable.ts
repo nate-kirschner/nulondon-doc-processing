@@ -21,16 +21,16 @@ const useSearchTable = (
   };
 
   useEffect(() => {
-    if (searchTerm === "") {
-      setFilteredRows(allRows);
-    } else {
-      const filteredRows = allRows.filter((row) => {
-        const containsTitle = row.title.includes(searchTerm);
-        const containsCode = row.code.includes(searchTerm);
-        return containsCode || containsTitle;
-      });
-      setFilteredRows(filteredRows);
-    }
+    const filteredRows = allRows.filter((row) => {
+      const containsTitle = row.title
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const containsCode = row.code
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      return containsCode || containsTitle;
+    });
+    setFilteredRows(searchTerm === "" ? allRows : filteredRows);
   }, [searchTerm]);
 
   return {

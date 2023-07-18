@@ -1,4 +1,4 @@
-import { Box, Input } from "@mui/material";
+import { Box, Input, Typography } from "@mui/material";
 import React, { useState } from "react";
 import Course from "../types/courses";
 import usePagination from "../hooks/usePagination";
@@ -26,20 +26,25 @@ const BrowseCourses: React.FC = () => {
     <Box
       sx={{
         backgroundColor: "white",
-        minHeight: "100vh",
         justifyContent: "center",
         display: "flex",
+        maxWidth: "1440px",
+        paddingX: [3, 5, 10],
       }}
     >
       <Box
         sx={{
-          width: ["90%", 650],
+          width: ["100%"],
           display: "flex",
           flexDirection: "column",
         }}
       >
         <Spacer height={"48px"} />
-        <Input value={value} onChange={onChange} />
+        <Input
+          value={value}
+          onChange={onChange}
+          placeholder="Search course titles or codes"
+        />
         <CourseTable
           rows={visibleRows}
           totalRows={filteredRows.length}
