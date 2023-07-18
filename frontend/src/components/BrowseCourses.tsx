@@ -1,8 +1,20 @@
 import React from "react";
-import { Box } from "theme-ui";
+import { Box, Flex, Heading, Input } from "theme-ui";
 
 const BrowseCourses: React.FC = () => {
-  return <Box sx={{}}>Hello World</Box>;
+  return (
+    <Flex
+      sx={{
+        backgroundColor: "white",
+        minHeight: "100vh",
+        justifyContent: "center",
+      }}
+    >
+      <Heading as="h1" sx={{ fontSize: 24 }}>
+        Hello World
+      </Heading>
+    </Flex>
+  );
 };
 
 export default BrowseCourses;
