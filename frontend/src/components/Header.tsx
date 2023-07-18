@@ -27,7 +27,6 @@ const Header: React.FC = () => {
       >
         <Box
           sx={{
-            // width: "100%",
             display: "flex",
             justifyContent: "space-between",
             marginX: [3, 5, 10],
