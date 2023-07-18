@@ -1,29 +1,31 @@
 import { useMemo, useState } from "react";
 import Course from "../types/courses";
 
+export interface PaginatedTableProps {
+  rowsPerPage: number;
+  onPageChange: (event: unknown, page: number) => void;
+  page: number;
+}
+
 interface PaginatedTable {
-  paginatedTableProps: {
-    rowsPerPage: number;
-    onPageChange: (event: unknown, page: number) => void;
-    page: number;
-  };
+  paginatedTableProps: PaginatedTableProps;
   visibleRows: Course[];
 }
 
 const usePagination = (rows: Course[]): PaginatedTable => {
   const rowsPerPage = 2;
 
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
 
-  const onPageChange = (event: unknown, page: number) => {
+  const onPageChange = (_event: unknown, page: number) => {
     setPage(page);
   };
 
   const visibleRows = useMemo(() => {
-    return rows.filter((row, index) => {
+    return rows.filter((_row, index) => {
       return index >= page * rowsPerPage && index < (page + 1) * rowsPerPage;
     });
-  }, [page]);
+  }, [page, rows]);
 
   return {
     paginatedTableProps: {

@@ -1,17 +1,10 @@
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
-} from "@mui/material";
-import React, { useEffect, useMemo, useState } from "react";
-import { Flex } from "theme-ui";
+import { Box, Input } from "@mui/material";
+import React, { useState } from "react";
 import Course from "../types/courses";
 import usePagination from "../hooks/usePagination";
+import Spacer from "./Spacer";
+import CourseTable from "./CourseTable";
+import useSearchTable from "../hooks/useSearchTable";
 
 const BrowseCourses: React.FC = () => {
   const rows: Course[] = [
@@ -23,46 +16,37 @@ const BrowseCourses: React.FC = () => {
     { title: "course 6", code: "IS3505", credits: 4 },
   ];
 
-  const { paginatedTableProps, visibleRows } = usePagination(rows);
+  const [filteredRows, setFilteredRows] = useState<Course[]>(rows);
+
+  const { value, onChange } = useSearchTable(rows, setFilteredRows);
+
+  const { paginatedTableProps, visibleRows } = usePagination(filteredRows);
 
   return (
-    <Flex
+    <Box
       sx={{
         backgroundColor: "white",
         minHeight: "100vh",
         justifyContent: "center",
+        display: "flex",
       }}
     >
-      <TableContainer component={Paper} sx={{ width: ["90%", 650] }}>
-        <Table aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Course Name</TableCell>
-              <TableCell align="right">Course Code</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {visibleRows.map((row) => (
-              <TableRow
-                key={row.code}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.title}
-                </TableCell>
-                <TableCell align="right">{row.code}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[2]}
-        component="div"
-        count={rows.length}
-        {...paginatedTableProps}
-      />
-    </Flex>
+      <Box
+        sx={{
+          width: ["90%", 650],
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <Spacer height={"48px"} />
+        <Input value={value} onChange={onChange} />
+        <CourseTable
+          rows={visibleRows}
+          totalRows={filteredRows.length}
+          paginatedTableProps={paginatedTableProps}
+        />
+      </Box>
+    </Box>
   );
 };
 
