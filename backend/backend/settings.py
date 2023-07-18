@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'something',
+        'USER': 'admin',
+        'PASSWORD': 'docprocessor',
+        'HOST': 'courses-db.czlgzrfrhsu6.us-east-1.rds.amazonaws.com',
+        'PORT': '3306',
     }
 }
 
