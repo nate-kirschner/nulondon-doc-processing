@@ -12,6 +12,9 @@ class Course(models.Model):
     core_attributes = models.CharField(max_length=255)
     pre_requisites = models.CharField(max_length=255)
     co_requisites = models.CharField(max_length=255)
+    overview = models.TextField(null=True)
+    learning_outcomes = models.TextField(null=True)
+
 
     def __str__(self) -> str:
         return self.title
