@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Course
+from .models import Assignment
 
 class CourseAdmin(admin.ModelAdmin):
     list_display = (
@@ -15,5 +16,16 @@ class CourseAdmin(admin.ModelAdmin):
         'co_requisites',
     )    
 
+class AssignmentAdmin(admin.ModelAdmin):
+    list_display = (
+        'ae', 
+        'activity',
+        'weight',
+        'duration',
+        'length',
+        'course_code'
+    )    
+
 # Register your models here.
 admin.site.register(Course, CourseAdmin)
+admin.site.register(Assignment, AssignmentAdmin)
