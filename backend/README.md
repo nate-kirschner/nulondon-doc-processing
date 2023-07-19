@@ -1,6 +1,6 @@
 ## Set up
 
-Make sure you have `python` or `python3` installed first, and also 
+Make sure you have `python` or `python3` installed first
 
 1. install django with `python -m pip install Django`
 
