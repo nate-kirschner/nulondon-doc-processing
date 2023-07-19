@@ -13,6 +13,6 @@ class Course(models.Model):
     pre_requisites = models.CharField(max_length=255)
     co_requisites = models.CharField(max_length=255)
 
-    def __str__(self) -> str:
+    def __str__(self):
         return self.title
     
