@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 class Course(models.Model):
@@ -33,4 +34,31 @@ class Assignment(models.Model):
 
     def __str__(self) -> str:
         return str(self.ae) + self.course_code
-    
+
+class LearningOutcomes(models.Model):
+    class Types(models.TextChoices):
+        KN_UNDERSTANDING = "K", _("Knowledge and Understanding")
+        SUB_SPECIFIC = "S", _("Subject Specific Skills")
+        TRANSFERABLE = "J", _("Transferable and Employability Skills")
+
+    code = models.CharField(max_length=3)
+    type = models.CharField(max_length=1, choices=Types.choices)
+    text_desc = models.TextField()
+    course_code = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+    def __str__(self) -> str:
+        return self.code + " for course " + self.course_code
+
+class Prereq(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name = "course_with_prereq")
+    prereq = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="prereq")
+
+    def __str__(self) -> str:
+        return self.prereq + " is prerequisite for course " + self.course
+
+class Coreq(models.Model): 
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name = "course_with_coreq")
+    coreq = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="coreq")
+
+    def __str__(self) -> str:
+        return self.coreq + " is corequisite for course " + self.course
