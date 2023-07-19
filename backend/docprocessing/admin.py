@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Course, Assignment, LearningOutcomes, Prereq, Coreq
+from .models import Course, Assignment, LearningOutcomes, Prereq, Coreq, Approval
 
 class CourseAdmin(admin.ModelAdmin):
     list_display = (
@@ -52,9 +52,23 @@ class CoreqAdmin(admin.ModelAdmin):
         'coreq'
     )
 
+class ApprovalAdmin(admin.ModelAdmin):
+    list_display = (
+        'version_num', 
+        'date_approved', 
+        'date_published',
+        'owner',
+        'next_review_date',
+        'mod_cat_num',
+        'approved_by',
+        'location',
+        'course'
+    )
+
 # Register your models here.
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Assignment, AssignmentAdmin)
 admin.site.register(LearningOutcomes, LOAdmin)
 admin.site.register(Prereq, PrereqAdmin)
 admin.site.register(Coreq, CoreqAdmin)
+admin.site.register(Approval, ApprovalAdmin)
