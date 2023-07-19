@@ -1,13 +1,22 @@
+import React from "react";
 import "./App.css";
 import BrowseCourses from "./components/BrowseCourses";
-import { ThemeProvider } from "@emotion/react";
-import { theme } from "./theme";
+import Header from "./components/Header";
+import { Box } from "@mui/material";
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
+    <Box
+      sx={{
+        display: "flex",
+
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <Header />
       <BrowseCourses />
-    </ThemeProvider>
+    </Box>
   );
 }
 
