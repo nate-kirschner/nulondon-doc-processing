@@ -17,6 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+# urls.py (hookup viewset to URL)
+from django.conf.urls import include, re_path
+from rest_framework.routers import DefaultRouter
+from docprocessing.views import CourseViewSet
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+
+
+router = DefaultRouter()
+router.register(r'courses-db', CourseViewSet, basename='course')
