@@ -2,9 +2,13 @@
 
 Make sure you have `python` or `python3` installed first
 
-1. install django with `python -m pip install Django`
+1. cd backend
+2. Create a python environment with `python -m venv myenv`
+3. Activate your environment with `source myenv/bin/activate`
+4. install django with `python -m pip install Django`
+5. install django's REST API framework with `python -m pip install djangorestframework`
 
-2. install mysqlclient using 
+6. install mysqlclient using 
 
 Windows:
 ```
