@@ -2,6 +2,8 @@ from rest_framework.serializers import ModelSerializer
 from .models import Course, Assignment
 
 class CourseSerializer(ModelSerializer):
+    """ Converts instance of Course to JSON
+    """
     class Meta:
         model = Course
         fields = ('title', 'course_code', 'discipline', 'uk_credit', 'us_credit',
@@ -11,6 +13,8 @@ class CourseSerializer(ModelSerializer):
 
 
 class AssignmentSerializer(ModelSerializer):
+    """ Converts instance of Assignment to JSON
+    """
     class Meta:
         model = Assignment
         fields = ('ae', 'activity', 'weight', 'duration',

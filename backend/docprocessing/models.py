@@ -2,8 +2,9 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 class Course(models.Model):
-    title = models.CharField(max_length=255, unique=True) # eg Global Objects in Context
-    course_code = models.CharField(max_length=255, unique=True) # eg LADES5261
+    """Python Class representaiton of the Courses Table"""
+    title = models.CharField(max_length=255) # eg Global Objects in Context
+    course_code = models.CharField(max_length=255, primary_key=True) # eg LADES5261
     discipline = models.CharField(max_length=255) # eg Art and Design
     uk_credit = models.IntegerField() 
     us_credit = models.IntegerField() 
