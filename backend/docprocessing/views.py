@@ -1,14 +1,15 @@
-from django.shortcuts import render
-
 # Create your views here.
-from rest_framework.mixins import (
-    CreateModelMixin, ListModelMixin, RetrieveModelMixin, UpdateModelMixin
-    )
-from rest_framework.viewsets import GenericViewSet
 from .models import Course
-from .serializer import CourseSerializer
+from django.http import HttpResponse
+from django.core import serializers
 
-class CourseViewSet(
-    GenericViewSet, CreateModelMixin, ListModelMixin, RetrieveModelMixin, UpdateModelMixin):
-    serializer_class = CourseSerializer
-    queryset = Course.objects.all()
+
+def courses(request):
+    courses = Course.objects.all()
+    ser_obj = serializers.serialize('json', courses)
+    response = HttpResponse(ser_obj, headers={
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Origin',
+        'Access-Control-Allow-Methods': 'GET, POST'
+    })
+    return response

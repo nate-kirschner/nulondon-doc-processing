@@ -1,10 +1,11 @@
 import { Box, Input, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Course from "../types/courses";
 import usePagination from "../hooks/usePagination";
 import Spacer from "./Spacer";
 import CourseTable from "./CourseTable";
 import useSearchTable from "../hooks/useSearchTable";
+import axios from "axios";
 
 const BrowseCourses: React.FC = () => {
   const rows: Course[] = [
@@ -21,6 +22,15 @@ const BrowseCourses: React.FC = () => {
   const { value, onChange } = useSearchTable(rows, setFilteredRows);
 
   const { paginatedTableProps, visibleRows } = usePagination(filteredRows);
+
+  useEffect(() => {
+    const getData = async () => {
+      const data = await axios.get("http://127.0.0.1:8000/courses/");
+      console.log("data", data);
+    };
+
+    getData();
+  }, []);
 
   return (
     <Box
