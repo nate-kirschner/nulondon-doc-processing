@@ -6,15 +6,51 @@ import Spacer from "./Spacer";
 import CourseTable from "./CourseTable";
 import useSearchTable from "../hooks/useSearchTable";
 import axios from "axios";
+import { colors } from "../theme";
+
+const assessment = { title: "Assessment 1", weighting: 20, versions: [1] };
 
 const BrowseCourses: React.FC = () => {
   const rows: Course[] = [
-    { title: "course 1", code: "IS3500", credits: 4 },
-    { title: "course 2", code: "IS3501", credits: 4 },
-    { title: "course 3", code: "IS3502", credits: 4 },
-    { title: "course 4", code: "IS3503", credits: 4 },
-    { title: "course 5", code: "IS3504", credits: 4 },
-    { title: "course 6", code: "IS3505", credits: 4 },
+    {
+      title: "Course 1",
+      code: "IS3500",
+      credits: 4,
+      assessments: [
+        assessment,
+        { title: "Assessment 2", weighting: 50, versions: [1, 2, 3] },
+      ],
+    },
+    {
+      title: "course 2",
+      code: "IS3501",
+      credits: 4,
+      assessments: [assessment],
+    },
+    {
+      title: "course 3",
+      code: "IS3502",
+      credits: 4,
+      assessments: [assessment],
+    },
+    {
+      title: "course 4",
+      code: "IS3503",
+      credits: 4,
+      assessments: [assessment],
+    },
+    {
+      title: "course 5",
+      code: "IS3504",
+      credits: 4,
+      assessments: [assessment],
+    },
+    {
+      title: "course 6",
+      code: "IS3505",
+      credits: 4,
+      assessments: [assessment],
+    },
   ];
 
   const [filteredRows, setFilteredRows] = useState<Course[]>(rows);
@@ -55,7 +91,19 @@ const BrowseCourses: React.FC = () => {
           value={value}
           onChange={onChange}
           placeholder="Search course titles or codes"
+          sx={{
+            ":before": {
+              borderBottomColor: colors.red,
+            },
+            ":after": {
+              borderBottomColor: colors.red,
+            },
+            "&:hover:not(.Mui-disabled, .Mui-error):before": {
+              borderBottomColor: colors.red,
+            },
+          }}
         />
+        <Spacer height={"16px"} />
         <CourseTable
           rows={visibleRows}
           totalRows={filteredRows.length}

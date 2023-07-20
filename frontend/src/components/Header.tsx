@@ -38,7 +38,17 @@ const Header: React.FC = () => {
           />
           <Button
             variant="text"
-            sx={{ color: colors.white }}
+            sx={{
+              color: colors.white,
+              backgroundColor: colors.red,
+              height: "max-content",
+              alignSelf: "center",
+              padding: "12px",
+              "&:hover": {
+                backgroundColor: colors.red,
+                opacity: 0.8,
+              },
+            }}
             onClick={onLoginClick}
           >
             Log In
