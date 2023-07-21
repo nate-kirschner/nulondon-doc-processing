@@ -2,6 +2,7 @@ import "./App.css";
 import BrowseCourses from "./components/BrowseCourses";
 import Header from "./components/Header";
 import { Box, createTheme, ThemeProvider } from "@mui/material";
+import CreateTemplate from "./components/CreateTemplate";
 
 const theme = createTheme({
   typography: {
@@ -25,7 +26,7 @@ function App() {
         }}
       >
         <Header />
-        <BrowseCourses />
+        <CreateTemplate />
       </Box>
     </ThemeProvider>
   );
