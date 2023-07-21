@@ -1,9 +1,10 @@
 from django.contrib import admin
-from .models import Course, Assignment, LearningOutcomes, Prereq, Coreq, Approval
+from .models import Course, Assignment, LearningOutcomes, Prereq, Coreq, Approval, Templates
+
 
 class CourseAdmin(admin.ModelAdmin):
     list_display = (
-        'title', 
+        'title',
         'course_code',
         'discipline',
         'uk_credit',
@@ -20,25 +21,28 @@ class CourseAdmin(admin.ModelAdmin):
         'feedback',
         'readings',
         'topics'
-    )    
+    )
+
 
 class AssignmentAdmin(admin.ModelAdmin):
     list_display = (
-        'ae', 
+        'ae',
         'activity',
         'weight',
         'duration',
         'length',
         'course_code'
-    )    
+    )
+
 
 class LOAdmin(admin.ModelAdmin):
     list_display = (
-        'code', 
+        'code',
         'type',
         'text_desc',
         'course_code'
     )
+
 
 class PrereqAdmin(admin.ModelAdmin):
     list_display = (
@@ -46,16 +50,18 @@ class PrereqAdmin(admin.ModelAdmin):
         'prereq'
     )
 
+
 class CoreqAdmin(admin.ModelAdmin):
     list_display = (
         'course',
         'coreq'
     )
 
+
 class ApprovalAdmin(admin.ModelAdmin):
     list_display = (
-        'version_num', 
-        'date_approved', 
+        'version_num',
+        'date_approved',
         'date_published',
         'owner',
         'next_review_date',
@@ -65,6 +71,16 @@ class ApprovalAdmin(admin.ModelAdmin):
         'course'
     )
 
+
+class TemplatesAdmin(admin.ModelAdmin):
+    list_display = (
+        'version',
+        'assignment_key',
+        'course_code',
+        'template'
+    )
+
+
 # Register your models here.
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Assignment, AssignmentAdmin)
@@ -72,3 +88,4 @@ admin.site.register(LearningOutcomes, LOAdmin)
 admin.site.register(Prereq, PrereqAdmin)
 admin.site.register(Coreq, CoreqAdmin)
 admin.site.register(Approval, ApprovalAdmin)
+admin.site.register(Templates, TemplatesAdmin)
