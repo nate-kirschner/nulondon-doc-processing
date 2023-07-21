@@ -14,3 +14,4 @@ def courses(request):
     }
     response = HttpResponse(ser_obj, headers=headers)
     return response
+

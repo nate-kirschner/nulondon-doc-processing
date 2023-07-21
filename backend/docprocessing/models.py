@@ -1,10 +1,10 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-# Create your models here.
 class Course(models.Model):
-    title = models.CharField(max_length=255, unique=True) # eg Global Objects in Context
-    course_code = models.CharField(max_length=255, unique=True) # eg LADES5261
+    """Python Class representaiton of the Courses Table"""
+    title = models.CharField(max_length=255) # eg Global Objects in Context
+    course_code = models.CharField(max_length=255, primary_key=True) # eg LADES5261
     discipline = models.CharField(max_length=255) # eg Art and Design
     uk_credit = models.IntegerField() 
     us_credit = models.IntegerField() 
@@ -21,7 +21,7 @@ class Course(models.Model):
     readings = models.TextField(null=True) # prose desc with bullet pts (markdown?)
     topics = models.TextField(null=True) # same format as readings
 
-    def __str__(self) -> str:
+    def __str__(self):
         return self.title
 
 class Assignment(models.Model):
@@ -30,7 +30,7 @@ class Assignment(models.Model):
     weight = models.IntegerField() # percentage
     duration = models.CharField(max_length=255) # time to complete, eg 60 mins or 24-32 hours
     length = models.CharField(max_length=255) # word count
-    course_code = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course_code = models.CharField(max_length=255)
 
     def __str__(self) -> str:
         return str(self.ae) + " " + self.course_code
