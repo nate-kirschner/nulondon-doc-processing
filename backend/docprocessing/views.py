@@ -1,17 +1,29 @@
 # Create your views here.
-from .models import Course
+from .models import Course, Assignment
 from django.http import HttpResponse
-from django.core import serializers
+import json
 
 
 def courses(request):
     courses = Course.objects.all()
-    ser_obj = serializers.serialize('json', courses)
+    output = []
+
+    for course in courses:
+        course_with_assignments = {}
+        course_assignments = Assignment.objects.filter(course_code=course.course_code)
+        course_assignemnts_list = list(course_assignments.values('id', 'activity'))
+        course_with_assignments['title'] = course.title
+        course_with_assignments['course_code'] = course.course_code
+        course_with_assignments['assignments'] = course_assignemnts_list
+        output.append(course_with_assignments)
+    
     headers = {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Origin',
         'Access-Control-Allow-Methods': 'GET, POST'
     }
-    response = HttpResponse(ser_obj, headers=headers)
+
+    json_string = json.dumps(output)
+    response = HttpResponse(json_string, headers=headers)
     return response
 
