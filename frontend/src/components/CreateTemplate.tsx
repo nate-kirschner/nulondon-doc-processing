@@ -1,28 +1,59 @@
 import React from 'react';
-import { Box, Input, Typography } from "@mui/material";
+import { Box, Checkbox, FormControlLabel, FormGroup, Input, Typography } from "@mui/material";
 import { fontFamily, fontSize, fontWeight } from '@mui/system';
 
 
 const CreateTemplate: React.FC = () => {
+    const courseDummy = {
+        title: "Course 1",
+        code: "IS3500",
+        credits: 4,
+        assessments: [{ title: "Assessment 2", weighting: 50, versions: [1, 2, 3] }]
+    };
+
     return(
         <Box
         sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
+            width: "80%"
           }}
             >
             <Typography
                 textAlign="left"
                 sx={{ 
-                    paddingY: "40px",
+                    paddingTop: "40px",
                     fontSize: "24px",
                     fontFamily: "lato",
-                    marginLeft: "80px",
                     fontWeight: 700
                  }}>
                 New Version
             </Typography>
+            <Typography
+                textAlign="left"
+                sx={{ 
+                    paddingY: "20px",
+                    fontSize: "18px",
+                    fontFamily: "lato",
+                 }}>
+                Assessment Details <br/>
+                Course Title: {courseDummy.title}<br/>
+                Assessment: {courseDummy.assessments[0].title}<br/>
+                Course Code: {courseDummy.code}<br/>
+                Version: {courseDummy.assessments[0].versions[2]}
+            </Typography>
+            <FormGroup>
+                <Typography
+                    textAlign="left"
+                    sx={{ 
+                    paddingY: "20px",
+                    fontSize: "18px",
+                    fontFamily: "lato",
+                 }}>
+                    Learning Objectives
+                </Typography>
+                <FormControlLabel control={<Checkbox defaultChecked />} label="LO1" />
+                <FormControlLabel control={<Checkbox />} label="LO2" />
+                <FormControlLabel control={<Checkbox />} label="LO3" />
+            </FormGroup>
         </Box>
     );
 };
