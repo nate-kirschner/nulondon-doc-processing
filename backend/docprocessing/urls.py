@@ -23,10 +23,8 @@ from django.urls import path
 router = routers.DefaultRouter()
 router.register(r'courses', views.CourseViewSet)
 router.register(r'assignments', views.AssignmentViewSet)
-# router.register(r'assignments/<str:course_code>', views.AssignmentForCourseViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
-    path('assignments-for-course/<str:course_code>', views.AssignmentForCourseViewSet.as_view(), name='assignment-for-course'),
 ]

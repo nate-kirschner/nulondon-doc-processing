@@ -30,7 +30,7 @@ class Assignment(models.Model):
     weight = models.IntegerField() # percentage
     duration = models.CharField(max_length=255) # time to complete, eg 60 mins or 24-32 hours
     length = models.CharField(max_length=255) # word count
-    course_code = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course_code = models.CharField(max_length=255)
 
     def __str__(self) -> str:
         return str(self.ae) + " " + self.course_code
