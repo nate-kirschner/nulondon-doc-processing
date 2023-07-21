@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Checkbox, FormControlLabel, FormGroup, Input, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Checkbox, FormControlLabel, FormGroup, Input, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, colors } from "@mui/material";
 import { fontFamily, fontSize, fontWeight } from '@mui/system';
 
 
@@ -12,6 +12,45 @@ const CreateTemplate: React.FC = () => {
     };
 
     return(
+        <React.Fragment>
+      <TableContainer component={Paper} >
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow sx={{ backgroundColor: colors.grey }}>
+              <TableCell
+                sx={{ paddingX: "24px", fontSize: "20px", fontWeight: 700 }}
+              >
+                New Assessment Version
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+          <TableCell
+                sx={{ paddingX: "24px", fontSize: "20px", fontWeight: 700 }}
+              >
+                <Accordion>
+                      <AccordionSummary>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            width: "100%",
+                          }}
+                        >
+                        </Box>
+                      </AccordionSummary>
+                    </Accordion>
+              </TableCell>
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </React.Fragment>
+    )
+}
+
+
+
+/*
         <Box
         sx={{
             width: "80%"
@@ -56,6 +95,6 @@ const CreateTemplate: React.FC = () => {
             </FormGroup>
         </Box>
     );
-};
+};*/
 
 export default CreateTemplate;
