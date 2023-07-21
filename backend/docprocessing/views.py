@@ -1,6 +1,10 @@
 # Create your views here.
 from .models import Course, Assignment
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from docprocessing.serializer import AssignmentSerializer
+from django.core import serializers
+from django.forms.models import model_to_dict
 import json
 
 
@@ -26,4 +30,18 @@ def courses(request):
     json_string = json.dumps(output)
     response = HttpResponse(json_string, headers=headers)
     return response
+
+
+def assignments(request, pk):
+    assignment = get_object_or_404(Assignment, pk=pk)
+    headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Origin',
+        'Access-Control-Allow-Methods': 'GET, POST'
+    }
+
+    json_string = json.dumps(model_to_dict(assignment))
+    response = HttpResponse(json_string, headers=headers)
+    return response
+
 
