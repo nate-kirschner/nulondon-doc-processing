@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Input, Typography } from "@mui/material";
+import { Box, Checkbox, FormControlLabel, FormGroup, Input, Typography } from "@mui/material";
 import { fontFamily, fontSize, fontWeight } from '@mui/system';
 
 
@@ -39,6 +39,20 @@ const CreateTemplate: React.FC = () => {
                 Course Code: {courseDummy.code}<br/>
                 Version: {courseDummy.assessments[0].versions[2]}
             </Typography>
+            <FormGroup>
+                <Typography
+                    textAlign="left"
+                    sx={{ 
+                    paddingY: "20px",
+                    fontSize: "18px",
+                    fontFamily: "lato",
+                 }}>
+                    Learning Objectives
+                </Typography>
+                <FormControlLabel control={<Checkbox defaultChecked />} label="LO1" />
+                <FormControlLabel control={<Checkbox />} label="LO2" />
+                <FormControlLabel control={<Checkbox />} label="LO3" />
+            </FormGroup>
         </Box>
     );
 };
