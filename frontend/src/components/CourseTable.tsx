@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
   Paper,
   Table,
@@ -9,9 +12,12 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Typography,
 } from "@mui/material";
 import Course from "../types/courses";
 import { PaginatedTableProps } from "../hooks/usePagination";
+import AssessmentRow from "./AssessmentRow";
+import { colors } from "../theme";
 
 interface CourseTableProps {
   rows: Course[];
@@ -24,27 +30,67 @@ const CourseTable: React.FC<CourseTableProps> = ({
   totalRows,
   paginatedTableProps,
 }) => {
+  const [openRow, setOpenRow] = useState<number | undefined>(undefined);
+
+  const handleChange =
+    (panelIndex: number) =>
+    (_event: React.SyntheticEvent, newExpanded: boolean) => {
+      setOpenRow(newExpanded ? panelIndex : undefined);
+    };
+
   return (
     <React.Fragment>
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
           <TableHead>
-            <TableRow>
-              <TableCell>Course Name</TableCell>
-              <TableCell align="right">Course Code</TableCell>
+            <TableRow sx={{ backgroundColor: colors.gray }}>
+              <TableCell
+                sx={{ paddingX: "24px", fontSize: "20px", fontWeight: 700 }}
+              >
+                Course Name
+              </TableCell>
+              <TableCell
+                align="right"
+                sx={{ paddingX: "24px", fontSize: "20px", fontWeight: 700 }}
+              >
+                Course Code
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow
-                key={row.code}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.title}
-                </TableCell>
-                <TableCell align="right">{row.code}</TableCell>
-              </TableRow>
+            {rows.map((row, index) => (
+              <React.Fragment>
+                <TableRow>
+                  <TableCell colSpan={2}>
+                    <Accordion
+                      expanded={openRow === index}
+                      onChange={handleChange(index)}
+                    >
+                      <AccordionSummary>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            width: "100%",
+                          }}
+                        >
+                          <Typography sx={{ fontSize: "18px" }}>
+                            {row.title}
+                          </Typography>
+                          <Typography sx={{ fontSize: "18px" }}>
+                            {row.code}
+                          </Typography>
+                        </Box>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        {row.assessments.map((assessment) => {
+                          return <AssessmentRow {...assessment} />;
+                        })}
+                      </AccordionDetails>
+                    </Accordion>
+                  </TableCell>
+                </TableRow>
+              </React.Fragment>
             ))}
           </TableBody>
         </Table>
