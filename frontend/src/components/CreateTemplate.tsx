@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Checkbox, FormControlLabel, FormGroup, Input, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Checkbox, FormControlLabel, FormGroup, Input, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { fontFamily, fontSize, fontWeight } from '@mui/system';
 import { colors } from '../theme';
 import AssessmentRow from './AssessmentRow';
@@ -28,7 +28,7 @@ const CreateTemplate: React.FC = () => {
                         <TableHead>
                             <TableRow sx={{ backgroundColor: colors.gray }}>
                                 <TableCell
-                                    sx={{ paddingX: "24px", fontSize: "20px", fontWeight: 700 }}
+                                    sx={{ paddingX: "24px", fontSize: "20px", fontWeight: 700, textAlign: "center" }}
                                 >
                                     New Version
                                 </TableCell>
@@ -73,15 +73,15 @@ const CreateTemplate: React.FC = () => {
                                                 </Box>
                                             </AccordionSummary>
                                             <AccordionDetails>
-                                            <Typography sx={{ fontSize: "15px", fontWeight: 700, paddingBottom: "14px"}}>
-                                                        Task Details
-                                                    </Typography> 
-                                                <TextField fullWidth 
-                                                id="outlined-multiline-static"
-                                                label="Required*"
-                                                multiline
-                                                rows={4}
-                                                defaultValue="This assessment requires..."
+                                                <Typography sx={{ fontSize: "15px", fontWeight: 700, paddingBottom: "14px" }}>
+                                                    Task Details
+                                                </Typography>
+                                                <TextField fullWidth
+                                                    id="outlined-multiline-static"
+                                                    label="Required*"
+                                                    multiline
+                                                    rows={4}
+                                                    defaultValue="This assessment requires..."
                                                 />
                                             </AccordionDetails>
                                         </Accordion>
@@ -103,7 +103,7 @@ const CreateTemplate: React.FC = () => {
                                                 </Box>
                                             </AccordionSummary>
                                             <AccordionDetails>
-                                                <AssessmentCriteria /> 
+                                                <AssessmentCriteria />
                                             </AccordionDetails>
                                         </Accordion>
                                     </TableCell>
@@ -124,14 +124,14 @@ const CreateTemplate: React.FC = () => {
                                                 </Box>
                                             </AccordionSummary>
                                             <AccordionDetails>
-                                            <Typography sx={{ fontSize: "15px", fontWeight: 700, paddingBottom: "14px"}}>
-                                                        Change default marking criteria as needed:
-                                                    </Typography>
-                                            <TextField fullWidth 
-                                                id="outlined-multiline-static"
-                                                multiline
-                                                rows={4}
-                                                defaultValue="The University uses two common assessment marking schemes - one for 
+                                                <Typography sx={{ fontSize: "15px", fontWeight: 700, paddingBottom: "14px" }}>
+                                                    Change default marking criteria as needed:
+                                                </Typography>
+                                                <TextField fullWidth
+                                                    id="outlined-multiline-static"
+                                                    multiline
+                                                    rows={4}
+                                                    defaultValue="The University uses two common assessment marking schemes - one for 
                                                 undergraduate and one for postgraduate - to mark all taught programmes leading to an award of 
                                                 the University. More detailed information on the common assessment making scheme and the criteria 
                                                 can be found in the Course Syllabus, available on the University's VLE."
@@ -156,7 +156,7 @@ const CreateTemplate: React.FC = () => {
                                                 </Box>
                                             </AccordionSummary>
                                             <AccordionDetails>
-                                                 <LearningOutcomes /> 
+                                                <LearningOutcomes />
                                             </AccordionDetails>
                                         </Accordion>
                                     </TableCell>
@@ -177,14 +177,14 @@ const CreateTemplate: React.FC = () => {
                                                 </Box>
                                             </AccordionSummary>
                                             <AccordionDetails>
-                                            <Typography sx={{ fontSize: "15px", fontWeight: 700, paddingBottom: "14px"}}>
-                                                        Change default marking criteria as needed:
-                                                    </Typography>
-                                            <TextField fullWidth 
-                                                id="outlined-multiline-static"
-                                                multiline
-                                                rows={4}
-                                                defaultValue="Students can expect to receive feedback on all summative coursework 
+                                                <Typography sx={{ fontSize: "15px", fontWeight: 700, paddingBottom: "14px" }}>
+                                                    Change default marking criteria as needed:
+                                                </Typography>
+                                                <TextField fullWidth
+                                                    id="outlined-multiline-static"
+                                                    multiline
+                                                    rows={4}
+                                                    defaultValue="Students can expect to receive feedback on all summative coursework 
                                                 within 20 working days of the submission deadline. The 28 calendar day deadline does not apply 
                                                 to work submitted late. Feedback can be accessed through the Turnitin assessment link on the course 
                                                 page. Further instructions on submitting an assessment and accessing feedback can be found on the University's VLE."
@@ -209,14 +209,14 @@ const CreateTemplate: React.FC = () => {
                                                 </Box>
                                             </AccordionSummary>
                                             <AccordionDetails>
-                                            <Typography sx={{ fontSize: "15px", fontWeight: 700, paddingBottom: "14px"}}>
-                                                        Change default marking criteria as needed:
-                                                    </Typography>
-                                            <TextField fullWidth 
-                                                id="outlined-multiline-static"
-                                                multiline
-                                                rows={4}
-                                                defaultValue="Students are reminded to Submit their assessment ahead of the published deadline. However, if assessments are submitted late without approved Extenuating Circumstances, there are penalties:
+                                                <Typography sx={{ fontSize: "15px", fontWeight: 700, paddingBottom: "14px" }}>
+                                                    Change default marking criteria as needed:
+                                                </Typography>
+                                                <TextField fullWidth
+                                                    id="outlined-multiline-static"
+                                                    multiline
+                                                    rows={4}
+                                                    defaultValue="Students are reminded to Submit their assessment ahead of the published deadline. However, if assessments are submitted late without approved Extenuating Circumstances, there are penalties:
                                                 (1) Up to one day late of the published submission deadline = 5% points deducted from mark. For example, an assessment awarded 58% from the 4
                                                 Assessment Brief: Coursework 2022-23 markers, the final mark recorded will be 53%. If the assessment is awarded 42% from the markers, the final mark recorded will be 37%.
                                                 (2) Two days late: any mark of 40% or higher will be capped at 40% for undergraduate students. Any mark of 50% or higher will be capped at 50% for postgraduate students. Any mark below 40% for undergraduate students and below 50% for postgraduate students, will stand.
@@ -243,14 +243,14 @@ const CreateTemplate: React.FC = () => {
                                                 </Box>
                                             </AccordionSummary>
                                             <AccordionDetails>
-                                            <Typography sx={{ fontSize: "15px", fontWeight: 700, paddingBottom: "14px"}}>
-                                                        Change default marking criteria as needed:
-                                                    </Typography>
-                                            <TextField fullWidth 
-                                                id="outlined-multiline-static"
-                                                multiline
-                                                rows={4}
-                                                defaultValue="The University’s Extenuating Circumstances procedure is in place if there are genuine circumstances that may prevent a student submitting an assessment. 
+                                                <Typography sx={{ fontSize: "15px", fontWeight: 700, paddingBottom: "14px" }}>
+                                                    Change default marking criteria as needed:
+                                                </Typography>
+                                                <TextField fullWidth
+                                                    id="outlined-multiline-static"
+                                                    multiline
+                                                    rows={4}
+                                                    defaultValue="The University’s Extenuating Circumstances procedure is in place if there are genuine circumstances that may prevent a student submitting an assessment. 
                                                 If the EC application is successful, there will be no academic penalty for missing the published submission deadline. 
                                                 Students are reminded that EC covers only short-term issues (within 28 days leading to the submission deadline) and that 
                                                 if they experience longer-term matters that impact on learning then they must contact Student Support and Development for advice.
@@ -276,14 +276,14 @@ const CreateTemplate: React.FC = () => {
                                                 </Box>
                                             </AccordionSummary>
                                             <AccordionDetails>
-                                            <Typography sx={{ fontSize: "15px", fontWeight: 700, paddingBottom: "14px"}}>
-                                                        Change default marking criteria as needed:
-                                                    </Typography>
-                                            <TextField fullWidth 
-                                                id="outlined-multiline-static"
-                                                multiline
-                                                rows={4}
-                                                defaultValue="Any submission must be a student’s own work and, where facts or ideas have been used from other sources, 
+                                                <Typography sx={{ fontSize: "15px", fontWeight: 700, paddingBottom: "14px" }}>
+                                                    Change default marking criteria as needed:
+                                                </Typography>
+                                                <TextField fullWidth
+                                                    id="outlined-multiline-static"
+                                                    multiline
+                                                    rows={4}
+                                                    defaultValue="Any submission must be a student’s own work and, where facts or ideas have been used from other sources, 
                                                 these sources must be appropriately referenced. The Academic Misconduct Policy includes the definitions of 
                                                 all practices that will be deemed to constitute academic misconduct. Students should check this policy before 
                                                 submitting their work. Students suspected of committing Academic Misconduct will face action under the Policy. 
@@ -320,6 +320,25 @@ const CreateTemplate: React.FC = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                <div style={{ display: 'grid', placeItems: 'center' }}>
+                    <Button
+                        variant="text"
+                        sx={{
+                            color: colors.white,
+                            backgroundColor: colors.red,
+                            height: "max-content",
+                            padding: "12px",
+                            marginTop: "30px",
+                            marginBottom: "30px",
+                            "&:hover": {
+                                backgroundColor: colors.red,
+                                opacity: 0.8,
+                            },
+                        }}
+                    >
+                        Create Template
+                    </Button>
+                </div>
             </React.Fragment>
         </Box>
     );
