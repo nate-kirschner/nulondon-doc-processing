@@ -3,8 +3,8 @@
 Make sure you have `python` or `python3` installed first
 
 1. install django with `python -m pip install Django`
-
-2. install mysqlclient using 
+2. install django's rest framework with `pip install djangorestframework`
+3. install mysqlclient using
 
 Windows:
 ```
