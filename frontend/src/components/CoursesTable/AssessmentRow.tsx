@@ -9,8 +9,8 @@ import {
   SelectChangeEvent,
   Typography,
 } from "@mui/material";
-import { AssessmentPreview } from "../types/assessments";
-import { colors } from "../theme";
+import { AssessmentPreview } from "../../types/assessments";
+import { colors } from "../../theme";
 import { useState } from "react";
 
 interface AssessmentRowProps extends AssessmentPreview {

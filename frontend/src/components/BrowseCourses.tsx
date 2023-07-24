@@ -4,7 +4,7 @@ import { CoursePreview } from "../types/courses";
 import { AssessmentPreview } from "../types/assessments";
 import usePagination from "../hooks/usePagination";
 import Spacer from "./Spacer";
-import CourseTable from "./CourseTable";
+import CourseTable from "./CoursesTable/CourseTable";
 import useSearchTable from "../hooks/useSearchTable";
 import { colors } from "../theme";
 import axios from "axios";
@@ -14,11 +14,10 @@ interface BrowseCourseProps {
 }
 
 const BrowseCourses: React.FC<BrowseCourseProps> = ({ setPage }) => {
-  const [coursePreviewRow, setCoursePreviewRow] = useState<CoursePreview[]>([]);
-  const [filteredRows, setFilteredRows] =
-    useState<CoursePreview[]>(coursePreviewRow);
+  const [allRows, setAllRows] = useState<CoursePreview[]>([]);
+  const [filteredRows, setFilteredRows] = useState<CoursePreview[]>(allRows);
 
-  const { value, onChange } = useSearchTable(coursePreviewRow, setFilteredRows);
+  const { value, onChange } = useSearchTable(allRows, setFilteredRows);
 
   const { paginatedTableProps, visibleRows } = usePagination(filteredRows);
 
@@ -26,8 +25,7 @@ const BrowseCourses: React.FC<BrowseCourseProps> = ({ setPage }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get("http://127.0.0.1:8000/courses/");
-        setCoursePreviewRow(response.data);
-        console.log("data", response.data);
+        setAllRows(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -36,8 +34,8 @@ const BrowseCourses: React.FC<BrowseCourseProps> = ({ setPage }) => {
   }, []);
 
   useEffect(() => {
-    setFilteredRows(coursePreviewRow);
-  }, [coursePreviewRow]);
+    setFilteredRows(allRows);
+  }, [allRows]);
 
   return (
     <Box
