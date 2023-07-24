@@ -25,6 +25,7 @@ import ExtenuatingCircumstances from "./ExtenuatingCircumstances";
 import AcademicMisconduct from "./AcademicMisconduct";
 import TemplateRow from "./TemplateRow";
 import SaveButtons from "./SaveButtons";
+import AssessmentDetails from "./AssessmentDetails";
 
 interface Assessment {
   title: string;
@@ -104,7 +105,7 @@ const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage }) => {
                 handlePreviousAccordion={handlePreviousAccordion}
                 setActiveAccordion={setActiveAccordion}
               >
-                <AssessmentTask />
+                <AssessmentDetails />
               </TemplateRow>
 
               <TemplateRow
