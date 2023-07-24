@@ -22,5 +22,5 @@ from docprocessing import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('courses/', views.courses),
-    path('template/<str:courseId>/<str:assId>/<str:version>', views.template)
+    path('template/<str:courseId>/<str:assignmentId>/<str:version>', views.template)
 ]
