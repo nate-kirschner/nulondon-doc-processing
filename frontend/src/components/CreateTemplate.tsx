@@ -46,7 +46,7 @@ const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage }) => {
     ],
   };
 
-  const [activeAccordion, setActiveAccordion] = useState<number | null>(1);
+  const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
 
   const handleAccordionChange = (index: number) => {
     setActiveAccordion(index);
