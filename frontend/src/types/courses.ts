@@ -1,10 +1,11 @@
-import Assessment from "./assessments";
+import { AssessmentPreview } from "./assessments";
 
-type Course = {
+export interface CoursePreview {
   title: string;
   code: string;
-  credits: number;
-  assessments: Assessment[];
-};
+  assessments: AssessmentPreview[];
+}
 
-export default Course;
+export interface Course extends CoursePreview {
+  credits: number;
+}
