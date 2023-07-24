@@ -1,4 +1,3 @@
-import { Center, theme } from "@chakra-ui/react";
 import {
   Box,
   FormControl,
@@ -69,10 +68,14 @@ const AssessmentDetails: React.FC = () => {
           {displayCourse.map((course) => {
             return (
               <TableRow>
-                <TableCell variant="head" width="80%" sx={{ fontWeight: "bold" }}>
+                <TableCell
+                  variant="head"
+                  width="80%"
+                  sx={{ fontWeight: "bold" }}
+                >
                   {course.displayName}
                 </TableCell>
-                <TableCell align="right" > {course.displayValue}</TableCell>
+                <TableCell align="right"> {course.displayValue}</TableCell>
               </TableRow>
             );
           })}
@@ -89,7 +92,7 @@ const AssessmentDetails: React.FC = () => {
               Restrictions on Time/Length
             </TableCell>
             <TableCell align="right">
-              <TextField variant="outlined" size="small" fullWidth/>
+              <TextField variant="outlined" size="small" fullWidth />
             </TableCell>
           </TableRow>
           <TableRow>
@@ -128,7 +131,7 @@ const AssessmentDetails: React.FC = () => {
               Planned Feedback Deadline
             </TableCell>
             <TableCell align="right">
-              <TextField variant="outlined" size="small" fullWidth/>
+              <TextField variant="outlined" size="small" fullWidth />
             </TableCell>
           </TableRow>
           <TableRow>
@@ -148,14 +151,14 @@ const AssessmentDetails: React.FC = () => {
             </TableCell>
             <TableCell align="right">
               <Switch
-              sx={{
-                "& .MuiSwitch-switchBase.Mui-checked": {
-                  color: colors.red
-                },
-                "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-                  backgroundColor: colors.red,
-                },
-              }}
+                sx={{
+                  "& .MuiSwitch-switchBase.Mui-checked": {
+                    color: colors.red,
+                  },
+                  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                    backgroundColor: colors.red,
+                  },
+                }}
               />
             </TableCell>
           </TableRow>
