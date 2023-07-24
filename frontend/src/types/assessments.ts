@@ -1,9 +1,12 @@
 type Assessment = {
   title: string;
+  course: string;
+  FHEQ: string;
+  assessment_number: number;
+  time_restrictions: string;
   weighting: number;
-  duration?: string;
-  length?: string;
   versions: number[];
+  learning_outcomes: [];
 };
 
 export default Assessment;
