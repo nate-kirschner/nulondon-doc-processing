@@ -4,9 +4,9 @@ from django.utils.translation import gettext_lazy as _
 
 class Course(models.Model):
     """Python Class representaiton of the Courses Table"""
-    title = models.CharField(max_length=255)  # eg Global Objects in Context
     course_code = models.CharField(
         max_length=255, primary_key=True)  # eg LADES5261
+    title = models.CharField(max_length=255)  # eg Global Objects in Context
     discipline = models.CharField(max_length=255)  # eg Art and Design
     uk_credit = models.IntegerField()
     us_credit = models.IntegerField()
@@ -100,5 +100,6 @@ class Templates(models.Model):
 
     version = models.IntegerField()
     assignment_key = models.ForeignKey(Assignment, on_delete=models.CASCADE)
-    course_code = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course_code = models.ForeignKey(
+        Course, to_field='course_code', on_delete=models.CASCADE)
     template = models.JSONField()
