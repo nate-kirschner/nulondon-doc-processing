@@ -1,15 +1,22 @@
 import { Box, Input, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Course from "../types/courses";
 import usePagination from "../hooks/usePagination";
 import Spacer from "./Spacer";
 import CourseTable from "./CourseTable";
 import useSearchTable from "../hooks/useSearchTable";
 import { colors } from "../theme";
+import axios from "axios";
 
 const assessment = { title: "Assessment 1", weighting: 20, versions: [1] };
 
-const BrowseCourses: React.FC = () => {
+interface BrowseCourseProps {
+  setPage: (page:string) => void;
+}
+
+const BrowseCourses: React.FC<BrowseCourseProps> = ({
+  setPage,
+}) => {
   const rows: Course[] = [
     {
       title: "Course 1",
@@ -58,6 +65,15 @@ const BrowseCourses: React.FC = () => {
 
   const { paginatedTableProps, visibleRows } = usePagination(filteredRows);
 
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     const data = await axios.get("http://127.0.0.1:8000/courses/");
+  //     console.log("data", data);
+  //   };
+
+  //   getData();
+  // }, []);
+
   return (
     <Box
       sx={{
@@ -98,6 +114,7 @@ const BrowseCourses: React.FC = () => {
           rows={visibleRows}
           totalRows={filteredRows.length}
           paginatedTableProps={paginatedTableProps}
+          setPage={setPage}
         />
       </Box>
     </Box>
