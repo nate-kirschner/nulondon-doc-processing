@@ -1,5 +1,6 @@
+from .models import Course, Assignment, LearningOutcomes, Approval
+from .models import Course, Assignment, LearningOutcomes, Approval, Templates
 from django.contrib import admin
-from .models import Course, Assignment, LearningOutcomes, Prereq, Coreq, Approval, Templates
 
 
 class CourseAdmin(admin.ModelAdmin):
@@ -31,7 +32,8 @@ class AssignmentAdmin(admin.ModelAdmin):
         'weight',
         'duration',
         'length',
-        'course_code'
+        'course_code',
+        'learning_outcomes'
     )
 
 
@@ -41,20 +43,6 @@ class LOAdmin(admin.ModelAdmin):
         'type',
         'text_desc',
         'course_code'
-    )
-
-
-class PrereqAdmin(admin.ModelAdmin):
-    list_display = (
-        'course',
-        'prereq'
-    )
-
-
-class CoreqAdmin(admin.ModelAdmin):
-    list_display = (
-        'course',
-        'coreq'
     )
 
 
@@ -68,7 +56,7 @@ class ApprovalAdmin(admin.ModelAdmin):
         'mod_cat_num',
         'approved_by',
         'location',
-        'course'
+        'course_code'
     )
 
 
@@ -85,7 +73,5 @@ class TemplatesAdmin(admin.ModelAdmin):
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Assignment, AssignmentAdmin)
 admin.site.register(LearningOutcomes, LOAdmin)
-admin.site.register(Prereq, PrereqAdmin)
-admin.site.register(Coreq, CoreqAdmin)
 admin.site.register(Approval, ApprovalAdmin)
 admin.site.register(Templates, TemplatesAdmin)

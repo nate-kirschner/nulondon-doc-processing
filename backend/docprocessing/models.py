@@ -4,20 +4,22 @@ from django.utils.translation import gettext_lazy as _
 
 class Course(models.Model):
     """Python Class representaiton of the Courses Table"""
+    title = models.CharField(max_length=255)  # eg Global Objects in Context
     course_code = models.CharField(
         max_length=255, primary_key=True)  # eg LADES5261
-    title = models.CharField(max_length=255)  # eg Global Objects in Context
     discipline = models.CharField(max_length=255)  # eg Art and Design
     uk_credit = models.IntegerField()
     us_credit = models.IntegerField()
     fheq_level = models.IntegerField()
     date_approved = models.DateField()
     core_attributes = models.CharField(max_length=255)
+    # list of course_codes, eg "is2500,cs2500"
     pre_requisites = models.CharField(max_length=255)
+    # list of course_codes, eg "is2500,cs2500"
     co_requisites = models.CharField(max_length=255)
     overview = models.TextField(null=True)  # prose paragraph
-    learning_outcomes = models.TextField(
-        null=True)  # description around outcomes
+    learning_outcomes = models.CharField(
+        max_length=255)  # list of codes, eg "K2c,K2b"
     # prose description with bullet points (use markdown?)
     teaching_learning = models.TextField(null=True)
     assessment_desc = models.TextField(null=True)
@@ -39,6 +41,8 @@ class Assignment(models.Model):
     duration = models.CharField(max_length=255)
     length = models.CharField(max_length=255)  # word count
     course_code = models.CharField(max_length=255)
+    learning_outcomes = models.CharField(
+        max_length=255)  # list of codes, eg "K2c,K2b"
 
     def __str__(self) -> str:
         return str(self.ae) + " " + self.course_code
@@ -53,30 +57,10 @@ class LearningOutcomes(models.Model):
     code = models.CharField(max_length=3)  # eg K2c
     type = models.CharField(max_length=1, choices=Types.choices)  # enum above
     text_desc = models.TextField()
-    course_code = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course_code = models.CharField(max_length=255)
 
     def __str__(self) -> str:
         return self.code + " for course " + self.course_code
-
-
-class Prereq(models.Model):
-    course = models.ForeignKey(
-        Course, on_delete=models.CASCADE, related_name="course_with_prereq")
-    prereq = models.ForeignKey(
-        Course, on_delete=models.CASCADE, related_name="prereq")
-
-    def __str__(self) -> str:
-        return self.prereq + " is prerequisite for course " + self.course
-
-
-class Coreq(models.Model):
-    course = models.ForeignKey(
-        Course, on_delete=models.CASCADE, related_name="course_with_coreq")
-    coreq = models.ForeignKey(
-        Course, on_delete=models.CASCADE, related_name="coreq")
-
-    def __str__(self) -> str:
-        return self.coreq + " is corequisite for course " + self.course
 
 
 class Approval(models.Model):
@@ -88,7 +72,7 @@ class Approval(models.Model):
     mod_cat_num = models.CharField(max_length=255)  # modification/category num
     approved_by = models.CharField(max_length=255)
     location = models.CharField(max_length=255)  # url
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course_code = models.CharField(max_length=255)
 
     def __str__(self) -> str:
         return "v" + str(self.version_num) + " of course " + self.course
