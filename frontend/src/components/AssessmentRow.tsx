@@ -9,15 +9,13 @@ import {
   SelectChangeEvent,
   Typography,
 } from "@mui/material";
-import { Assessment } from "../types/assessments";
+import { AssessmentPreview } from "../types/assessments";
 import { colors } from "../theme";
 import { useState } from "react";
 
-const AssessmentRow: React.FC<Assessment> = ({
+const AssessmentRow: React.FC<AssessmentPreview> = ({
+  id,
   activity,
-  weighting,
-  duration,
-  length,
   versions,
 }) => {
   const versionToString = (version: number): string => {

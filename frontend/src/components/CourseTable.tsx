@@ -82,11 +82,11 @@ const CourseTable: React.FC<CourseTableProps> = ({
                           </Typography>
                         </Box>
                       </AccordionSummary>
-                      {/* <AccordionDetails>
+                      <AccordionDetails>
                         {row.assessments.map((assessment) => {
                           return <AssessmentRow {...assessment} />;
                         })}
-                      </AccordionDetails> */}
+                      </AccordionDetails>
                     </Accordion>
                   </TableCell>
                 </TableRow>

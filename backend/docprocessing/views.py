@@ -52,10 +52,16 @@ def courses(request):
     for course in courses:
         course_with_assessments = {}
         course_assessments = Assessment.objects.filter(course_code=course.course_code)
-        course_assignemnts_list = list(course_assessments.values('id', 'activity'))
+        course_assessments_list = list(course_assessments.values('id', 'activity'))
+
+        for assessment in course_assessments_list:
+            templates_for_assessment = Templates.objects.filter(course_code=course.course_code, 
+                                                              assessment_key=assessment['id'])
+            assessment['versions'] = list(templates_for_assessment.values_list('version', flat=True))
+
         course_with_assessments['title'] = course.title
         course_with_assessments['course_code'] = course.course_code
-        course_with_assessments['assessments'] = course_assignemnts_list
+        course_with_assessments['assessments'] = course_assessments_list
         output.append(course_with_assessments)
     
  
