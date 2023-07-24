@@ -13,12 +13,17 @@ import Assessment from "../types/assessments";
 import { colors } from "../theme";
 import { useState } from "react";
 
-const AssessmentRow: React.FC<Assessment> = ({
+interface AssessmentRowProps extends Assessment {
+  setPage: (page:string) => void;
+}
+
+const AssessmentRow: React.FC<AssessmentRowProps> = ({
   title,
   weighting,
   duration,
   length,
   versions,
+  setPage,
 }) => {
   const versionToString = (version: number): string => {
     return `v${version}`;
@@ -82,6 +87,7 @@ const AssessmentRow: React.FC<Assessment> = ({
             color: colors.black,
           }}
           color="secondary"
+          onClick={() => setPage('Template')}
         >
           New Version
         </Button>

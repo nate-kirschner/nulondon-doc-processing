@@ -24,13 +24,18 @@ import LateSubmission from "./LateSubmission";
 import ExtenuatingCircumstances from "./ExtenuatingCircumstances";
 import AcademicMisconduct from "./AcademicMisconduct";
 import TemplateRow from "./TemplateRow";
+import SaveButtons from "./SaveButtons";
 
 interface Assessment {
   title: string;
   content: string | JSX.Element;
 }
 
-const CreateTemplate: React.FC = () => {
+interface CreateTemplateProps {
+  setPage: (page: string) => void;
+}
+
+const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage }) => {
   const courseDummy = {
     title: "Course 1",
     code: "IS3500",
@@ -181,25 +186,7 @@ const CreateTemplate: React.FC = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        <div style={{ display: "grid", placeItems: "center" }}>
-          <Button
-            variant="text"
-            sx={{
-              color: colors.white,
-              backgroundColor: colors.red,
-              height: "max-content",
-              padding: "12px",
-              marginTop: "30px",
-              marginBottom: "30px",
-              "&:hover": {
-                backgroundColor: colors.red,
-                opacity: 0.8,
-              },
-            }}
-          >
-            Create Template
-          </Button>
-        </div>
+        <SaveButtons setPage={setPage} />
       </React.Fragment>
     </Box>
   );
