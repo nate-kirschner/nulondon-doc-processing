@@ -31,8 +31,7 @@ const AssessmentDetails: React.FC = () => {
   const displayCourse = [
     { displayName: "Course Title", displayValue: courseDummy.title },
     { displayName: "Course Code", displayValue: courseDummy.code },
-    { displayName: "Course Leader", displayValue: "Mark Martin" },
-    { displayName: "Level", displayValue: "Level 4" },
+    { displayName: "FHEQ", displayValue: "Level 4" },
     { displayName: "Sitting", displayValue: "First Sitting" },
     {
       displayName: "Assessment",
@@ -79,6 +78,14 @@ const AssessmentDetails: React.FC = () => {
               </TableRow>
             );
           })}
+          <TableRow>
+            <TableCell variant="head" sx={{ fontWeight: "bold" }}>
+              Course Leader
+            </TableCell>
+            <TableCell align="right">
+              <TextField variant="outlined" size="small" fullWidth />
+            </TableCell>
+          </TableRow>
           <TableRow>
             <TableCell variant="head" sx={{ fontWeight: "bold" }}>
               Assessment Type
