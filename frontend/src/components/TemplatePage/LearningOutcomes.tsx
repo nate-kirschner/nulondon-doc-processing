@@ -12,7 +12,7 @@ import { colors } from "../../theme";
 
 const LearningOutcomes: React.FC = () => {
   return (
-    <div>
+    <Box>
       <Typography sx={{ fontSize: "16px" }}>
         Select the following components that this assessment will cover:
       </Typography>
@@ -74,7 +74,7 @@ const LearningOutcomes: React.FC = () => {
             />
           }
           label="pp"
-        />{" "}
+        />
         <FormControlLabel control={<Checkbox />} label="poopoo" />
       </FormGroup>
       <Typography sx={{ fontSize: "16px", fontWeight: 700, marginTop: "24px" }}>
@@ -90,9 +90,9 @@ const LearningOutcomes: React.FC = () => {
             />
           }
           label="pp"
-        />{" "}
+        />
       </FormGroup>
-    </div>
+    </Box>
   );
 };
 

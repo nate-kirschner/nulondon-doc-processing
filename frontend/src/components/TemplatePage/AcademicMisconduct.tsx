@@ -1,8 +1,8 @@
-import { TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 
 const AssessingFeedback: React.FC = () => {
   return (
-    <div>
+    <Box>
       <Typography
         sx={{ fontSize: "15px", fontWeight: 700, paddingBottom: "14px" }}
       >
@@ -22,7 +22,7 @@ const AssessingFeedback: React.FC = () => {
                  or being dismissed from the University depending upon the severity of the offence committed.
                 For further information, please refer to the Academic Misconduct Policy in the Academic Handbook."
       />
-    </div>
+    </Box>
   );
 };
 

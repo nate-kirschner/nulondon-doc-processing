@@ -45,9 +45,9 @@ const AssessmentCriteria: React.FC = () => {
   };
 
   return (
-    <div>
+    <Box>
       {textFields.map((entry) => (
-        <div key={entry.id} style={{ marginBottom: "10px" }}>
+        <Box key={entry.id} style={{ marginBottom: "10px" }}>
           <Box display="flex" alignItems="center">
             <Typography
               sx={{
@@ -114,7 +114,7 @@ const AssessmentCriteria: React.FC = () => {
               }
             />
           </Box>
-        </div>
+        </Box>
       ))}
       <Button
         sx={{
@@ -143,7 +143,7 @@ const AssessmentCriteria: React.FC = () => {
       >
         Delete Range
       </Button>
-    </div>
+    </Box>
   );
 };
 
