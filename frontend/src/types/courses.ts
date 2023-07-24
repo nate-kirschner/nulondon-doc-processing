@@ -1,9 +1,9 @@
-import { Assessment } from "./assessments";
+import { AssessmentPreview } from "./assessments";
 
 export interface CoursePreview {
   title: string;
   code: string;
-  assessments: Assessment[];
+  assessments: AssessmentPreview[];
 }
 
 export interface Course extends CoursePreview {

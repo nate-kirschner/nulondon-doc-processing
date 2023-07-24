@@ -60,7 +60,7 @@ def courses(request):
             assessment['versions'] = list(templates_for_assessment.values_list('version', flat=True))
 
         course_with_assessments['title'] = course.title
-        course_with_assessments['course_code'] = course.course_code
+        course_with_assessments['code'] = course.course_code
         course_with_assessments['assessments'] = course_assessments_list
         output.append(course_with_assessments)
     
