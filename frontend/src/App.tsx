@@ -2,6 +2,8 @@ import "./App.css";
 import BrowseCourses from "./components/BrowseCourses";
 import Header from "./components/Header";
 import { Box, createTheme, ThemeProvider } from "@mui/material";
+import React, { useState } from "react";
+import TempPage from "./components/TempPage";
 
 const theme = createTheme({
   typography: {
@@ -14,6 +16,7 @@ const theme = createTheme({
 });
 
 function App() {
+  const [page, setPage] = useState<string>("Browse Courses");
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -25,7 +28,12 @@ function App() {
         }}
       >
         <Header />
-        <BrowseCourses />
+        {
+        page === "Browse Courses" ? (
+          <BrowseCourses 
+          setPage={setPage}/>
+        ) : <TempPage 
+          setPage={setPage}/>}
       </Box>
     </ThemeProvider>
   );
