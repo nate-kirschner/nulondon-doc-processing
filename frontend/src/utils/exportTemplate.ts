@@ -1,4 +1,4 @@
-import { Document, Packer, Paragraph, TextRun } from "docx";
+import { Document, Packer, Paragraph, HeadingLevel } from "docx";
 import { saveAs } from "file-saver";
 
 export function generateWordDocument() {
@@ -9,15 +9,13 @@ export function generateWordDocument() {
         properties: {},
         children: [
           new Paragraph({
-            children: [new Header("Hello World")],
+            text: "Assessment Details",
+            heading: HeadingLevel.HEADING_2,
+            spacing: { after: 200 },
+            style: "",
           }),
-        ],
-      },
-      {
-        properties: {},
-        children: [
           new Paragraph({
-            children: [new TextRun("Hello World")],
+            text: "text text text ...",
           }),
         ],
       },
