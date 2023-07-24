@@ -12,6 +12,7 @@ import {
 import Assessment from "../types/assessments";
 import { colors } from "../theme";
 import { useState } from "react";
+import { generateWordDocument } from "../utils/exportTemplate";
 
 const AssessmentRow: React.FC<Assessment> = ({
   title,
@@ -71,6 +72,7 @@ const AssessmentRow: React.FC<Assessment> = ({
             color: colors.black,
           }}
           color="secondary"
+          onClick={generateWordDocument}
         >
           Export
         </Button>
