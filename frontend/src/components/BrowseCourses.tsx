@@ -29,6 +29,10 @@ const BrowseCourses: React.FC = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    setFilteredRows(coursePreviewRow);
+  }, [coursePreviewRow]);
+
   return (
     <Box
       sx={{
