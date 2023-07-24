@@ -9,12 +9,12 @@ import {
   SelectChangeEvent,
   Typography,
 } from "@mui/material";
-import Assessment from "../types/assessments";
+import { Assessment } from "../types/assessments";
 import { colors } from "../theme";
 import { useState } from "react";
 
 const AssessmentRow: React.FC<Assessment> = ({
-  title,
+  activity,
   weighting,
   duration,
   length,
@@ -43,7 +43,7 @@ const AssessmentRow: React.FC<Assessment> = ({
         borderRadius: "4px",
       }}
     >
-      <Typography sx={{ fontSize: "16px" }}>{title}</Typography>
+      <Typography sx={{ fontSize: "16px" }}>{activity}</Typography>
       <Box sx={{ display: "flex", columnGap: "24px" }}>
         <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
           <InputLabel id="demo-simple-select-label">Version</InputLabel>

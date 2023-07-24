@@ -14,13 +14,13 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import Course from "../types/courses";
+import { CoursePreview } from "../types/courses";
 import { PaginatedTableProps } from "../hooks/usePagination";
 import AssessmentRow from "./AssessmentRow";
 import { colors } from "../theme";
 
 interface CourseTableProps {
-  rows: Course[];
+  rows: CoursePreview[];
   totalRows: number;
   paginatedTableProps: PaginatedTableProps;
 }
@@ -82,11 +82,11 @@ const CourseTable: React.FC<CourseTableProps> = ({
                           </Typography>
                         </Box>
                       </AccordionSummary>
-                      <AccordionDetails>
+                      {/* <AccordionDetails>
                         {row.assessments.map((assessment) => {
                           return <AssessmentRow {...assessment} />;
                         })}
-                      </AccordionDetails>
+                      </AccordionDetails> */}
                     </Accordion>
                   </TableCell>
                 </TableRow>

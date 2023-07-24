@@ -23,5 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('courses/', views.courses),
     # path('courses/<str:course_code>', views.courses_by_course_code),
-    path('assignments/<int:pk>/', views.assignments)
+    path('assignments/<int:pk>/', views.assignments),
+    path('learning-outcomes/<str:course_code>/', views.learning_outcomes)
 ]
