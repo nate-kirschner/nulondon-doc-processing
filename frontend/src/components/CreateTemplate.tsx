@@ -97,6 +97,17 @@ const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage }) => {
               </TableRow>
 
               <TemplateRow
+                title="Assessment Details"
+                isExpanded={activeAccordion === 0}
+                index={0}
+                handleNextAccordion={handleNextAccordion}
+                handlePreviousAccordion={handlePreviousAccordion}
+                setActiveAccordion={setActiveAccordion}
+              >
+                <AssessmentTask />
+              </TemplateRow>
+
+              <TemplateRow
                 title="Assessment Task"
                 isExpanded={activeAccordion === 1}
                 index={1}
