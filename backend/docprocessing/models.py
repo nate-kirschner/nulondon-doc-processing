@@ -9,7 +9,7 @@ class Course(models.Model):
     uk_credit = models.IntegerField() 
     us_credit = models.IntegerField() 
     fheq_level = models.IntegerField() 
-    date_approved = models.DateField() 
+    date_approved = models.CharField(max_length=255) 
     core_attributes = models.CharField(max_length=255) 
     pre_requisites = models.CharField(max_length=255) # list of course_codes, eg "is2500,cs2500"
     co_requisites = models.CharField(max_length=255) # list of course_codes, eg "is2500,cs2500"
