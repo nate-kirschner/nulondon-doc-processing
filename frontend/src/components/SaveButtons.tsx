@@ -9,6 +9,15 @@ interface SaveButtonsProps {
 }
 
 const SaveButtons: React.FC<SaveButtonsProps> = ({ setPage }) => {
+  const handleSaveVersion = () => {
+    // get the JSON object
+
+    // do whatever with it
+
+    // go back to the browse page
+    setPage("Browse Courses");
+  };
+
   return (
     <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
       <Button
