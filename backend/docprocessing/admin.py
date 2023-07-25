@@ -1,9 +1,10 @@
+from .models import Course, Assessment, LearningOutcomes, Approval, Templates
 from django.contrib import admin
-from .models import Course, Assignment, LearningOutcomes, Approval
+
 
 class CourseAdmin(admin.ModelAdmin):
     list_display = (
-        'title', 
+        'title',
         'course_code',
         'discipline',
         'uk_credit',
@@ -20,31 +21,34 @@ class CourseAdmin(admin.ModelAdmin):
         'feedback',
         'readings',
         'topics'
-    )    
+    )
 
-class AssignmentAdmin(admin.ModelAdmin):
+
+class AssessmentAdmin(admin.ModelAdmin):
     list_display = (
-        'ae', 
+        'ae',
         'activity',
         'weight',
         'duration',
         'length',
         'course_code',
         'learning_outcomes'
-    )    
+    )
+
 
 class LOAdmin(admin.ModelAdmin):
     list_display = (
-        'code', 
+        'code',
         'type',
         'text_desc',
         'course_code'
     )
 
+
 class ApprovalAdmin(admin.ModelAdmin):
     list_display = (
-        'version_num', 
-        'date_approved', 
+        'version_num',
+        'date_approved',
         'date_published',
         'owner',
         'next_review_date',
@@ -54,8 +58,19 @@ class ApprovalAdmin(admin.ModelAdmin):
         'course_code'
     )
 
+
+class TemplatesAdmin(admin.ModelAdmin):
+    list_display = (
+        'version',
+        'assessment_key',
+        'course_code',
+        'template'
+    )
+
+
 # Register your models here.
 admin.site.register(Course, CourseAdmin)
-admin.site.register(Assignment, AssignmentAdmin)
+admin.site.register(Assessment, AssessmentAdmin)
 admin.site.register(LearningOutcomes, LOAdmin)
 admin.site.register(Approval, ApprovalAdmin)
+admin.site.register(Templates, TemplatesAdmin)

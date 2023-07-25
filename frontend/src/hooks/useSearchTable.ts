@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Course from "../types/courses";
+import { CoursePreview } from "../types/courses";
 
 interface SearchTable {
   onChange: (
@@ -9,8 +9,8 @@ interface SearchTable {
 }
 
 const useSearchTable = (
-  allRows: Course[],
-  setFilteredRows: React.Dispatch<React.SetStateAction<Course[]>>
+  allRows: CoursePreview[],
+  setFilteredRows: React.Dispatch<React.SetStateAction<CoursePreview[]>>
 ): SearchTable => {
   const [searchTerm, setSearchTerm] = useState("");
 

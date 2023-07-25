@@ -9,16 +9,19 @@ import {
   SelectChangeEvent,
   Typography,
 } from "@mui/material";
-import Assessment from "../types/assessments";
-import { colors } from "../theme";
+import { AssessmentPreview } from "../../types/assessments";
+import { colors } from "../../theme";
 import { useState } from "react";
 
-const AssessmentRow: React.FC<Assessment> = ({
-  title,
-  weighting,
-  duration,
-  length,
+interface AssessmentRowProps extends AssessmentPreview {
+  setPage: (page: string) => void;
+}
+
+const AssessmentRow: React.FC<AssessmentRowProps> = ({
+  id,
+  activity,
   versions,
+  setPage,
 }) => {
   const versionToString = (version: number): string => {
     return `v${version}`;
@@ -43,7 +46,7 @@ const AssessmentRow: React.FC<Assessment> = ({
         borderRadius: "4px",
       }}
     >
-      <Typography sx={{ fontSize: "16px" }}>{title}</Typography>
+      <Typography sx={{ fontSize: "16px" }}>{activity}</Typography>
       <Box sx={{ display: "flex", columnGap: "24px" }}>
         <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
           <InputLabel id="demo-simple-select-label">Version</InputLabel>
@@ -82,6 +85,7 @@ const AssessmentRow: React.FC<Assessment> = ({
             color: colors.black,
           }}
           color="secondary"
+          onClick={() => setPage("Template")}
         >
           New Version
         </Button>
