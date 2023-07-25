@@ -13,7 +13,7 @@ from bs4 import BeautifulSoup
 import django
 django.setup()
 
-from docprocessing.models import Course, Assignment, LearningOutcomes
+from docprocessing.models import Course, Assessment, LearningOutcomes
 
 now = datetime.now().strftime("%d-%m-%y_%H:%M:%S")
 
@@ -32,6 +32,16 @@ logger.addHandler(console_handler)
 ROOT_URL = "https://www.nulondon.ac.uk/academic-handbook/programme-specifications-and-handbooks/undergraduate-programmes/"
 HEADERS = {"user-agent": "Mozilla/5.0"}
 COURSE_URLS = set()
+OUTLIERS = set([
+    "https://www.nulondon.ac.uk/academic-handbook/programme-specifications-and-handbooks/undergraduate-programmes/university-course-list-year-one/creative-writing/lcwri4245/",
+    "https://www.nulondon.ac.uk/academic-handbook/programme-specifications-and-handbooks/undergraduate-programmes/university-course-list-year-two/law/llaw5226/",
+    "https://www.nulondon.ac.uk/academic-handbook/programme-specifications-and-handbooks/undergraduate-programmes/university-course-list-year-one/history/lhist4218/",
+    "https://www.nulondon.ac.uk/academic-handbook/programme-specifications-and-handbooks/undergraduate-programmes/university-course-list-year-one/law/llaw4223/",
+    "https://www.nulondon.ac.uk/academic-handbook/programme-specifications-and-handbooks/undergraduate-programmes/university-course-list-year-one/law/llaw4222/",
+    "https://www.nulondon.ac.uk/academic-handbook/programme-specifications-and-handbooks/undergraduate-programmes/university-course-list-year-three/data-science/ldsci6208/",
+    "https://www.nulondon.ac.uk/academic-handbook/programme-specifications-and-handbooks/undergraduate-programmes/university-course-list-year-one/psychology/lpsyc4236/",
+    "https://www.nulondon.ac.uk/academic-handbook/programme-specifications-and-handbooks/undergraduate-programmes/university-course-list-year-one/law/llaw4226/",
+])
 
 def find_urls(url, execute):
     response = requests.get(url, headers={"user-agent": "Mozilla/5.0"})
@@ -50,10 +60,10 @@ class ScrapingHelpers:
         property_table = soup.find_all('table')[0]
         for tr in property_table.find_all('tr'):
             data = tr.find_all('td')
-            row[data[0].text] = data[1].text
+            row[data[0].text.strip()] = data[1].text.strip()
             if len(data) > 2:
                 try:
-                    row[data[2].text] = data[3].text
+                    row[data[2].text.strip()] = data[3].text.strip()
                 except:
                     logger.error("Malformed property table, skipping for now.")
     
@@ -140,7 +150,8 @@ def backfill_course_info(execute, test):
         COURSE_URLS.add('https://www.nulondon.ac.uk/academic-handbook/programme-specifications-and-handbooks/undergraduate-programmes/university-course-list-year-three/art-and-design/lades6263/')
     logger.info(f"Found {len(COURSE_URLS)} unique course URLs. (execute={execute})")
 
-    for url in COURSE_URLS:
+    revised_urls = COURSE_URLS - OUTLIERS
+    for url in revised_urls:
         response = requests.get(url, headers=HEADERS)
         soup = BeautifulSoup(response.text, "html.parser")
         logger.info(f"Scraping course at url: {url}")
@@ -156,50 +167,51 @@ def backfill_course_info(execute, test):
         created_learning_outcomes = 0
         created_assessments = 0
         if execute:
-            lo_stringlist = ",".join([code for code, _ in data.get("Learning Outcomes")])
-            _, course_created = Course.objects.get_or_create(
-                title=data.get("course title"),
-                course_code=data.get("course code"),
-                discipline=data.get("discipline"),
-                uk_credit=int(data.get("uk credit")),
-                us_credit=int(data.get("us credit")),
-                fheq_level=int(data.get("fheq level")),
-                date_approved=data.get("date approved"),
-                core_attributes=data.get("core attributes"),
-                pre_requisites=data.get("pre-requisites"),
-                co_requisites=data.get("co-requisites"),
-                overview=data.get("course overview"),
-                learning_outcomes=lo_stringlist,
-                teaching_learning=data.get("teaching and learning"),
-                assessment_desc=data.get("assessments"),
-                feedback=data.get("feedback"),
-                readings=data.get("indicative reading"),
-                topics=data.get("indicative topics"),
-            )
-            if course_created:
-                created_courses += 1
-            for lo_code, lo_desc in data.get("learning outcomes"):
-                # lo_type = {
-                #     "K": LearningOutcomes.Types.KN_UNDERSTANDING, 
-                #     "S": LearningOutcomes.Types.SUB_SPECIFIC,
-                #     "J": LearningOutcomes.Types.TRANSFERABLE,
-                # }.get(lo_code[0])
-                lo_type = lo_code[0]
-                _, lo_created = LearningOutcomes.objects.get_or_create(code=lo_code, type=lo_type, text_desc=lo_desc, course_code=data.get("Course code"))
-                if lo_created:
-                    created_learning_outcomes += 1
-            for assessment in data.get("assessments list"):
-                _, assessment_created = Assignment.objects.get_or_create(
-                    ae=int(assessment.get("AE")),
-                    activity=assessment.get("Assessment Activity"),
-                    weight=int(assessment.get("Weighting").strip("%")),
-                    duration=assessment.get("Duration"),
-                    length=assessment.get("Length"),
+            try:
+                lo_stringlist = ",".join([code for code, _ in data.get("Learning Outcomes")])
+                _, course_created = Course.objects.get_or_create(
                     course_code=data.get("course code"),
-                    learning_outcomes=lo_stringlist,
+                    defaults=dict(title=data.get("course title"),
+                        discipline=data.get("discipline") or data.get("faculty"),
+                        uk_credit=int(''.join(c for c in data.get("uk credit") if c.isdigit())) if data.get("uk credit") else -1,
+                        us_credit=int(''.join(c for c in data.get("us credit") if c.isdigit())) if data.get("us credit") else -1,
+                        fheq_level=int(data.get("fheq level")),
+                        date_approved=data.get("date approved"),
+                        core_attributes=data.get("core attributes"),
+                        pre_requisites=data.get("pre-requisites"),
+                        co_requisites=data.get("co-requisites"),
+                        overview=data.get("course overview"),
+                        learning_outcomes=lo_stringlist,
+                        teaching_learning=data.get("teaching and learning"),
+                        assessment_desc=data.get("assessments"),
+                        feedback=data.get("feedback"),
+                        readings=data.get("indicative reading"),
+                        topics=data.get("indicative topics")
+                    )
                 )
-                if assessment_created:
-                    created_assessments += 1
+                if course_created:
+                    created_courses += 1
+                for lo_code, lo_desc in data.get("learning outcomes"):
+                    lo_type = lo_code[0]
+                    _, lo_created = LearningOutcomes.objects.get_or_create(code=lo_code, type=lo_type, text_desc=lo_desc, course_code=data.get("course code"))
+                    if lo_created:
+                        created_learning_outcomes += 1
+                for assessment in data.get("assessments list"):
+                    _, assessment_created = Assessment.objects.get_or_create(
+                        course_code=data.get("course code"),
+                        ae=int(''.join(c for c in assessment.get("AE") if c.isdigit())),
+                        defaults=dict(
+                            activity=assessment.get("Assessment Activity"),
+                            weight=int(assessment.get("Weighting").strip("%")),
+                            duration=assessment.get("Duration"),
+                            length=assessment.get("Length"),
+                            learning_outcomes=lo_stringlist
+                        )
+                    )
+                    if assessment_created:
+                        created_assessments += 1
+            except:
+                logger.exception(f"Could not create db entry for '{url}'. (execute={execute}) \n")
     logger.info(f"Created {created_courses} Courses, {created_learning_outcomes} LearningOutcomes, and {created_assessments} Assignments. (execute={execute})")
 
 def main():
