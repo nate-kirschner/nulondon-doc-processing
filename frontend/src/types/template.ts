@@ -1,4 +1,4 @@
-type AssessmentDetails = {
+export type AssessmentDetails = {
   courseTitle: string;
   courseCode: string;
   FHEQ: string;
@@ -7,12 +7,12 @@ type AssessmentDetails = {
   version: number;
   assessmentNumber: string;
   weighting: string;
-  courseLeaser: string;
+  courseLeader: string;
   assessmentType: string;
   restrictions: string;
-  issueDate: Date;
-  handInDate: Date;
-  feedbackDeadline: Date;
+  issueDate: string;
+  handInDate: string;
+  feedbackDeadline: string;
   modeOfSubmission: string;
   anonymousMarketing: boolean;
 };
