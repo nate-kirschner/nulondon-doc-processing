@@ -51,7 +51,7 @@ class LearningOutcomes(models.Model):
     class Types(models.TextChoices):
         KN_UNDERSTANDING = "K", _("Knowledge and Understanding")
         SUB_SPECIFIC = "S", _("Subject Specific Skills")
-        TRANSFERABLE = "J", _("Transferable and Employability Skills")
+        TRANSFERABLE = "T", _("Transferable and Employability Skills")
 
     code = models.CharField(max_length=3)  # eg K2c
     type = models.CharField(max_length=1, choices=Types.choices)  # enum above
