@@ -12,7 +12,7 @@ import {
 import { AssessmentPreview } from "../../types/assessments";
 import { colors } from "../../theme";
 import { useState } from "react";
-import { generateWordDocument } from "../utils/exportTemplate";
+import { generateWordDocument } from "../../utils/exportTemplate";
 
 interface AssessmentRowProps extends AssessmentPreview {
   setPage: (page: string) => void;

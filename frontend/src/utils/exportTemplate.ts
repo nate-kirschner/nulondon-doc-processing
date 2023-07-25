@@ -2,7 +2,6 @@ import { Document, Packer, Paragraph, HeadingLevel } from "docx";
 import { saveAs } from "file-saver";
 
 export function generateWordDocument() {
-  //instance
   let doc = new Document({
     sections: [
       {
