@@ -6,4 +6,5 @@ type learningOutcomes = {
     text_desc: string;
     course_code: string;
 }
+
 export default learningOutcomes;

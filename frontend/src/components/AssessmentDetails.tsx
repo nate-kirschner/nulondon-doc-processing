@@ -80,7 +80,7 @@ const AssessmentDetails: React.FC = () => {
           })}
           <TableRow>
             <TableCell variant="head" sx={{ fontWeight: "bold" }}>
-              Course Leader
+              Course
             </TableCell>
             <TableCell align="right">
               <TextField variant="outlined" size="small" fullWidth />
