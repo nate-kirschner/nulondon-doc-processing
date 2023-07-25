@@ -1,12 +1,12 @@
-import { TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 
 const AssessingFeedback: React.FC = () => {
   return (
-    <div>
+    <Box>
       <Typography
         sx={{ fontSize: "15px", fontWeight: 700, paddingBottom: "14px" }}
       >
-        Change default criteria as needed:
+        Change default marking criteria as needed:
       </Typography>
       <TextField
         fullWidth
@@ -20,7 +20,7 @@ const AssessingFeedback: React.FC = () => {
                 they experience longer-term matters that impact on learning then they must contact Student Support and 
                 Development for advice. For further information, please refer to the Extenuating Circumstances Policy in the Academic Handbook."
       />
-    </div>
+    </Box>
   );
 };
 

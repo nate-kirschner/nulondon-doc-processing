@@ -1,8 +1,8 @@
-import { TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 
 const AssessmentTask: React.FC = () => {
   return (
-    <div>
+    <Box>
       <Typography
         sx={{ fontSize: "15px", fontWeight: 700, paddingBottom: "14px" }}
       >
@@ -15,7 +15,7 @@ const AssessmentTask: React.FC = () => {
         rows={4}
         defaultValue=""
       />
-    </div>
+    </Box>
   );
 };
 

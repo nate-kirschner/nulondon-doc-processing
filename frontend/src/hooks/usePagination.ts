@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import Course from "../types/courses";
+import { CoursePreview } from "../types/courses";
 
 export interface PaginatedTableProps {
   rowsPerPage: number;
@@ -9,10 +9,10 @@ export interface PaginatedTableProps {
 
 interface PaginatedTable {
   paginatedTableProps: PaginatedTableProps;
-  visibleRows: Course[];
+  visibleRows: CoursePreview[];
 }
 
-const usePagination = (rows: Course[]): PaginatedTable => {
+const usePagination = (rows: CoursePreview[]): PaginatedTable => {
   const rowsPerPage = 2;
 
   const [page, setPage] = useState(0);

@@ -6,7 +6,7 @@ const AssessingFeedback: React.FC = () => {
       <Typography
         sx={{ fontSize: "15px", fontWeight: 700, paddingBottom: "14px" }}
       >
-        Change default misconduct criteria as needed:
+        Change default marking criteria as needed:
       </Typography>
       <TextField
         fullWidth

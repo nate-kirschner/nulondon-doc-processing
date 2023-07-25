@@ -1,8 +1,4 @@
 import {
-  Box,
-  FormControl,
-  FormControlLabel,
-  InputLabel,
   MenuItem,
   Select,
   Switch,
@@ -11,12 +7,11 @@ import {
   TableContainer,
   TableRow,
   TextField,
-  Typography,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { colors } from "../theme";
+import { colors } from "../../theme";
 import React from "react";
 
 const AssessmentDetails: React.FC = () => {

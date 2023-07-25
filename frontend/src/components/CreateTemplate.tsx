@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Box,
-  Button,
   Paper,
   Table,
   TableBody,
@@ -12,45 +8,26 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
 } from "@mui/material";
 import { colors } from "../theme";
-import AssessmentCriteria from "./AssessmentCriteria";
-import LearningOutcomes from "./LearningOutcomes";
-import AssessmentTask from "./AssessmentTask";
-import Marking from "./Marking";
-import AssessingFeedback from "./AssessingFeedback";
-import LateSubmission from "./LateSubmission";
-import ExtenuatingCircumstances from "./ExtenuatingCircumstances";
-import AcademicMisconduct from "./AcademicMisconduct";
+import AssessmentCriteria from "./TemplatePage/AssessmentCriteria";
+import LearningOutcomes from "./TemplatePage/LearningOutcomes";
+import AssessmentTask from "./TemplatePage/AssessmentTask";
+import Marking from "./TemplatePage/Marking";
+import AssessingFeedback from "./TemplatePage/AssessingFeedback";
+import LateSubmission from "./TemplatePage/LateSubmission";
+import ExtenuatingCircumstances from "./TemplatePage/ExtenuatingCircumstances";
+import AcademicMisconduct from "./TemplatePage/AcademicMisconduct";
 import TemplateRow from "./TemplateRow";
 import SaveButtons from "./SaveButtons";
-import AssessmentDetails from "./AssessmentDetails";
-
-interface Assessment {
-  title: string;
-  content: string | JSX.Element;
-}
+import AssessmentDetails from "./TemplatePage/AssessmentDetails";
 
 interface CreateTemplateProps {
   setPage: (page: string) => void;
 }
 
 const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage }) => {
-  const courseDummy = {
-    title: "Course 1",
-    code: "IS3500",
-    credits: 4,
-    assessments: [
-      { title: "Assessment 2", weighting: 50, versions: [1, 2, 3] },
-    ],
-  };
-
   const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
-
-  const handleAccordionChange = (index: number) => {
-    setActiveAccordion(index);
-  };
 
   const handleNextAccordion = () => {
     setActiveAccordion((prevIndex) => {
