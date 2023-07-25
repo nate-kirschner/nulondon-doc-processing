@@ -33,7 +33,7 @@ ROOT_URL = "https://www.nulondon.ac.uk/academic-handbook/programme-specification
 HEADERS = {"user-agent": "Mozilla/5.0"}
 COURSE_URLS = set()
 
-def find_urls(url, execute=False):
+def find_urls(url, execute):
     response = requests.get(url, headers={"user-agent": "Mozilla/5.0"})
     soup = BeautifulSoup(response.text, "html.parser")
     if soup.body.has_attr('class') and 'academic-handbook-template-default' in soup.body['class'] and url not in COURSE_URLS:
@@ -42,7 +42,7 @@ def find_urls(url, execute=False):
         return
     links = [link.get('href') for link in list(filter(lambda x: x.get('href') and x.get('href').startswith('https://www.nulondon.ac.uk/academic-handbook/programme-specifications-and-handbooks/') and x.get('href') not in COURSE_URLS, soup.find_all('a')))]
     for l in links:
-        find_urls(l)
+        find_urls(l, execute)
 
 class ScrapingHelpers:
     @staticmethod
@@ -128,7 +128,7 @@ def scrape_all_course_info(soup):
     ScrapingHelpers.scrape_course_title(soup, row)
     return row
 
-def backfill_course_info(execute=False, test=False):
+def backfill_course_info(execute, test):
     if not test:
         for year in ('one', 'two', 'three'):
             find_urls(ROOT_URL + f"university-course-list-year-{year}/", execute)
@@ -146,8 +146,11 @@ def backfill_course_info(execute=False, test=False):
         logger.info(f"Scraping course at url: {url}")
         data = scrape_all_course_info(soup)
         logger.info("Scraped info for course {}: {} (execute={})".format(data.get("Course code") or data.get("Course Code"), data.get("Course title"), execute))
-        if data.get("Course Code"):
-            data.update({"Course code": data.get("Course Code")})
+        
+        lowercase_keys = {}
+        for key in data.keys():
+            lowercase_keys[key.lower()] = data[key]
+        data.update(lowercase_keys)
 
         created_courses = 0
         created_learning_outcomes = 0
@@ -155,43 +158,44 @@ def backfill_course_info(execute=False, test=False):
         if execute:
             lo_stringlist = ",".join([code for code, _ in data.get("Learning Outcomes")])
             _, course_created = Course.objects.get_or_create(
-                title=data.get("Course title"),
-                course_code=data.get("Course code"),
-                discipline=data.get("Discipline"),
-                uk_credit=int(data.get("UK credit")),
-                us_credit=int(data.get("US credit")),
-                fheq_level=int(data.get("FHEQ level")),
-                date_approved=data.get("Date approved"),
-                core_attributes=data.get("Core attributes"),
-                pre_requisites=data.get("Pre-requisites"),
-                co_requisites=data.get("Co-requisites"),
-                overview=data.get("Course Overview"),
+                title=data.get("course title"),
+                course_code=data.get("course code"),
+                discipline=data.get("discipline"),
+                uk_credit=int(data.get("uk credit")),
+                us_credit=int(data.get("us credit")),
+                fheq_level=int(data.get("fheq level")),
+                date_approved=data.get("date approved"),
+                core_attributes=data.get("core attributes"),
+                pre_requisites=data.get("pre-requisites"),
+                co_requisites=data.get("co-requisites"),
+                overview=data.get("course overview"),
                 learning_outcomes=lo_stringlist,
-                teaching_learning=data.get("Teaching and Learning"),
-                assessment_desc=data.get("Assessments"),
-                feedback=data.get("Feedback"),
-                readings=data.get("Indicative Reading"),
-                topics=data.get("Indicative Topics"),
+                teaching_learning=data.get("teaching and learning"),
+                assessment_desc=data.get("assessments"),
+                feedback=data.get("feedback"),
+                readings=data.get("indicative reading"),
+                topics=data.get("indicative topics"),
             )
             if course_created:
                 created_courses += 1
-            for lo_code, lo_desc in data.get("Learning Outcomes"):
-                lo_type = {
-                    "K": LearningOutcomes.Types.KN_UNDERSTANDING, 
-                    "S": LearningOutcomes.Types.SUB_SPECIFIC,
-                    "J": LearningOutcomes.Types.TRANSFERABLE,
-                }.get(lo_code[0])
+            for lo_code, lo_desc in data.get("learning outcomes"):
+                # lo_type = {
+                #     "K": LearningOutcomes.Types.KN_UNDERSTANDING, 
+                #     "S": LearningOutcomes.Types.SUB_SPECIFIC,
+                #     "J": LearningOutcomes.Types.TRANSFERABLE,
+                # }.get(lo_code[0])
+                lo_type = lo_code[0]
                 _, lo_created = LearningOutcomes.objects.get_or_create(code=lo_code, type=lo_type, text_desc=lo_desc, course_code=data.get("Course code"))
                 if lo_created:
                     created_learning_outcomes += 1
-            for assessment in data.get("Assessments List"):
+            for assessment in data.get("assessments list"):
                 _, assessment_created = Assignment.objects.get_or_create(
                     ae=int(assessment.get("AE")),
                     activity=assessment.get("Assessment Activity"),
                     weight=int(assessment.get("Weighting").strip("%")),
                     duration=assessment.get("Duration"),
                     length=assessment.get("Length"),
-                    course_code=data.get("Course code"),
+                    course_code=data.get("course code"),
                     learning_outcomes=lo_stringlist,
                 )
                 if assessment_created:
