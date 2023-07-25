@@ -1,8 +1,4 @@
 import {
-  Box,
-  FormControl,
-  FormControlLabel,
-  InputLabel,
   MenuItem,
   Select,
   Switch,
@@ -11,12 +7,11 @@ import {
   TableContainer,
   TableRow,
   TextField,
-  Typography,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { colors } from "../theme";
+import { colors } from "../../theme";
 import React from "react";
 
 const AssessmentDetails: React.FC = () => {
@@ -32,9 +27,8 @@ const AssessmentDetails: React.FC = () => {
     { displayName: "Course Title", displayValue: courseDummy.title },
     { displayName: "Course Code", displayValue: courseDummy.code },
     { displayName: "FHEQ", displayValue: "Level 4" },
-    { displayName: "Sitting", displayValue: "First Sitting" },
     {
-      displayName: "Assessment",
+      displayName: "Assessment Title",
       displayValue: courseDummy.assessments[0].title,
     },
     {
@@ -80,7 +74,15 @@ const AssessmentDetails: React.FC = () => {
           })}
           <TableRow>
             <TableCell variant="head" sx={{ fontWeight: "bold" }}>
-              Course
+              Course Leader
+            </TableCell>
+            <TableCell align="right">
+              <TextField variant="outlined" size="small" fullWidth />
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell variant="head" sx={{ fontWeight: "bold" }}>
+              Sitting
             </TableCell>
             <TableCell align="right">
               <TextField variant="outlined" size="small" fullWidth />

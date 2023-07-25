@@ -1,78 +1,41 @@
 import { Box, Input, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import Course from "../types/courses";
+import { CoursePreview } from "../types/courses";
+import { AssessmentPreview } from "../types/assessments";
 import usePagination from "../hooks/usePagination";
 import Spacer from "./Spacer";
-import CourseTable from "./CourseTable";
+import CourseTable from "./CoursesTable/CourseTable";
 import useSearchTable from "../hooks/useSearchTable";
 import { colors } from "../theme";
 import axios from "axios";
 
-const assessment = { title: "Assessment 1", weighting: 20, versions: [1] };
-
 interface BrowseCourseProps {
-  setPage: (page:string) => void;
+  setPage: (page: string) => void;
 }
 
-const BrowseCourses: React.FC<BrowseCourseProps> = ({
-  setPage,
-}) => {
-  const rows: Course[] = [
-    {
-      title: "Course 1",
-      code: "IS3500",
-      credits: 4,
-      assessments: [
-        assessment,
-        { title: "Assessment 2", weighting: 50, versions: [1, 2, 3] },
-      ],
-    },
-    {
-      title: "course 2",
-      code: "IS3501",
-      credits: 4,
-      assessments: [assessment],
-    },
-    {
-      title: "course 3",
-      code: "IS3502",
-      credits: 4,
-      assessments: [assessment],
-    },
-    {
-      title: "course 4",
-      code: "IS3503",
-      credits: 4,
-      assessments: [assessment],
-    },
-    {
-      title: "course 5",
-      code: "IS3504",
-      credits: 4,
-      assessments: [assessment],
-    },
-    {
-      title: "course 6",
-      code: "IS3505",
-      credits: 4,
-      assessments: [assessment],
-    },
-  ];
+const BrowseCourses: React.FC<BrowseCourseProps> = ({ setPage }) => {
+  const [allRows, setAllRows] = useState<CoursePreview[]>([]);
+  const [filteredRows, setFilteredRows] = useState<CoursePreview[]>(allRows);
 
-  const [filteredRows, setFilteredRows] = useState<Course[]>(rows);
-
-  const { value, onChange } = useSearchTable(rows, setFilteredRows);
+  const { value, onChange } = useSearchTable(allRows, setFilteredRows);
 
   const { paginatedTableProps, visibleRows } = usePagination(filteredRows);
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     const data = await axios.get("http://127.0.0.1:8000/courses/");
-  //     console.log("data", data);
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/courses/");
+        setAllRows(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
-  //   getData();
-  // }, []);
+  useEffect(() => {
+    setFilteredRows(allRows);
+  }, [allRows]);
 
   return (
     <Box

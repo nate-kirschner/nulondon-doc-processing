@@ -1,10 +1,10 @@
 import LOTypes from "./LOTypes";
 
-type learningOutcomes = {
+type LearningOutcomes = {
     code: string;
     type: LOTypes;
     text_desc: string;
     course_code: string;
 }
 
-export default learningOutcomes;
+export default LearningOutcomes;

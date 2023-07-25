@@ -1,12 +1,17 @@
-type Assessment = {
-  title: string;
-  course: string;
-  FHEQ: string;
-  assessment_number: number;
-  time_restrictions: string;
-  weighting: number;
-  versions: number[];
-  learning_outcomes: [];
-};
+import LearningOutcomes from "./learningOutcomes";
 
-export default Assessment;
+
+export interface AssessmentPreview {
+  id: string;
+  activity: string; // assessment title
+  versions: [];
+}
+
+export interface Assessment extends AssessmentPreview {
+  weight: number;
+  duration?: string;
+  length?: string;
+  FHEQ: string;
+  ae: number;
+  learning_outcomes: LearningOutcomes[];
+}

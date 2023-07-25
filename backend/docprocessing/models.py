@@ -32,9 +32,9 @@ class Course(models.Model):
         return self.title
 
 
-class Assignment(models.Model):
+class Assessment(models.Model):
     ae = models.IntegerField()  # number
-    # assessment type eg written assignment
+    # assessment type eg written assessment
     activity = models.CharField(max_length=255)
     weight = models.IntegerField()  # percentage
     # time to complete, eg 60 mins or 24-32 hours
@@ -80,10 +80,10 @@ class Approval(models.Model):
 
 class Templates(models.Model):
     class Meta:
-        unique_together = (('version', 'assignment_key', 'course_code'),)
+        unique_together = (('version', 'assessment_key', 'course_code'),)
 
     version = models.IntegerField()
-    assignment_key = models.ForeignKey(Assignment, on_delete=models.CASCADE)
+    assessment_key = models.ForeignKey(Assessment, on_delete=models.CASCADE)
     course_code = models.ForeignKey(
         Course, to_field='course_code', on_delete=models.CASCADE)
     template = models.JSONField()
