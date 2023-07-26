@@ -1,6 +1,6 @@
 // SaveButtons.tsx is used to add the 'Save Version' and 'Cancel' buttons to the CreateTemplate.tsx file
 
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { colors } from "../theme";
 import Spacer from "./Spacer";
 
@@ -10,7 +10,7 @@ interface SaveButtonsProps {
 
 const SaveButtons: React.FC<SaveButtonsProps> = ({ setPage }) => {
   return (
-    <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+    <Box style={{ display: "flex", justifyContent: "center", width: "100%" }}>
       <Button
         sx={{
           color: colors.white,
@@ -47,7 +47,7 @@ const SaveButtons: React.FC<SaveButtonsProps> = ({ setPage }) => {
       >
         Save Version
       </Button>
-    </div>
+    </Box>
   );
 };
 
