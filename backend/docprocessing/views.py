@@ -7,17 +7,22 @@ from django.core import serializers
 from django.core.paginator import Paginator
 import json
 
+# Global headers for all responses
 HEADERS = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Origin',
     'Access-Control-Allow-Methods': 'GET, POST'
 }
 
+# HTTP response helper function: list of Django model objects -> HTTP response
+
 
 def createHTTPResponse(object):
     ser_obj = serializers.serialize('json', object)
     response = HttpResponse(ser_obj, headers=HEADERS)
     return response
+
+# Returns an assessment object given a primary key
 
 
 def assessments(request, pk):
@@ -27,11 +32,15 @@ def assessments(request, pk):
     response = HttpResponse(json_string, headers=HEADERS)
     return response
 
+# Returns a list of learning outcomes given a course code
+
 
 def learning_outcomes(request, course_code):
     learning_outcomes = LearningOutcomes.objects.filter(
         course_code=course_code)
     return createHTTPResponse(learning_outcomes)
+
+# Returns a list of courses
 
 
 def courses(request):
@@ -97,7 +106,38 @@ def courses_paginated(request, page, pageSize):
     return response
 
 
+# Returns a template given based of a course code, assessment id and version
 def template(request, courseId, assessmentId, version):
     template = Templates.objects.filter(
         version=version, assessment_key=assessmentId, course_code=courseId)
     return createHTTPResponse(template)
+
+# Autofills some fields when creating a new template given a course code and assessment id
+
+
+def new_version(request, course_code, ae):
+    new_v = {}
+    course = get_object_or_404(Course, course_code=course_code)
+    new_v["title"] = course.title
+    new_v["code"] = course.course_code
+    new_v["fheq"] = course.fheq_level
+
+    assessment = Assessment.objects.get(course_code=course_code, ae=ae)
+    new_v["activity"] = assessment.activity
+    new_v["weight"] = assessment.weight
+    new_v["ae"] = assessment.ae
+    learning_outcomes_list = assessment.learning_outcomes.split(",")
+    learning_outcomes_list = list(dict.fromkeys(learning_outcomes_list))
+    full_learning_outcomes = []
+
+    for learning_outcome in learning_outcomes_list:
+        learning_out = LearningOutcomes.objects.filter(
+            code=learning_outcome, course_code=course_code)
+        for lo in learning_out:
+            full_learning_outcomes.append(model_to_dict(
+                lo, fields=["id", "course_code", "text_desc"]))
+    new_v["learning_outcomes"] = full_learning_outcomes
+
+    json_string = json.dumps(new_v)
+    response = HttpResponse(json_string, headers=HEADERS)
+    return response
