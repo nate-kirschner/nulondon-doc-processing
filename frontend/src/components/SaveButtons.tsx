@@ -3,12 +3,10 @@
 import { Box, Button } from "@mui/material";
 import { colors } from "../theme";
 import Spacer from "./Spacer";
+import { useNavigate } from "react-router-dom";
 
-interface SaveButtonsProps {
-  setPage: (page: string) => void;
-}
-
-const SaveButtons: React.FC<SaveButtonsProps> = ({ setPage }) => {
+const SaveButtons: React.FC = ()=> {
+  const navigate = useNavigate();
   return (
     <Box style={{ display: "flex", justifyContent: "center", width: "100%" }}>
       <Button
@@ -19,13 +17,12 @@ const SaveButtons: React.FC<SaveButtonsProps> = ({ setPage }) => {
           padding: "12px",
           marginTop: "30px",
           marginBottom: "30px",
-
           "&:hover": {
             backgroundColor: colors.red,
             opacity: 0.8,
-          },
+          }
         }}
-        onClick={() => setPage("Browse Courses")}
+        onClick={() => navigate("/")}
       >
         Cancel
       </Button>
@@ -43,7 +40,6 @@ const SaveButtons: React.FC<SaveButtonsProps> = ({ setPage }) => {
             opacity: 0.8,
           },
         }}
-        onClick={() => setPage("Browse Courses")}
       >
         Save Version
       </Button>

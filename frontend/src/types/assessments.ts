@@ -4,7 +4,7 @@ export interface AssessmentBase {
 }
 
 export interface AssessmentPreview extends AssessmentBase {
-  versions: [];
+  versions: number[];
 }
 
 export interface AssessmentNewVersion extends AssessmentBase {

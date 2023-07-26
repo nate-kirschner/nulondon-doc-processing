@@ -25,16 +25,22 @@ import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { NewVersion } from "../types/newVersion";
 
-interface CreateTemplateProps {
-  setPage: (page: string) => void;
-  //getAE: number;
-  //getCode: string;
-}
-
-const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage}) => {
+const CreateTemplate: React.FC = () => {
   const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
   const [newVersion, setNewVersion] = useState<NewVersion | undefined>();
+  let [searchParams, setSearchParams] = useSearchParams();
 
+  const getCode = () => {
+    console.log(searchParams.get('courseId'));
+  
+    return <div>getCode</div>;
+  };
+
+  const getAE = () => {
+    console.log(searchParams.get('assessmentId'));
+  
+    return <div>getAE</div>;
+  };
 
   const handleNextAccordion = () => {
     setActiveAccordion((prevIndex) => {
@@ -56,8 +62,7 @@ const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/new_version/LECON6212/1");
-        //const response = await axios.get("http://127.0.0.1:8000/new_version/" + getCode + "/" + getAE + "/");
+        const response = await axios.get("http://127.0.0.1:8000/new_version/" + getCode + "/" + getAE + "/");
         setNewVersion(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -196,7 +201,7 @@ const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage}) => {
             </TableBody>
           </Table>
         </TableContainer>
-        <SaveButtons setPage={setPage} />
+        <SaveButtons/>
       </React.Fragment>
     </Box>
   );
