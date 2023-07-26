@@ -19,19 +19,25 @@ const BrowseCourses: React.FC<BrowseCourseProps> = ({ setPage }) => {
 
   const { value, onChange } = useSearchTable(allRows, setFilteredRows);
 
-  const { paginatedTableProps, visibleRows } = usePagination(filteredRows);
+  const { paginatedTableProps, visibleRows, pageSize, currentPage } =
+    usePagination(filteredRows);
+
+  const [totalRows, setTotalRows] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/courses/");
-        setAllRows(response.data);
+        const response = await axios.get(
+          `http://127.0.0.1:8000/courses/${currentPage}/${pageSize}`
+        );
+        setAllRows(response.data.courses);
+        setTotalRows(response.data.total_courses);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
-  }, []);
+  }, [currentPage, pageSize]);
 
   useEffect(() => {
     setFilteredRows(allRows);
@@ -74,8 +80,8 @@ const BrowseCourses: React.FC<BrowseCourseProps> = ({ setPage }) => {
         />
         <Spacer height={"16px"} />
         <CourseTable
-          rows={visibleRows}
-          totalRows={filteredRows.length}
+          rows={allRows}
+          totalRows={totalRows}
           paginatedTableProps={paginatedTableProps}
           setPage={setPage}
         />
