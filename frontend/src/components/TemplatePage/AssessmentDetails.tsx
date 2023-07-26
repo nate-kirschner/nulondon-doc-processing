@@ -32,10 +32,6 @@ const AssessmentDetails: React.FC<AssessmentDetailsProps> = ({newVersion}) => {
       displayName: "Assessment Activity",
       displayValue: newVersion.activity,
     },
-    {
-      displayName: "Version",
-      displayValue: 1,
-    },
     { displayName: "Assessment Number", displayValue: "AE" + newVersion.ae },
     {
       displayName: "Assessment Weighting",
