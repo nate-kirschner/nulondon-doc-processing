@@ -19,7 +19,9 @@ interface AssessmentDetailsProps {
   newVersion: NewVersion | undefined;
 }
 
-const AssessmentDetails: React.FC<AssessmentDetailsProps> = ({newVersion}) => {
+const AssessmentDetails: React.FC<AssessmentDetailsProps> = ({
+  newVersion,
+}) => {
   if (!newVersion) {
     return null;
   }

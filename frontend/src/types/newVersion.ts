@@ -1,6 +1,6 @@
-import { Assessment } from "./assessments";
-import { CoursePreview } from "./courses";
+import { AssessmentNewVersion } from "./assessments";
+import { CourseNewVersion } from "./courses";
 
-export interface NewVersion extends CoursePreview, Assessment{
+export interface NewVersion extends CourseNewVersion, AssessmentNewVersion {
 
 }
