@@ -104,7 +104,7 @@ def new_version(request, course_code, ae):
     new_v["activity"] = assessment.activity
     new_v["weight"] = assessment.weight
     new_v["ae"] = assessment.ae
-    learning_outcomes_list = assessment.learning_outcomes.split(",")
+    learning_outcomes_list = assessment.learning_outcomes.replace(" and ", ",").split(",")
     learning_outcomes_list = list(dict.fromkeys(learning_outcomes_list))
     full_learning_outcomes = []
 
