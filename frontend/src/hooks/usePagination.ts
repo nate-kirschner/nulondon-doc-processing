@@ -10,6 +10,8 @@ export interface PaginatedTableProps {
 interface PaginatedTable {
   paginatedTableProps: PaginatedTableProps;
   visibleRows: CoursePreview[];
+  currentPage: number;
+  pageSize: number;
 }
 
 const usePagination = (rows: CoursePreview[]): PaginatedTable => {
@@ -34,6 +36,8 @@ const usePagination = (rows: CoursePreview[]): PaginatedTable => {
       page,
     },
     visibleRows,
+    currentPage: page + 1,
+    pageSize: rowsPerPage,
   };
 };
 
