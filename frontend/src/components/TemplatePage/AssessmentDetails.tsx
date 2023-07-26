@@ -13,34 +13,33 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { colors } from "../../theme";
 import React from "react";
-import { Assessment } from "../../types/assessments";
-import { Course } from "../../types/courses";
+import { NewVersion } from "../../types/newVersion";
 
 interface AssessmentDetailsProps {
-  thisAssessment: Assessment | undefined;
+  newVersion: NewVersion | undefined;
 }
 
-const AssessmentDetails: React.FC<AssessmentDetailsProps> = ({thisAssessment}) => {
-  if (!thisAssessment) {
+const AssessmentDetails: React.FC<AssessmentDetailsProps> = ({newVersion}) => {
+  if (!newVersion) {
     return null;
   }
 
   const displayCourse = [
-    { displayName: "Course Title", displayValue: thisAssessment.title },
-    { displayName: "Course Code", displayValue: thisAssessment.code },
+    { displayName: "Course Title", displayValue: newVersion.title },
+    { displayName: "Course Code", displayValue: newVersion.code },
     { displayName: "FHEQ", displayValue: "Level 4" },
     {
       displayName: "Assessment Activity",
-      displayValue: thisAssessment.activity,
+      displayValue: newVersion.activity,
     },
     {
       displayName: "Version",
       displayValue: 1,
     },
-    { displayName: "Assessment Number", displayValue: "AE" + thisAssessment.ae },
+    { displayName: "Assessment Number", displayValue: "AE" + newVersion.ae },
     {
       displayName: "Assessment Weighting",
-      displayValue: thisAssessment.weight + " %",
+      displayValue: newVersion.weight + " %",
     },
   ];
   return (

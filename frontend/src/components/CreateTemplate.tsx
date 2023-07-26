@@ -22,21 +22,18 @@ import TemplateRow from "./TemplateRow";
 import SaveButtons from "./SaveButtons";
 import AssessmentDetails from "./TemplatePage/AssessmentDetails";
 import axios from "axios";
-import { Assessment } from "../types/assessments";
-import { Course } from "../types/courses";
 import { useSearchParams } from "react-router-dom";
+import { NewVersion } from "../types/newVersion";
 
 interface CreateTemplateProps {
   setPage: (page: string) => void;
-  getAE: number;
-  getCode: string;
+  //getAE: number;
+  //getCode: string;
 }
 
-const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage, getAE, getCode}) => {
+const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage}) => {
   const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
-  const [thisAssessment, setAssessment] = useState<Assessment | undefined>();
-
-  let [searchParams, setSearchParams] = useSearchParams();
+  const [newVersion, setNewVersion] = useState<NewVersion | undefined>();
 
 
   const handleNextAccordion = () => {
@@ -59,8 +56,9 @@ const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage, getAE, getCode
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/new_version/" + getCode + "/" + getAE + "/");
-        setAssessment(response.data);
+        const response = await axios.get("http://127.0.0.1:8000/new_version/LECON6212/1");
+        //const response = await axios.get("http://127.0.0.1:8000/new_version/" + getCode + "/" + getAE + "/");
+        setNewVersion(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -105,7 +103,7 @@ const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage, getAE, getCode
                 handlePreviousAccordion={handlePreviousAccordion}
                 setActiveAccordion={setActiveAccordion}
               >
-                <AssessmentDetails thisAssessment={thisAssessment}/>
+                <AssessmentDetails newVersion={newVersion}/>
               </TemplateRow>
 
               <TemplateRow
