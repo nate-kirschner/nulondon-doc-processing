@@ -7,10 +7,10 @@ from django.core import serializers
 import json
 
 HEADERS = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Origin',
-        'Access-Control-Allow-Methods': 'GET, POST'
-    }
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Origin',
+    'Access-Control-Allow-Methods': 'GET, POST'
+}
 
 def createHTTPResponse(object):
     ser_obj = serializers.serialize('json', object)
