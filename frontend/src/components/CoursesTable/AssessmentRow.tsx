@@ -14,10 +14,20 @@ import { colors } from "../../theme";
 import { useState } from "react";
 import NewVersionB from "./NewVersionButton";
 
-const AssessmentRow: React.FC<AssessmentPreview> = ({
+import { generateWordDocument } from "../../utils/exportTemplate";
+
+interface AssessmentRowProps extends AssessmentPreview {
+  courseId: string;
+  assessmentId: string;
+  versions: number[];
+}
+
+const AssessmentRow: React.FC<AssessmentRowProps> = ({
   id,
   activity,
   versions,
+  courseId,
+  assessmentId,
 }) => {
   const versionToString = (version: number): string => {
     return `v${version}`;
@@ -70,12 +80,13 @@ const AssessmentRow: React.FC<AssessmentPreview> = ({
             color: colors.black,
           }}
           color="secondary"
+          onClick={() =>
+            generateWordDocument(courseId, assessmentId, selectedVersion)
+          }
         >
           Export
         </Button>
-        <NewVersionB
-        assessmentID={id}
-        />
+        <NewVersionB assessmentId={id} courseId={courseId} />
       </Box>
     </AccordionDetails>
   );

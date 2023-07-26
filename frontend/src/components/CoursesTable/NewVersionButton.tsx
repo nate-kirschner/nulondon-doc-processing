@@ -3,12 +3,11 @@ import { colors } from "../../theme";
 import { createSearchParams, useNavigate } from "react-router-dom";
 
 interface NVBProps {
-    assessmentID: string
+  assessmentId: string;
+  courseId: string;
 }
 
-const NewVersionB: React.FC<NVBProps> = ({
-    assessmentID,
-}) => {
+const NewVersionB: React.FC<NVBProps> = ({ assessmentId, courseId }) => {
   const navigate = useNavigate();
   return (
     <Button
@@ -19,11 +18,15 @@ const NewVersionB: React.FC<NVBProps> = ({
         color: colors.black,
       }}
       color="secondary"
-      onClick={() => navigate({
-        pathname: "template", 
-        search: createSearchParams({ 
-            assessmentID
-        }).toString()})}
+      onClick={() =>
+        navigate({
+          pathname: "template",
+          search: createSearchParams({
+            assessmentId,
+            courseId,
+          }).toString(),
+        })
+      }
     >
       New Version
     </Button>
