@@ -84,17 +84,6 @@ const CourseTable: React.FC<CourseTableProps> = ({
                         </Box>
                       </AccordionSummary>
                       <AssessmentDropdown courseCode={row.code} />
-                      {/* <AccordionDetails>
-                        {row.assessments?.map((assessment) => {
-                          return (
-                            <AssessmentRow
-                              assessmentId={assessment.id}
-                              courseId={row.code}
-                              {...assessment}
-                            />
-                          );
-                        })}
-                      </AccordionDetails> */}
                     </Accordion>
                   </TableCell>
                 </TableRow>

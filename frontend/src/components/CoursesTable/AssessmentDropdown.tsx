@@ -19,7 +19,6 @@ const AssessmentDropdown: React.FC<AssessmentDropdownProps> = ({
         const response = await axios.get(
           `http://127.0.0.1:8000/assessments/${courseCode}/`
         );
-        console.log(response);
         setAssessments(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
