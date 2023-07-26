@@ -6,22 +6,24 @@ import {
   Table,
   TableRow,
   TableCell,
+  WidthType,
+  AlignmentType,
 } from "docx";
 import { saveAs } from "file-saver";
 import { AssessmentDetails, Template } from "../types/template";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 
 const createParagraphWithStringBody = (title: string, bodyText: string) => {
   return new Paragraph({
     children: [
       new TextRun({
         text: title,
-        break: 1,
+        break: 2,
         size: 24,
       }),
       new TextRun({
         text: bodyText,
-        break: 1,
+        break: 2,
         size: 16,
       }),
     ],
@@ -32,9 +34,11 @@ const createTableRow = (left: string, right: string) => {
   return new TableRow({
     children: [
       new TableCell({
+        width: { size: 10, type: WidthType.PERCENTAGE },
         children: [new Paragraph(left)],
       }),
       new TableCell({
+        width: { size: 10, type: WidthType.PERCENTAGE },
         children: [new Paragraph(right)],
       }),
     ],
@@ -128,6 +132,16 @@ export const generateWordDocument = async (
       {
         properties: {},
         children: [
+          new Paragraph({
+            alignment: AlignmentType.CENTER,
+            children: [
+              new TextRun({
+                text: "Assessment Brief: Coursework 2022-23",
+                size: 32,
+                break: 1,
+              }),
+            ],
+          }),
           new Paragraph({
             children: [
               new TextRun({
