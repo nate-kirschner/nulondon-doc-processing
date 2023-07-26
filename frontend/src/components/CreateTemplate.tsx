@@ -24,7 +24,6 @@ import AssessmentDetails from "./TemplatePage/AssessmentDetails";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { NewVersion } from "../types/newVersion";
-import { serialize } from "v8";
 
 const CreateTemplate: React.FC = () => {
   const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
