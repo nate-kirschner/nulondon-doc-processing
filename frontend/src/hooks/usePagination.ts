@@ -13,7 +13,7 @@ interface PaginatedTable {
 }
 
 const usePagination = (rows: CoursePreview[]): PaginatedTable => {
-  const rowsPerPage = 2;
+  const rowsPerPage = 20;
 
   const [page, setPage] = useState(0);
 

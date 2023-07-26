@@ -12,9 +12,12 @@ import {
 import { AssessmentPreview } from "../../types/assessments";
 import { colors } from "../../theme";
 import { useState } from "react";
+import { generateWordDocument } from "../../utils/exportTemplate";
 
 interface AssessmentRowProps extends AssessmentPreview {
   setPage: (page: string) => void;
+  courseId: string;
+  assessmentId: string;
 }
 
 const AssessmentRow: React.FC<AssessmentRowProps> = ({
@@ -22,6 +25,8 @@ const AssessmentRow: React.FC<AssessmentRowProps> = ({
   activity,
   versions,
   setPage,
+  courseId,
+  assessmentId,
 }) => {
   const versionToString = (version: number): string => {
     return `v${version}`;
@@ -74,6 +79,9 @@ const AssessmentRow: React.FC<AssessmentRowProps> = ({
             color: colors.black,
           }}
           color="secondary"
+          onClick={() =>
+            generateWordDocument(courseId, assessmentId, selectedVersion)
+          }
         >
           Export
         </Button>
