@@ -13,32 +13,34 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { colors } from "../../theme";
 import React from "react";
+import { Assessment } from "../../types/assessments";
+import { Course } from "../../types/courses";
 
-const AssessmentDetails: React.FC = () => {
-  const courseDummy = {
-    title: "Course 1",
-    code: "IS3500",
-    credits: 4,
-    assessments: [
-      { title: "Assessment 2", weighting: 50, versions: [1, 2, 3] },
-    ],
-  };
+interface AssessmentDetailsProps {
+  thisAssessment: Assessment | undefined;
+}
+
+const AssessmentDetails: React.FC<AssessmentDetailsProps> = ({thisAssessment}) => {
+  if (!thisAssessment) {
+    return null;
+  }
+
   const displayCourse = [
-    { displayName: "Course Title", displayValue: courseDummy.title },
-    { displayName: "Course Code", displayValue: courseDummy.code },
+    { displayName: "Course Title", displayValue: thisAssessment.title },
+    { displayName: "Course Code", displayValue: thisAssessment.code },
     { displayName: "FHEQ", displayValue: "Level 4" },
     {
-      displayName: "Assessment Title",
-      displayValue: courseDummy.assessments[0].title,
+      displayName: "Assessment Activity",
+      displayValue: thisAssessment.activity,
     },
     {
       displayName: "Version",
-      displayValue: courseDummy.assessments[0].versions[2],
+      displayValue: 1,
     },
-    { displayName: "Assessment Number", displayValue: "AE4" },
+    { displayName: "Assessment Number", displayValue: "AE" + thisAssessment.ae },
     {
       displayName: "Assessment Weighting",
-      displayValue: courseDummy.assessments[0].weighting + " %",
+      displayValue: thisAssessment.weight + " %",
     },
   ];
   return (

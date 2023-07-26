@@ -2,15 +2,15 @@ import LearningOutcomes from "./learningOutcomes";
 
 
 export interface AssessmentPreview {
+  title: string;
+  code: number;
   id: string;
-  activity: string; // assessment title
+  activity: string;
   versions: [];
 }
 
 export interface Assessment extends AssessmentPreview {
   weight: number;
-  duration?: string;
-  length?: string;
   FHEQ: string;
   ae: number;
   learning_outcomes: LearningOutcomes[];

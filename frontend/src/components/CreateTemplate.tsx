@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Paper,
@@ -21,13 +21,23 @@ import AcademicMisconduct from "./TemplatePage/AcademicMisconduct";
 import TemplateRow from "./TemplateRow";
 import SaveButtons from "./SaveButtons";
 import AssessmentDetails from "./TemplatePage/AssessmentDetails";
+import axios from "axios";
+import { Assessment } from "../types/assessments";
+import { Course } from "../types/courses";
+import { useSearchParams } from "react-router-dom";
 
 interface CreateTemplateProps {
   setPage: (page: string) => void;
+  getAE: number;
+  getCode: string;
 }
 
-const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage }) => {
+const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage, getAE, getCode}) => {
   const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
+  const [thisAssessment, setAssessment] = useState<Assessment | undefined>();
+
+  let [searchParams, setSearchParams] = useSearchParams();
+
 
   const handleNextAccordion = () => {
     setActiveAccordion((prevIndex) => {
@@ -44,6 +54,19 @@ const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage }) => {
   const handlePreviousAccordion = () => {
     setActiveAccordion((prevIndex) => Math.max((prevIndex ?? 0) - 1, 0));
   };
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:8000/new_version/" + getCode + "/" + getAE + "/");
+        setAssessment(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <Box
@@ -82,7 +105,7 @@ const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage }) => {
                 handlePreviousAccordion={handlePreviousAccordion}
                 setActiveAccordion={setActiveAccordion}
               >
-                <AssessmentDetails />
+                <AssessmentDetails thisAssessment={thisAssessment}/>
               </TemplateRow>
 
               <TemplateRow

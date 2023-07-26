@@ -85,7 +85,7 @@ const AssessmentRow: React.FC<AssessmentRowProps> = ({
             color: colors.black,
           }}
           color="secondary"
-          onClick={() => setPage("Template")}
+          onClick={() => {setPage("Template")}}
         >
           New Version
         </Button>

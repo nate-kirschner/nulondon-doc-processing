@@ -24,9 +24,9 @@ function App() {
       >
         <Header />
         {page === "Browse Courses" ? (
-          <BrowseCourses setPage={setPage} />
+          <BrowseCourses setPage={setPage}/>
         ) : (
-          <CreateTemplate setPage={setPage} />
+          //<CreateTemplate setPage={setPage}/>
         )}
       </Box>
     </ThemeProvider>

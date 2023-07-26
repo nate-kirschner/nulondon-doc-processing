@@ -87,7 +87,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
                       <AccordionDetails>
                         {row.assessments.map((assessment) => {
                           return (
-                            <AssessmentRow setPage={setPage} {...assessment} />
+                            <AssessmentRow setPage={setPage} {...assessment}/>
                           );
                         })}
                       </AccordionDetails>
