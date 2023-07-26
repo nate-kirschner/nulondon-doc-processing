@@ -23,7 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('courses/', views.courses),
     path('courses/<int:page>/', views.courses_paginated),
-    # path('courses/<str:course_code>', views.courses_by_course_code),
     path('assessments/<int:pk>/', views.assessments),
     path('learning-outcomes/<str:course_code>/', views.learning_outcomes),
     path('template/<str:courseId>/<str:assessmentId>/<str:version>', views.template),

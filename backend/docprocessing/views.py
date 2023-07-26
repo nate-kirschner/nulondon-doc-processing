@@ -101,6 +101,7 @@ def new_version(request, course_code, ae):
     new_v["fheq"] = course.fheq_level
 
     assessment = Assessment.objects.get(course_code=course_code, ae=ae)
+    new_v["activity"] = assessment.activity
     new_v["weight"] = assessment.weight
     new_v["ae"] = assessment.ae
     learning_outcomes_list = assessment.learning_outcomes.split(",")
