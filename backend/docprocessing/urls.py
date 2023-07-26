@@ -26,5 +26,5 @@ urlpatterns = [
     path('assessments/<int:pk>/', views.assessments),
     path('learning-outcomes/<str:course_code>/', views.learning_outcomes),
     path('template/<str:courseId>/<str:assessmentId>/<str:version>', views.template),
-    path('new_version/<str:c_code>/<str:ae>', views.new_version)
+    path('new_version/<str:course_code>/<str:ae>', views.new_version)
 ]
