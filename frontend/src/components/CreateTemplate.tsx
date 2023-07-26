@@ -24,23 +24,17 @@ import AssessmentDetails from "./TemplatePage/AssessmentDetails";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { NewVersion } from "../types/newVersion";
+import { serialize } from "v8";
 
 const CreateTemplate: React.FC = () => {
   const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
   const [newVersion, setNewVersion] = useState<NewVersion | undefined>();
-  let [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
 
-  const getCode = () => {
-    console.log(searchParams.get('courseId'));
   
-    return <div>getCode</div>;
-  };
+  const getCode = searchParams.get('courseId');
 
-  const getAE = () => {
-    console.log(searchParams.get('assessmentId'));
-  
-    return <div>getAE</div>;
-  };
+  const getAE = searchParams.get('assessmentId');
 
   const handleNextAccordion = () => {
     setActiveAccordion((prevIndex) => {
@@ -62,7 +56,9 @@ const CreateTemplate: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/new_version/" + getCode + "/" + getAE + "/");
+        //const response = await axios.get('http://127.0.0.1:8000/new_version/' + getCode + '/' + getAE);
+
+        const response = await axios.get("http://127.0.0.1:8000/new_version/${getCode}/${getAE}");
         setNewVersion(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
