@@ -1,17 +1,19 @@
-import LearningOutcomes from "./learningOutcomes";
-
-
-export interface AssessmentPreview {
-  title: string;
-  code: number;
+export interface AssessmentBase {
   id: string;
   activity: string;
+}
+
+export interface AssessmentPreview extends AssessmentBase {
   versions: [];
 }
 
-export interface Assessment extends AssessmentPreview {
+export interface AssessmentNewVersion extends AssessmentBase {
   weight: number;
-  FHEQ: string;
-  ae: number;
-  learning_outcomes: LearningOutcomes[];
+  ae: string;
+  fheq: string;
+}
+
+export interface Assessment extends AssessmentPreview, AssessmentNewVersion {
+  duration?: string;
+  length?: string;
 }
