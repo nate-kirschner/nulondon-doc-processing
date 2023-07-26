@@ -34,7 +34,7 @@ const AssessmentRow: React.FC<AssessmentRowProps> = ({
   };
 
   const [selectedVersion, setSelectedVersion] = useState(
-    versionToString(versions[versions.length - 1])
+    versionToString(versions && versions[versions.length - 1])
   );
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -63,7 +63,7 @@ const AssessmentRow: React.FC<AssessmentRowProps> = ({
             label="Version"
             onChange={handleChange}
           >
-            {versions.map((version) => {
+            {versions?.map((version) => {
               return (
                 <MenuItem value={versionToString(version)}>
                   {versionToString(version)}

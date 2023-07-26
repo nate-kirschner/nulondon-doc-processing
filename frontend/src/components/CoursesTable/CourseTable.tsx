@@ -18,6 +18,7 @@ import { CoursePreview } from "../../types/courses";
 import { PaginatedTableProps } from "../../hooks/usePagination";
 import AssessmentRow from "./AssessmentRow";
 import { colors } from "../../theme";
+import AssessmentDropdown from "./AssessmentDropdown";
 
 interface CourseTableProps {
   rows: CoursePreview[];
@@ -82,8 +83,9 @@ const CourseTable: React.FC<CourseTableProps> = ({
                           </Typography>
                         </Box>
                       </AccordionSummary>
-                      <AccordionDetails>
-                        {row.assessments.map((assessment) => {
+                      <AssessmentDropdown courseCode={row.code} />
+                      {/* <AccordionDetails>
+                        {row.assessments?.map((assessment) => {
                           return (
                             <AssessmentRow
                               assessmentId={assessment.id}
@@ -92,7 +94,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
                             />
                           );
                         })}
-                      </AccordionDetails>
+                      </AccordionDetails> */}
                     </Accordion>
                   </TableCell>
                 </TableRow>
