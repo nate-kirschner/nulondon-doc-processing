@@ -23,14 +23,12 @@ interface CourseTableProps {
   rows: CoursePreview[];
   totalRows: number;
   paginatedTableProps: PaginatedTableProps;
-  setPage: (page: string) => void;
 }
 
 const CourseTable: React.FC<CourseTableProps> = ({
   rows,
   totalRows,
   paginatedTableProps,
-  setPage,
 }) => {
   const [openRow, setOpenRow] = useState<number | undefined>(undefined);
 
@@ -87,7 +85,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
                       <AccordionDetails>
                         {row.assessments.map((assessment) => {
                           return (
-                            <AssessmentRow setPage={setPage} {...assessment} />
+                            <AssessmentRow {...assessment}/>
                           );
                         })}
                       </AccordionDetails>

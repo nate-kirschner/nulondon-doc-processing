@@ -9,11 +9,7 @@ import useSearchTable from "../hooks/useSearchTable";
 import { colors } from "../theme";
 import axios from "axios";
 
-interface BrowseCourseProps {
-  setPage: (page: string) => void;
-}
-
-const BrowseCourses: React.FC<BrowseCourseProps> = ({ setPage }) => {
+const BrowseCourses: React.FC = () => {
   const [allRows, setAllRows] = useState<CoursePreview[]>([]);
   const [filteredRows, setFilteredRows] = useState<CoursePreview[]>(allRows);
 
@@ -77,7 +73,6 @@ const BrowseCourses: React.FC<BrowseCourseProps> = ({ setPage }) => {
           rows={visibleRows}
           totalRows={filteredRows.length}
           paginatedTableProps={paginatedTableProps}
-          setPage={setPage}
         />
       </Box>
     </Box>
