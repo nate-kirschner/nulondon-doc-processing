@@ -22,11 +22,8 @@ import TemplateRow from "./TemplateRow";
 import SaveButtons from "./SaveButtons";
 import AssessmentDetails from "./TemplatePage/AssessmentDetails";
 
-interface CreateTemplateProps {
-  setPage: (page: string) => void;
-}
 
-const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage }) => {
+const CreateTemplate: React.FC = () => {
   const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
 
   const handleNextAccordion = () => {
@@ -175,7 +172,7 @@ const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage }) => {
             </TableBody>
           </Table>
         </TableContainer>
-        <SaveButtons setPage={setPage} />
+        <SaveButtons/>
       </React.Fragment>
     </Box>
   );

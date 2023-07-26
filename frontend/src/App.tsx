@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import { Box, createTheme, ThemeProvider } from "@mui/material";
 import { useState } from "react";
 import CreateTemplate from "./components/CreateTemplate";
+import AppRouter from "./components/Routers";
 
 const theme = createTheme({
   typography: {
@@ -23,11 +24,7 @@ function App() {
         }}
       >
         <Header />
-        {page === "Browse Courses" ? (
-          <BrowseCourses setPage={setPage} />
-        ) : (
-          <CreateTemplate setPage={setPage} />
-        )}
+        <AppRouter />
       </Box>
     </ThemeProvider>
   );

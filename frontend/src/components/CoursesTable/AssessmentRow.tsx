@@ -12,19 +12,20 @@ import {
 import { AssessmentPreview } from "../../types/assessments";
 import { colors } from "../../theme";
 import { useState } from "react";
+import NewVersionB from "./NewVersionButton";
+
 import { generateWordDocument } from "../../utils/exportTemplate";
 
 interface AssessmentRowProps extends AssessmentPreview {
-  setPage: (page: string) => void;
   courseId: string;
   assessmentId: string;
+  versions: number[];
 }
 
 const AssessmentRow: React.FC<AssessmentRowProps> = ({
   id,
   activity,
   versions,
-  setPage,
   courseId,
   assessmentId,
 }) => {
@@ -85,18 +86,7 @@ const AssessmentRow: React.FC<AssessmentRowProps> = ({
         >
           Export
         </Button>
-        <Button
-          sx={{
-            "&:hover": {
-              backgroundColor: "#C8102E4D",
-            },
-            color: colors.black,
-          }}
-          color="secondary"
-          onClick={() => setPage("Template")}
-        >
-          New Version
-        </Button>
+        <NewVersionB assessmentId={id} courseId={courseId} />
       </Box>
     </AccordionDetails>
   );
