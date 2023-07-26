@@ -31,7 +31,7 @@ const BrowseCourses: React.FC = () => {
       }
     };
     fetchData();
-  }, [currentPage, pageSize]);
+  }, []);
 
   useEffect(() => {
     setFilteredRows(allRows);
@@ -75,7 +75,7 @@ const BrowseCourses: React.FC = () => {
         <Spacer height={"16px"} />
         <CourseTable
           rows={visibleRows}
-          totalRows={totalRows}
+          totalRows={filteredRows.length}
           paginatedTableProps={paginatedTableProps}
         />
       </Box>

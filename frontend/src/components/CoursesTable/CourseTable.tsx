@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -32,6 +32,10 @@ const CourseTable: React.FC<CourseTableProps> = ({
   paginatedTableProps,
 }) => {
   const [openRow, setOpenRow] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    setOpenRow(undefined);
+  }, [paginatedTableProps.page]);
 
   const handleChange =
     (panelIndex: number) =>
