@@ -147,7 +147,7 @@ const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage}) => {
                 handlePreviousAccordion={handlePreviousAccordion}
                 setActiveAccordion={setActiveAccordion}
               >
-                <LearningOutcomes />
+                <LearningOutcomes newVersion={newVersion}/>
               </TemplateRow>
 
               <TemplateRow

@@ -9,8 +9,16 @@ import {
   Checkbox,
 } from "@mui/material";
 import { colors } from "../../theme";
+import { NewVersion } from "../../types/newVersion";
 
-const LearningOutcomes: React.FC = () => {
+interface LearningOutcomesProps {
+  newVersion: NewVersion | undefined;
+}
+
+const LearningOutcomes: React.FC<LearningOutcomesProps> = ({newVersion}) => {
+  if(!newVersion) {
+    return null;
+  }
   return (
     <Box>
       <Typography sx={{ fontSize: "16px" }}>
