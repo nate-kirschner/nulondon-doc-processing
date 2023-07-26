@@ -53,11 +53,13 @@ def courses(request):
     return response
 
 def courses_paginated(request, page):
+    PAGE_SIZE = 20
+
     number_of_courses = Course.objects.all().count()
-    if page < 1 or page > number_of_courses // 10 + 1:
+    if page < 1 or page > number_of_courses // PAGE_SIZE + 1:
         return HttpResponse("Bad page number", status_code=400)
 
-    courses = Course.objects.all()[(page-1)*10:min(page*10, number_of_courses)]
+    courses = Course.objects.all()[(page-1)*PAGE_SIZE:min(page*PAGE_SIZE, number_of_courses)]
     output = []
 
     for course in courses:
