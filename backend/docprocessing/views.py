@@ -105,6 +105,18 @@ def courses_paginated(request, page, pageSize):
     response = HttpResponse(json_string, headers=HEADERS)
     return response
 
+# Gets all templates associated with a certain course
+def course_templates(request, course_code):
+    assessments = Assessment.objects.filter(course_code=course_code)
+    assessments_list = list(assessments.values('id', 'activity'))
+    for assessment in assessments_list:
+        templates = Templates.objects.filter(course_code=course_code, assessment_key=assessment['id'])
+        assessment['versions'] = list(templates.values_list('version', flat=True))
+    
+    json_string = json.dumps(assessments_list)
+    response = HttpResponse(json_string, headers=HEADERS)
+    return response
+
 
 # Returns a template given based of a course code, assessment id and version
 def template(request, courseId, assessmentId, version):
