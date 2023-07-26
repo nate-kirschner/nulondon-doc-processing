@@ -127,14 +127,14 @@ def template(request, courseId, assessmentId, version):
 # Autofills some fields when creating a new template given a course code and assessment id
 
 
-def new_version(request, course_code, ae):
+def new_version(request, course_code, assessment_id):
     new_v = {}
     course = get_object_or_404(Course, course_code=course_code)
     new_v["title"] = course.title
     new_v["code"] = course.course_code
     new_v["fheq"] = course.fheq_level
 
-    assessment = Assessment.objects.get(course_code=course_code, ae=ae)
+    assessment = Assessment.objects.get(course_code=course_code, assessment_id=assessment_id)
     new_v["activity"] = assessment.activity
     new_v["weight"] = assessment.weight
     new_v["ae"] = assessment.ae
