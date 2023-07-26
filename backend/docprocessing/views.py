@@ -111,7 +111,9 @@ def new_version(request, course_code, ae):
     for learning_outcome in learning_outcomes_list:
         learning_out = LearningOutcomes.objects.filter(code=learning_outcome, course_code=course_code)
         for lo in learning_out:
-            full_learning_outcomes.append(model_to_dict(lo, fields=["id", "course_code", "text_desc"]))
+            lo = model_to_dict(lo, fields=["id", "text_desc"])
+            lo["code"] = learning_outcome
+            full_learning_outcomes.append(lo)
     new_v["learning_outcomes"] = full_learning_outcomes
 
     json_string = json.dumps(new_v)
