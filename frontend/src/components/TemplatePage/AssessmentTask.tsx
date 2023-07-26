@@ -1,6 +1,21 @@
 import { Box, TextField, Typography } from "@mui/material";
+import { useState } from "react";
 
 const AssessmentTask: React.FC = () => {
+  const [textFieldValue, setTextFieldValue] = useState<string>("");
+
+  const handleTextFieldChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newValue = event.target.value;
+    setTextFieldValue(newValue);
+    console.log(newValue);
+  };
+
+  const saveTemplate = () => {
+    return textFieldValue;
+  };
+
   return (
     <Box>
       <Typography
@@ -13,6 +28,7 @@ const AssessmentTask: React.FC = () => {
         id="outlined-multiline-static"
         multiline
         rows={4}
+        onChange={handleTextFieldChange}
         defaultValue=""
       />
     </Box>

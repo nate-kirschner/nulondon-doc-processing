@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextField,
   Button,
@@ -11,6 +11,29 @@ import {
 import { colors } from "../../theme";
 
 const LearningOutcomes: React.FC = () => {
+  const [checkedItems, setCheckedItems] = useState<string[]>([]);
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const label =
+      event.target.labels?.[0]?.innerText ||
+      event.target.getAttribute("data-label") ||
+      "";
+    const isChecked = event.target.checked;
+
+    // add or remove the checkbox value from the list of checked items
+    if (isChecked) {
+      setCheckedItems((prevChecked) => [...prevChecked, label]);
+    } else {
+      setCheckedItems((prevChecked) =>
+        prevChecked.filter((item) => item !== label)
+      );
+    }
+  };
+
+  const getCheckedItemsList = () => {
+    return checkedItems;
+  };
+
   return (
     <Box>
       <Typography sx={{ fontSize: "16px" }}>
@@ -23,6 +46,8 @@ const LearningOutcomes: React.FC = () => {
         <FormControlLabel
           control={
             <Checkbox
+              data-label="Requirement 1 when we figure out the data stuff"
+              onChange={handleCheckboxChange}
               sx={{
                 "&.Mui-checked": { color: colors.red },
               }}
@@ -33,16 +58,20 @@ const LearningOutcomes: React.FC = () => {
         <FormControlLabel
           control={
             <Checkbox
+              data-label="pp2"
+              onChange={handleCheckboxChange}
               sx={{
                 "&.Mui-checked": { color: colors.red },
               }}
             />
           }
-          label="pp"
+          label="p"
         />
         <FormControlLabel
           control={
             <Checkbox
+              data-label="pp"
+              onChange={handleCheckboxChange}
               sx={{
                 "&.Mui-checked": { color: colors.red },
               }}
@@ -58,24 +87,39 @@ const LearningOutcomes: React.FC = () => {
         <FormControlLabel
           control={
             <Checkbox
+              data-label="ppp"
+              onChange={handleCheckboxChange}
               sx={{
                 "&.Mui-checked": { color: colors.red },
               }}
             />
           }
-          label="pp"
+          label="ppp"
         />
         <FormControlLabel
           control={
             <Checkbox
+              data-label="pppp"
+              onChange={handleCheckboxChange}
               sx={{
                 "&.Mui-checked": { color: colors.red },
               }}
             />
           }
-          label="pp"
+          label="pppp"
         />
-        <FormControlLabel control={<Checkbox />} label="poopoo" />
+        <FormControlLabel
+          control={
+            <Checkbox
+              data-label="ppppp"
+              onChange={handleCheckboxChange}
+              sx={{
+                "&.Mui-checked": { color: colors.red },
+              }}
+            />
+          }
+          label="poopoo"
+        />
       </FormGroup>
       <Typography sx={{ fontSize: "16px", fontWeight: 700, marginTop: "24px" }}>
         Transferable Skills
@@ -84,12 +128,14 @@ const LearningOutcomes: React.FC = () => {
         <FormControlLabel
           control={
             <Checkbox
+              data-label="pppppp"
+              onChange={handleCheckboxChange}
               sx={{
                 "&.Mui-checked": { color: colors.red },
               }}
             />
           }
-          label="pp"
+          label="pppppp"
         />
       </FormGroup>
     </Box>

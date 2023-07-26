@@ -1,6 +1,21 @@
 import { Box, TextField, Typography } from "@mui/material";
+import { useState } from "react";
 
 const AssessingFeedback: React.FC = () => {
+  const [textFieldValue, setTextFieldValue] = useState<string>("");
+
+  const handleTextFieldChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newValue = event.target.value;
+    setTextFieldValue(newValue);
+    console.log(newValue);
+  };
+
+  const saveTemplate = () => {
+    return textFieldValue;
+  };
+
   return (
     <Box>
       <Typography
@@ -13,6 +28,7 @@ const AssessingFeedback: React.FC = () => {
         id="outlined-multiline-static"
         multiline
         rows={4}
+        onChange={handleTextFieldChange}
         defaultValue="The University’s Extenuating Circumstances procedure is in place if there are genuine 
                 circumstances that may prevent a student submitting an assessment. If the EC application is successful, 
                 there will be no academic penalty for missing the published submission deadline. Students are reminded 

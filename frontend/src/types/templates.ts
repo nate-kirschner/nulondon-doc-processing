@@ -1,4 +1,4 @@
-type AssessmentDetails = {
+export type AssessmentDetails = {
   courseTitle: string;
   courseCode: string;
   FHEQ: string;
@@ -17,22 +17,28 @@ type AssessmentDetails = {
   anonymousMarketing: boolean;
 };
 
-type GradeRange = {
+export type GradeRange = {
   min: number;
   max: number;
   description: string;
 };
 
-type AssessmentCriteria = {
+export type AssessmentCriteria = {
   gradeRanges: GradeRange[];
 };
+
+export type LearningOutcomes = {
+  knowledge: string[];
+  subject: string[];
+  transferable: string[];
+}
 
 export type Template = {
   assessmentDetails: AssessmentDetails;
   assessmentTask: string;
   assessmentCriteria: AssessmentCriteria;
   marking: string;
-  learningOutcomes: string[];
+  learningOutcomes: LearningOutcomes;
   assessingFeedback: string;
   lateSubmissions: string;
   extenuatingCircumstances: string;

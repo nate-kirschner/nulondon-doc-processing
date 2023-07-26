@@ -1,6 +1,21 @@
 import { TextField, Typography } from "@mui/material";
+import { useState } from "react";
 
 const AssessingFeedback: React.FC = () => {
+  const [textFieldValue, setTextFieldValue] = useState<string>("");
+
+  const handleTextFieldChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newValue = event.target.value;
+    setTextFieldValue(newValue);
+    console.log(newValue);
+  };
+
+  const saveTemplate = () => {
+    return textFieldValue;
+  };
+
   return (
     <div>
       <Typography
@@ -13,6 +28,7 @@ const AssessingFeedback: React.FC = () => {
         id="outlined-multiline-static"
         multiline
         rows={4}
+        onChange={handleTextFieldChange}
         defaultValue="Students Are Reminded to:
                 Submit their assessment ahead of the published deadline. However, if assessments are submitted late without approved Extenuating Circumstances, there are penalties:
                 ● Up to one day late of the published submission deadline = 5% points deducted from mark. For example, an assessment awarded 58% from the

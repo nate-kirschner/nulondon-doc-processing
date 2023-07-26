@@ -29,6 +29,8 @@ interface CreateTemplateProps {
 const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage }) => {
   const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
 
+  const [assessmentDetails, setAssessmentDetails] = useState(undefined);
+
   const handleNextAccordion = () => {
     setActiveAccordion((prevIndex) => {
       if (prevIndex === 9) {
