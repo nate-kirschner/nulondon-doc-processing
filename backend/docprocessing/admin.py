@@ -1,4 +1,4 @@
-from .models import Course, Assessment, LearningOutcomes, Approval, Templates
+from .models import Course, Assessment, LearningOutcomes, Approval, Templates, Approver
 from django.contrib import admin
 
 
@@ -67,6 +67,12 @@ class TemplatesAdmin(admin.ModelAdmin):
         'template'
     )
 
+class ApproverAdmin(admin.ModelAdmin):
+    list_display = (
+        'name',
+        'email',
+    )
+
 
 # Register your models here.
 admin.site.register(Course, CourseAdmin)
@@ -74,3 +80,4 @@ admin.site.register(Assessment, AssessmentAdmin)
 admin.site.register(LearningOutcomes, LOAdmin)
 admin.site.register(Approval, ApprovalAdmin)
 admin.site.register(Templates, TemplatesAdmin)
+admin.site.register(Approver, ApproverAdmin)

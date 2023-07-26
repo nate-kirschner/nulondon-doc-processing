@@ -86,3 +86,8 @@ class Templates(models.Model):
     course_code = models.ForeignKey(
         Course, to_field='course_code', on_delete=models.CASCADE)
     template = models.JSONField()
+
+# Table for mock approvers'emails
+class Approver(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.CharField(max_length=255)
