@@ -28,7 +28,7 @@ const LearningOutcomes: React.FC<LearningOutcomesProps> = ({newVersion}) => {
           }}
         />
       }
-      label={learning_outcome.text_desc}
+      label={learning_outcome.code + ": " + learning_outcome.text_desc}
     />);
     }
   }
