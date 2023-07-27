@@ -25,7 +25,7 @@ urlpatterns = [
     path('courses/<int:page>/<int:pageSize>', views.courses_paginated),
     path('courses/templates/<str:course_code>/', views.course_templates),
     # path('courses/<str:course_code>', views.courses_by_course_code),
-    path('assessments/<int:pk>/', views.assessments),
+    path('assessments/<str:course_code>/', views.assessments),
     path('learning-outcomes/<str:course_code>/', views.learning_outcomes),
     path('template/<str:courseId>/<str:assessmentId>/<str:version>', views.template),
     path('new_version/<str:course_code>/<str:assessment_id>', views.new_version),

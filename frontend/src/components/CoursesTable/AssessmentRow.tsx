@@ -34,7 +34,7 @@ const AssessmentRow: React.FC<AssessmentRowProps> = ({
   };
 
   const [selectedVersion, setSelectedVersion] = useState(
-    versionToString(versions[versions.length - 1])
+    versionToString(versions && versions[versions.length - 1])
   );
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -54,38 +54,42 @@ const AssessmentRow: React.FC<AssessmentRowProps> = ({
     >
       <Typography sx={{ fontSize: "16px" }}>{activity}</Typography>
       <Box sx={{ display: "flex", columnGap: "24px" }}>
-        <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-          <InputLabel id="demo-simple-select-label">Version</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={selectedVersion}
-            label="Version"
-            onChange={handleChange}
-          >
-            {versions.map((version) => {
-              return (
-                <MenuItem value={versionToString(version)}>
-                  {versionToString(version)}
-                </MenuItem>
-              );
-            })}
-          </Select>
-        </FormControl>
-        <Button
-          sx={{
-            "&:hover": {
-              backgroundColor: "#C8102E4D",
-            },
-            color: colors.black,
-          }}
-          color="secondary"
-          onClick={() =>
-            generateWordDocument(courseId, assessmentId, selectedVersion)
-          }
-        >
-          Export
-        </Button>
+        {versions.length > 0 && (
+          <>
+            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+              <InputLabel id="demo-simple-select-label">Version</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={selectedVersion}
+                label="Version"
+                onChange={handleChange}
+              >
+                {versions?.map((version) => {
+                  return (
+                    <MenuItem value={versionToString(version)}>
+                      {versionToString(version)}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+            <Button
+              sx={{
+                "&:hover": {
+                  backgroundColor: "#C8102E4D",
+                },
+                color: colors.black,
+              }}
+              color="secondary"
+              onClick={() =>
+                generateWordDocument(courseId, assessmentId, selectedVersion)
+              }
+            >
+              Export
+            </Button>
+          </>
+        )}
         <NewVersionB assessmentId={id} courseId={courseId} />
       </Box>
     </AccordionDetails>

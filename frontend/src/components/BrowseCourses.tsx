@@ -23,17 +23,15 @@ const BrowseCourses: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://127.0.0.1:8000/courses/${currentPage}/${pageSize}`
-        );
-        setAllRows(response.data.courses);
-        setTotalRows(response.data.total_courses);
+        const response = await axios.get(`http://127.0.0.1:8000/courses/`);
+        setAllRows(response.data);
+        setTotalRows(response.data.length);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
-  }, [currentPage, pageSize]);
+  }, []);
 
   useEffect(() => {
     setFilteredRows(allRows);
@@ -76,8 +74,8 @@ const BrowseCourses: React.FC = () => {
         />
         <Spacer height={"16px"} />
         <CourseTable
-          rows={allRows}
-          totalRows={totalRows}
+          rows={visibleRows}
+          totalRows={filteredRows.length}
           paginatedTableProps={paginatedTableProps}
         />
       </Box>
