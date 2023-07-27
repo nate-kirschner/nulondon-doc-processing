@@ -1,4 +1,4 @@
-from .models import Course, Assessment, LearningOutcomes, Approval, Templates, Approver, ApproversTeamplates
+from .models import Course, Assessment, LearningOutcomes, Approval, Templates, Approver, ApproversTemplates
 from django.contrib import admin
 
 
@@ -73,7 +73,7 @@ class ApproverAdmin(admin.ModelAdmin):
         'email',
     )
 
-class ApproversTeamplatesAdmin(admin.ModelAdmin):
+class ApproversTemplatesAdmin(admin.ModelAdmin):
     list_display = (
         'approverID',
         'templateID',
@@ -87,4 +87,4 @@ admin.site.register(LearningOutcomes, LOAdmin)
 admin.site.register(Approval, ApprovalAdmin)
 admin.site.register(Templates, TemplatesAdmin)
 admin.site.register(Approver, ApproverAdmin)
-admin.site.register(ApproversTeamplates, ApproversTeamplatesAdmin)
+admin.site.register(ApproversTemplates, ApproversTemplatesAdmin)
