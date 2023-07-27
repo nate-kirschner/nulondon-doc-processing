@@ -1,5 +1,5 @@
 # Create your views here.
-from .models import Course, Templates, Assessment, LearningOutcomes
+from .models import Course, Templates, Assessment, LearningOutcomes, ApproversTemplates
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.forms.models import model_to_dict
@@ -143,3 +143,9 @@ def new_version(request, course_code, assessment_id):
     json_string = json.dumps(new_v)
     response = HttpResponse(json_string, headers=HEADERS)
     return response
+
+def send_emails(request, version, course_code, assessment_id):
+    template_id = Templates.objects.filter(version=version, assessment_key=assessment_id, course_code=course_code)
+    approvers = ApproversTemplates.objects.get(templateID=template_id)
+    response = createHTTPResponse(approvers)
+    return response 
