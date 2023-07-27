@@ -1,45 +1,57 @@
-import { Button, TextField, Typography } from "@mui/material";
+import { Autocomplete, Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
 import { colors } from "../../theme";
 
-interface TextFieldData {
+interface Users {
   id: number;
-  minValue: string;
-  maxValue: string;
-  description: string;
+  name: string;
+  email: string;
 }
-
+const top100Films = [
+  { label: "The Shawshank Redemption", year: 1994 },
+  { label: "The Godfather", year: 1972 },
+  { label: "The Godfather: Part II", year: 1974 },
+  { label: "The Dark Knight", year: 2008 },
+  { label: "12 Angry Men", year: 1957 },
+  { label: "Schindler's List", year: 1993 },
+  { label: "Pulp Fiction", year: 1994 },
+  {
+    label: "The Lord of the Rings: The Return of the King",
+    year: 2003,
+  },
+  { label: "The Good, the Bad and the Ugly", year: 1966 },
+  { label: "Fight Club", year: 1999 }
+];
 const AddApprovers: React.FC = () => {
-  const [textFields, setTextFields] = useState<TextFieldData[]>([
-    { id: 1, minValue: "", maxValue: "", description: "" },
+  const [user, setUser] = useState<Users[]>([
+    { id: 1, name: "", email : "" },
   ]);
 
   // adds a new field
   const handleAddTextField = () => {
-    setTextFields((prevTextFields) => [
-      ...prevTextFields,
+    setUser((prevUser) => [
+      ...prevUser,
       {
-        id: prevTextFields.length + 1,
-        minValue: "",
-        maxValue: "",
-        description: "",
+        id: prevUser.length + 1,
+        name: "",
+        email: ""
       },
     ]);
   };
 
   // deletes a field
   const handleDeleteTextField = () => {
-    if (textFields.length > 1) {
-      const updatedTextFields = textFields.slice(0, -1);
-      setTextFields(updatedTextFields);
+    if (user.length > 1) {
+      const updatedTextFields = user.slice(0, -1);
+      setUser(updatedTextFields);
     }
   };
 
   // updates the field when the user types by iterating through the textFields
   const handleChangeTextField = (id: number, field: string, value: string) => {
-    setTextFields((prevTextFields) =>
-      prevTextFields.map((entry) =>
+    setUser((prevUser) =>
+      prevUser.map((entry) =>
         entry.id === id ? { ...entry, [field]: value } : entry
       )
     );
@@ -47,7 +59,7 @@ const AddApprovers: React.FC = () => {
 
   return (
     <Box>
-      {textFields.map((entry) => (
+      {user.map((entry) => (
         <Box key={entry.id} style={{ marginBottom: "10px" }}>
           <Box display="flex" alignItems="center">
             <Typography
@@ -59,60 +71,16 @@ const AddApprovers: React.FC = () => {
                 paddingRight: "15px",
               }}
             >
-              Grade Range:
+              New Approver:
             </Typography>
-            <TextField
-              sx={{ width: 60, marginRight: "15px" }}
-              type="text"
-              label="Min"
-              size="small"
-              value={entry.minValue}
-              onChange={(e) =>
-                handleChangeTextField(entry.id, "minValue", e.target.value)
-              }
-            />
-            <Typography
-              sx={{
-                fontSize: "15px",
-                fontWeight: 400,
-                paddingTop: "13px",
-                paddingBottom: "14px",
-                paddingRight: "15px",
-              }}
-            >
-              to
-            </Typography>
-            <TextField
-              sx={{ width: 60, marginRight: "30px" }}
-              type="text"
-              label="Max"
-              size="small"
-              value={entry.maxValue}
-              onChange={(e) =>
-                handleChangeTextField(entry.id, "maxValue", e.target.value)
-              }
-            />
-            <Typography
-              sx={{
-                fontSize: "16px",
-                fontWeight: 700,
-                paddingBottom: "14px",
-                paddingTop: "13px",
-                paddingRight: "15px",
-                paddingLeft: "50px",
-              }}
-            >
-              Description:
-            </Typography>
-            <TextField
-              sx={{ width: 600 }}
-              type="text"
-              label="Student demonstrated..."
-              size="small"
-              value={entry.description}
-              onChange={(e) =>
-                handleChangeTextField(entry.id, "description", e.target.value)
-              }
+            <Autocomplete
+              disablePortal
+              id="combo-box-demo"
+              options={top100Films}
+              sx={{ width: 300 }}
+              renderInput={(params) => (
+                <TextField {...params} label="Approver" />
+              )}
             />
           </Box>
         </Box>
@@ -128,7 +96,7 @@ const AddApprovers: React.FC = () => {
         color="secondary"
         onClick={handleAddTextField}
       >
-        Add New Range
+        Add New Approver
       </Button>
       <Button
         sx={{
@@ -142,7 +110,7 @@ const AddApprovers: React.FC = () => {
         color="secondary"
         onClick={handleDeleteTextField}
       >
-        Delete Range
+        Delete Approver
       </Button>
     </Box>
   );
