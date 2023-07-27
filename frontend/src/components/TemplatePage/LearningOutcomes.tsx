@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+
 import {
   TextField,
   Button,
@@ -9,8 +9,32 @@ import {
   Checkbox,
 } from "@mui/material";
 import { colors } from "../../theme";
+import LearningOutcome from "../../types/learningOutcome";
+import { NewVersion } from "../../types/newVersion";
 
-const LearningOutcomes: React.FC = () => {
+interface LearningOutcomesProps {
+  newVersion: NewVersion | undefined; 
+}
+
+const LearningOutcomes: React.FC<LearningOutcomesProps> = ({newVersion}) => {
+  function isType(learning_outcome: LearningOutcome, key: string) {
+    if(learning_outcome.code.startsWith(key)) {
+      return(
+      <FormControlLabel
+      control={
+        <Checkbox
+          sx={{
+            "&.Mui-checked": { color: colors.red },
+          }}
+        />
+      }
+      label={learning_outcome.text_desc}
+    />);
+    }
+  }
+  if(!newVersion) {
+    return null;
+  }
   return (
     <Box>
       <Typography sx={{ fontSize: "16px" }}>
@@ -20,77 +44,25 @@ const LearningOutcomes: React.FC = () => {
         Knowledge and Understanding
       </Typography>
       <FormGroup>
-        <FormControlLabel
-          control={
-            <Checkbox
-              sx={{
-                "&.Mui-checked": { color: colors.red },
-              }}
-            />
-          }
-          label="Requirement 1 when we figure out the data stuff"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              sx={{
-                "&.Mui-checked": { color: colors.red },
-              }}
-            />
-          }
-          label="pp"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              sx={{
-                "&.Mui-checked": { color: colors.red },
-              }}
-            />
-          }
-          label="pp"
-        />
+      {newVersion.learning_outcomes.map((learning_outcome) => {
+        return (isType(learning_outcome, "K"));
+      })}
       </FormGroup>
       <Typography sx={{ fontSize: "16px", fontWeight: 700, marginTop: "24px" }}>
         Subject-Specific Skills
       </Typography>
       <FormGroup>
-        <FormControlLabel
-          control={
-            <Checkbox
-              sx={{
-                "&.Mui-checked": { color: colors.red },
-              }}
-            />
-          }
-          label="pp"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              sx={{
-                "&.Mui-checked": { color: colors.red },
-              }}
-            />
-          }
-          label="pp"
-        />
-        <FormControlLabel control={<Checkbox />} label="poopoo" />
+      {newVersion.learning_outcomes.map((learning_outcome) => {
+        return (isType(learning_outcome, "S"));
+      })}
       </FormGroup>
       <Typography sx={{ fontSize: "16px", fontWeight: 700, marginTop: "24px" }}>
         Transferable Skills
       </Typography>
       <FormGroup>
-        <FormControlLabel
-          control={
-            <Checkbox
-              sx={{
-                "&.Mui-checked": { color: colors.red },
-              }}
-            />
-          }
-          label="pp"
-        />
+      {newVersion.learning_outcomes.map((learning_outcome) => {
+        return (isType(learning_outcome, "T"));
+      })}
       </FormGroup>
     </Box>
   );

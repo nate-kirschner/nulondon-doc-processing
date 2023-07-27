@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Paper,
@@ -21,10 +21,19 @@ import AcademicMisconduct from "./TemplatePage/AcademicMisconduct";
 import TemplateRow from "./TemplateRow";
 import SaveButtons from "./SaveButtons";
 import AssessmentDetails from "./TemplatePage/AssessmentDetails";
-
+import axios from "axios";
+import { useSearchParams } from "react-router-dom";
+import { NewVersion } from "../types/newVersion";
 
 const CreateTemplate: React.FC = () => {
   const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
+  const [newVersion, setNewVersion] = useState<NewVersion | undefined>();
+  const [searchParams] = useSearchParams();
+
+  
+  const getCode = searchParams.get('courseId');
+
+  const getAE = searchParams.get('assessmentId');
 
   const handleNextAccordion = () => {
     setActiveAccordion((prevIndex) => {
@@ -41,6 +50,19 @@ const CreateTemplate: React.FC = () => {
   const handlePreviousAccordion = () => {
     setActiveAccordion((prevIndex) => Math.max((prevIndex ?? 0) - 1, 0));
   };
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/new_version/' + getCode + '/' + getAE);
+        setNewVersion(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <Box
@@ -79,7 +101,7 @@ const CreateTemplate: React.FC = () => {
                 handlePreviousAccordion={handlePreviousAccordion}
                 setActiveAccordion={setActiveAccordion}
               >
-                <AssessmentDetails />
+                <AssessmentDetails newVersion={newVersion}/>
               </TemplateRow>
 
               <TemplateRow
@@ -123,7 +145,7 @@ const CreateTemplate: React.FC = () => {
                 handlePreviousAccordion={handlePreviousAccordion}
                 setActiveAccordion={setActiveAccordion}
               >
-                <LearningOutcomes />
+                <LearningOutcomes newVersion={newVersion}/>
               </TemplateRow>
 
               <TemplateRow
