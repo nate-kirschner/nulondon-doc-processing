@@ -195,12 +195,7 @@ const Details: React.FC = () => {
             </TableCell>
             <TableCell align="right">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
-                  value={assessmentDetails.handInDate}
-                  onChange={(date) =>
-                    handleAssessmentDetailsChange("handInDate", date)
-                  }
-                />
+                <DatePicker />
               </LocalizationProvider>
             </TableCell>
           </TableRow>

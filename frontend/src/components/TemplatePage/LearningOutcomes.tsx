@@ -16,9 +16,10 @@ const LearningOutcomes: React.FC = () => {
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const label =
       event.target.labels?.[0]?.innerText ||
-      event.target.getAttribute("data-label") ||
+      event.target.getAttribute("label") ||
       "";
     const isChecked = event.target.checked;
+    const category = event.target.getAttribute("aria-label");
 
     // add or remove the checkbox value from the list of checked items
     if (isChecked) {
@@ -29,6 +30,10 @@ const LearningOutcomes: React.FC = () => {
       );
     }
   };
+
+  useEffect(() => {
+    console.log(checkedItems);
+  }, [checkedItems]);
 
   const getCheckedItemsList = () => {
     return checkedItems;
@@ -46,7 +51,7 @@ const LearningOutcomes: React.FC = () => {
         <FormControlLabel
           control={
             <Checkbox
-              data-label="Requirement 1 when we figure out the data stuff"
+              aria-label="knowledge"
               onChange={handleCheckboxChange}
               sx={{
                 "&.Mui-checked": { color: colors.red },
@@ -58,7 +63,7 @@ const LearningOutcomes: React.FC = () => {
         <FormControlLabel
           control={
             <Checkbox
-              data-label="pp2"
+              aria-label="knowledge"
               onChange={handleCheckboxChange}
               sx={{
                 "&.Mui-checked": { color: colors.red },
@@ -70,7 +75,7 @@ const LearningOutcomes: React.FC = () => {
         <FormControlLabel
           control={
             <Checkbox
-              data-label="pp"
+              aria-label="knowledge"
               onChange={handleCheckboxChange}
               sx={{
                 "&.Mui-checked": { color: colors.red },
@@ -87,6 +92,7 @@ const LearningOutcomes: React.FC = () => {
         <FormControlLabel
           control={
             <Checkbox
+              aria-label="subject"
               data-label="ppp"
               onChange={handleCheckboxChange}
               sx={{
@@ -99,6 +105,7 @@ const LearningOutcomes: React.FC = () => {
         <FormControlLabel
           control={
             <Checkbox
+              aria-label="subject"
               data-label="pppp"
               onChange={handleCheckboxChange}
               sx={{
@@ -111,6 +118,7 @@ const LearningOutcomes: React.FC = () => {
         <FormControlLabel
           control={
             <Checkbox
+              aria-label="subject"
               data-label="ppppp"
               onChange={handleCheckboxChange}
               sx={{
@@ -124,10 +132,11 @@ const LearningOutcomes: React.FC = () => {
       <Typography sx={{ fontSize: "16px", fontWeight: 700, marginTop: "24px" }}>
         Transferable Skills
       </Typography>
-      <FormGroup>
+      <FormGroup aria-label="transferable">
         <FormControlLabel
           control={
             <Checkbox
+              aria-label="knowledge"
               data-label="pppppp"
               onChange={handleCheckboxChange}
               sx={{
