@@ -153,7 +153,7 @@ def approve_version(request, template_id, approval_status, hashed_email):
     eligible_approvers = template.approvers.split(",")
     for approver_id in eligible_approvers:
         approver = Approver.objects.filter(id=approver_id)
-        if approver and approver.email == hashed_email:
+        if approver and approver.email == hashed_email and approval_status in Templates.Status.choices:
             template.approval_status = approval_status
             return HttpResponse("Success", status_code=200)
 

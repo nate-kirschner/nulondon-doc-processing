@@ -28,6 +28,6 @@ urlpatterns = [
     path('assessments/<str:course_code>/', views.assessments),
     path('learning-outcomes/<str:course_code>/', views.learning_outcomes),
     path('template/<str:courseId>/<str:assessmentId>/<str:version>', views.template),
-    path('template/<int:template_id>/<int:approval_status>/<str:hashed_email>/', views.approve_version),
+    path('template/<int:template_id>/<str:approval_status>/<str:hashed_email>/', views.approve_version),
     path('new_version/<str:course_code>/<str:assessment_id>', views.new_version),
 ]
