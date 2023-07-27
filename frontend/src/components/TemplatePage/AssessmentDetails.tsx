@@ -13,33 +13,31 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { colors } from "../../theme";
 import React from "react";
+import { NewVersion } from "../../types/newVersion";
 
-const AssessmentDetails: React.FC = () => {
-  const courseDummy = {
-    title: "Course 1",
-    code: "IS3500",
-    credits: 4,
-    assessments: [
-      { title: "Assessment 2", weighting: 50, versions: [1, 2, 3] },
-    ],
-  };
+interface AssessmentDetailsProps {
+  newVersion: NewVersion | undefined;
+}
+
+const AssessmentDetails: React.FC<AssessmentDetailsProps> = ({
+  newVersion,
+}) => {
+  if (!newVersion) {
+    return null;
+  }
+
   const displayCourse = [
-    { displayName: "Course Title", displayValue: courseDummy.title },
-    { displayName: "Course Code", displayValue: courseDummy.code },
+    { displayName: "Course Title", displayValue: newVersion.title },
+    { displayName: "Course Code", displayValue: newVersion.code },
     { displayName: "FHEQ", displayValue: "Level 4" },
-    { displayName: "Sitting", displayValue: "First Sitting" },
     {
-      displayName: "Assessment",
-      displayValue: courseDummy.assessments[0].title,
+      displayName: "Assessment Activity",
+      displayValue: newVersion.activity,
     },
-    {
-      displayName: "Version",
-      displayValue: courseDummy.assessments[0].versions[2],
-    },
-    { displayName: "Assessment Number", displayValue: "AE4" },
+    { displayName: "Assessment Number", displayValue: "AE" + newVersion.ae },
     {
       displayName: "Assessment Weighting",
-      displayValue: courseDummy.assessments[0].weighting + " %",
+      displayValue: newVersion.weight + " %",
     },
   ];
   return (
@@ -76,6 +74,14 @@ const AssessmentDetails: React.FC = () => {
           <TableRow>
             <TableCell variant="head" sx={{ fontWeight: "bold" }}>
               Course Leader
+            </TableCell>
+            <TableCell align="right">
+              <TextField variant="outlined" size="small" fullWidth />
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell variant="head" sx={{ fontWeight: "bold" }}>
+              Sitting
             </TableCell>
             <TableCell align="right">
               <TextField variant="outlined" size="small" fullWidth />
