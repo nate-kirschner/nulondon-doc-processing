@@ -91,3 +91,8 @@ class Templates(models.Model):
 class Approver(models.Model):
     name = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
+
+# Relation Table for approvers and templates
+class ApproversTeamplates(models.Model):
+    approverID = models.ForeignKey(Approver, on_delete=models.CASCADE)
+    templateID = models.ForeignKey(Templates, on_delete=models.CASCADE)
