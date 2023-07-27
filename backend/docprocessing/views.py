@@ -1,5 +1,5 @@
 # Create your views here.
-from .models import Course, Templates, Assessment, LearningOutcomes
+from .models import Course, Templates, Assessment, LearningOutcomes, Approver
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.forms.models import model_to_dict
@@ -143,3 +143,18 @@ def new_version(request, course_code, assessment_id):
     json_string = json.dumps(new_v)
     response = HttpResponse(json_string, headers=HEADERS)
     return response
+
+
+def approve_version(request, template_id, approval_status, hashed_email):
+    template = Templates.objects.filter(id=template_id)
+    if not template:
+        return HttpResponse("Invalid template ID", status_code=400)
+
+    eligible_approvers = template.approvers.split(",")
+    for approver_id in eligible_approvers:
+        approver = Approver.objects.filter(id=approver_id)
+        if approver and approver.email == hashed_email:
+            template.approval_status = approval_status
+            return HttpResponse("Success", status_code=200)
+
+    return HttpResponse("Approver not eligible for this template", status_code=400)

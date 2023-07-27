@@ -81,10 +81,17 @@ class Templates(models.Model):
     class Meta:
         unique_together = (('version', 'assessment_key', 'course_code'),)
 
+    class ApprovalStatus(models.IntegerChoices):
+        DENIED = 0, "Denied"
+        PENDING = 1, "Pending"
+        APPROVED = 2, "Approved"
+
     version = models.IntegerField()
     assessment_key = models.ForeignKey(Assessment, on_delete=models.CASCADE)
     course_code = models.ForeignKey(
         Course, to_field='course_code', on_delete=models.CASCADE)
+    approval_status = models.IntegerField(choices=ApprovalStatus.choices, default=ApprovalStatus.PENDING, verbose_name="Approval Status")
+    approvers = models.CharField(max_length=255, default="") # comma separated approver ids
     template = models.JSONField()
 
 # Table for mock approvers'emails
