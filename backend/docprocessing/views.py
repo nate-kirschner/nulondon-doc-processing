@@ -1,11 +1,13 @@
 # Create your views here.
-from .models import Course, Templates, Assessment, LearningOutcomes, ApproversTemplates
+from .models import Course, Template, Assessment, LearningOutcome
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.forms.models import model_to_dict
 from django.core import serializers
 from django.core.paginator import Paginator
 import json
+from django.views.decorators.csrf import csrf_exempt
+from .sendEmails import send_email_to_approvers
 
 # Global headers for all responses
 HEADERS = {
@@ -29,7 +31,7 @@ def assessments(request, course_code):
     assessments = Assessment.objects.filter(course_code=course_code)
     assessmentsDict = [model_to_dict(l) for l in assessments]
     for a in assessmentsDict:
-        versions = Templates.objects.filter(
+        versions = Template.objects.filter(
             course_code_id=course_code, assessment_key_id=a['id'])
         a['versions'] = [l.version for l in versions]
 
@@ -41,7 +43,7 @@ def assessments(request, course_code):
 
 
 def learning_outcomes(request, course_code):
-    learning_outcomes = LearningOutcomes.objects.filter(
+    learning_outcomes = LearningOutcome.objects.filter(
         course_code=course_code)
     return createHTTPResponse(learning_outcomes)
 
@@ -94,7 +96,7 @@ def course_templates(request, course_code):
     assessments = Assessment.objects.filter(course_code=course_code)
     assessments_list = list(assessments.values('id', 'activity'))
     for assessment in assessments_list:
-        templates = Templates.objects.filter(
+        templates = Template.objects.filter(
             course_code=course_code, assessment_key=assessment['id'])
         assessment['versions'] = list(
             templates.values_list('version', flat=True))
@@ -104,9 +106,8 @@ def course_templates(request, course_code):
     return response
 
 
-# Returns a template given based of a course code, assessment id and version
 def template(request, courseId, assessmentId, version):
-    template = Templates.objects.filter(
+    template = Template.objects.filter(
         version=version, assessment_key=assessmentId, course_code=courseId)
     return createHTTPResponse(template)
 
@@ -132,7 +133,7 @@ def new_version(request, course_code, assessment_id):
     full_learning_outcomes = []
 
     for learning_outcome in learning_outcome_codes_list:
-        learning_out = LearningOutcomes.objects.filter(
+        learning_out = LearningOutcome.objects.filter(
             code=learning_outcome, course_code=course_code)
         for lo in learning_out:
             lo = model_to_dict(lo, fields=["id", "text_desc"])
@@ -144,8 +145,24 @@ def new_version(request, course_code, assessment_id):
     response = HttpResponse(json_string, headers=HEADERS)
     return response
 
-def send_emails(request, version, course_code, assessment_id):
-    template_id = Templates.objects.filter(version=version, assessment_key=assessment_id, course_code=course_code)
-    approvers = ApproversTemplates.objects.get(templateID=template_id)
-    response = createHTTPResponse(approvers)
-    return response 
+# error w/o csrf_exempt
+# Forbidden (CSRF cookie not set.): /send-approver-email/
+# "POST /send-approver-email/ HTTP/1.1" 403 2870
+@csrf_exempt
+def send_emails(request):
+    """
+    This function sends an email to an Approver with a custom link to a Template
+    The request body should be formatted: 
+     {'ApproverIDs': [], 'TemplateID': int}
+    """
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            send_email_to_approvers(data["ApproverIDs"], data["TemplateID"])
+        except json.JSONDecodeError:
+            return HttpResponse("/send-approver-email recieved invalid JSON", headers=HEADERS)    
+
+    return HttpResponse("/send-approver-email sent email", headers=HEADERS)   
+
+
+

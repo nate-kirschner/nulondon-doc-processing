@@ -1,4 +1,4 @@
-from .models import Course, Assessment, LearningOutcomes, Approval, Templates, Approver, ApproversTemplates
+from .models import Course, Assessment, LearningOutcome, Approval, Template, Approver, ApproverTemplate
 from django.contrib import admin
 
 
@@ -59,7 +59,7 @@ class ApprovalAdmin(admin.ModelAdmin):
     )
 
 
-class TemplatesAdmin(admin.ModelAdmin):
+class TemplateAdmin(admin.ModelAdmin):
     list_display = (
         'version',
         'assessment_key',
@@ -71,9 +71,10 @@ class ApproverAdmin(admin.ModelAdmin):
     list_display = (
         'name',
         'email',
+        'hashed_email'
     )
 
-class ApproversTemplatesAdmin(admin.ModelAdmin):
+class ApproverTemplateAdmin(admin.ModelAdmin):
     list_display = (
         'approverID',
         'templateID',
@@ -83,8 +84,8 @@ class ApproversTemplatesAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Assessment, AssessmentAdmin)
-admin.site.register(LearningOutcomes, LOAdmin)
+admin.site.register(LearningOutcome, LOAdmin)
 admin.site.register(Approval, ApprovalAdmin)
-admin.site.register(Templates, TemplatesAdmin)
+admin.site.register(Template, TemplateAdmin)
 admin.site.register(Approver, ApproverAdmin)
-admin.site.register(ApproversTemplates, ApproversTemplatesAdmin)
+admin.site.register(ApproverTemplate, ApproverTemplateAdmin)

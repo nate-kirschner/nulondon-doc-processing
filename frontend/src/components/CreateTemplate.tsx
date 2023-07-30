@@ -21,6 +21,8 @@ import AcademicMisconduct from "./TemplatePage/AcademicMisconduct";
 import TemplateRow from "./TemplateRow";
 import SaveButtons from "./SaveButtons";
 import AssessmentDetails from "./TemplatePage/AssessmentDetails";
+import MockSendApproverEmail from "./TemplatePage/MockSendApproverEmail";
+import CSRFToken from "./csrftoken";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { NewVersion } from "../types/newVersion";
@@ -30,10 +32,9 @@ const CreateTemplate: React.FC = () => {
   const [newVersion, setNewVersion] = useState<NewVersion | undefined>();
   const [searchParams] = useSearchParams();
 
-  
-  const getCode = searchParams.get('courseId');
+  const getCode = searchParams.get("courseId");
 
-  const getAE = searchParams.get('assessmentId');
+  const getAE = searchParams.get("assessmentId");
 
   const handleNextAccordion = () => {
     setActiveAccordion((prevIndex) => {
@@ -51,11 +52,12 @@ const CreateTemplate: React.FC = () => {
     setActiveAccordion((prevIndex) => Math.max((prevIndex ?? 0) - 1, 0));
   };
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/new_version/' + getCode + '/' + getAE);
+        const response = await axios.get(
+          "http://127.0.0.1:8000/new_version/" + getCode + "/" + getAE + "/"
+        );
         setNewVersion(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -101,7 +103,7 @@ const CreateTemplate: React.FC = () => {
                 handlePreviousAccordion={handlePreviousAccordion}
                 setActiveAccordion={setActiveAccordion}
               >
-                <AssessmentDetails newVersion={newVersion}/>
+                <AssessmentDetails newVersion={newVersion} />
               </TemplateRow>
 
               <TemplateRow
@@ -145,7 +147,7 @@ const CreateTemplate: React.FC = () => {
                 handlePreviousAccordion={handlePreviousAccordion}
                 setActiveAccordion={setActiveAccordion}
               >
-                <LearningOutcomes newVersion={newVersion}/>
+                <LearningOutcomes newVersion={newVersion} />
               </TemplateRow>
 
               <TemplateRow
@@ -191,10 +193,22 @@ const CreateTemplate: React.FC = () => {
               >
                 <AcademicMisconduct />
               </TemplateRow>
+
+              <TemplateRow
+                title="Send Approver Email"
+                isExpanded={activeAccordion === 9}
+                index={9}
+                handleNextAccordion={handleNextAccordion}
+                handlePreviousAccordion={handlePreviousAccordion}
+                setActiveAccordion={setActiveAccordion}
+              >
+                <CSRFToken />
+                <MockSendApproverEmail />
+              </TemplateRow>
             </TableBody>
           </Table>
         </TableContainer>
-        <SaveButtons/>
+        <SaveButtons />
       </React.Fragment>
     </Box>
   );
