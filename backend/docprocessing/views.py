@@ -210,3 +210,28 @@ def get_approvers(request):
     json_string = json.dumps(approvers_list)
     response = HttpResponse(json_string, headers=HEADERS)
     return response
+
+@csrf_exempt
+def save_new_template(request, course_code, assessment_id):
+    """
+    Saves a new template to the Template table. Takes a POST request from the frontend 
+    containing course_code, assessment_id, and request.body containing JSON template content.
+    """
+    if request.method == 'POST':
+        try:
+            body = json.loads(request.body)
+            new_template_data = body.get('template')
+            approvers = body.get('approvers')
+            new_template_version = Template.objects.filter(course_code=course_code, assessment_id=assessment_id).count() + 1
+            new_version = Template.objects.create(version=new_template_version, assessment_key=assessment_id, 
+                                   course_code=course_code, template=new_template_data)
+            for id in approvers:
+                ApproverTemplate.objects.create(approverID=id, templateID=new_version.id)
+
+            send_email_to_approvers(approvers, new_version.id)
+            
+            return HttpResponse("/save_new_template Successfully added new Template", headers=HEADERS)    
+
+        except json.JSONDecodeError:
+            return HttpResponse("/save_new_template recieved invalid JSON", headers=HEADERS)    
+
