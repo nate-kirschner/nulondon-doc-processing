@@ -106,8 +106,14 @@ def course_templates(request, course_code):
     response = HttpResponse(json_string, headers=HEADERS)
     return response
 
+# Returns a template given based of a course code, assessment id and version
+def template(request, courseId, assessmentId, version):
+    template = Template.objects.filter(
+        version=version, assessment_key=assessmentId, course_code=courseId)
+    return createHTTPResponse(template)
 
-def template(request, templateId):
+
+def template_by_id(request, templateId):
     """
     Gets a template by its id
     """
