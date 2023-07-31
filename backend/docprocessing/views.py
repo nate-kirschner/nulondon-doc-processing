@@ -107,16 +107,11 @@ def course_templates(request, course_code):
     return response
 
 
-def template(request, templateId):
-    """
-    Gets a template by its id
-    """
-    template = get_object_or_404(Template, id=templateId)
-    json_string = json.dumps(model_to_dict(template))
+def template(request, courseId, assessmentId, version):
+    template = Template.objects.filter(
+        version=version, assessment_key=assessmentId, course_code=courseId)
+    return createHTTPResponse(template)
 
-    response = HttpResponse(json_string, headers=HEADERS)
-    return response
-   
 
 # Autofills some fields when creating a new template given a course code and assessment id
 
@@ -155,6 +150,8 @@ def new_version(request, course_code, assessment_id):
 # error w/o csrf_exempt
 # Forbidden (CSRF cookie not set.): /send-approver-email/
 # "POST /send-approver-email/ HTTP/1.1" 403 2870
+
+
 @csrf_exempt
 def send_emails(request):
     """
@@ -167,9 +164,10 @@ def send_emails(request):
             data = json.loads(request.body)
             send_email_to_approvers(data["ApproverIDs"], data["TemplateID"])
         except json.JSONDecodeError:
-            return HttpResponse("/send-approver-email recieved invalid JSON", headers=HEADERS)    
+            return HttpResponse("/send-approver-email recieved invalid JSON", headers=HEADERS)
 
-    return HttpResponse("/send-approver-email sent email", headers=HEADERS)   
+    return HttpResponse("/send-approver-email sent email", headers=HEADERS)
+
 
 @csrf_exempt
 def update_template_status(request, hashedApproverEmail, templateId):
@@ -179,22 +177,26 @@ def update_template_status(request, hashedApproverEmail, templateId):
 
             # check if hashed_email has permission to approve assessment
             try:
-                approver = get_object_or_404(Approver, hashed_email=hashedApproverEmail)
-                get_object_or_404(ApproverTemplate, approverID=approver.id, templateID=templateId)
+                approver = get_object_or_404(
+                    Approver, hashed_email=hashedApproverEmail)
+                get_object_or_404(
+                    ApproverTemplate, approverID=approver.id, templateID=templateId)
                 template = get_object_or_404(Template, id=templateId)
                 template.status = data["status"]
                 template.save()
-   
+
             except Http404:
-                return HttpResponse("/update_template_status Unable to update template status", headers=HEADERS)    
+                return HttpResponse("/update_template_status Unable to update template status", headers=HEADERS)
 
         except json.JSONDecodeError:
-            return HttpResponse("/update_template_status recieved invalid JSON", headers=HEADERS)    
+            return HttpResponse("/update_template_status recieved invalid JSON", headers=HEADERS)
 
-    return HttpResponse("/update_template_status successfully udpated status", headers=HEADERS)   
-  
+    return HttpResponse("/update_template_status successfully udpated status", headers=HEADERS)
+
+
 def tobe_approved_list(request, approverID):
-    tobe_approved_list = ApproverTemplate.objects.filter(approverID=approverID, templateID__status="Pending")
+    tobe_approved_list = ApproverTemplate.objects.filter(
+        approverID=approverID, templateID__status="Pending")
     return createHTTPResponse(tobe_approved_list)
 
 
@@ -207,4 +209,3 @@ def get_approvers(request):
     json_string = json.dumps(approvers_list)
     response = HttpResponse(json_string, headers=HEADERS)
     return response
-

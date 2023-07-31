@@ -1,0 +1,50 @@
+{
+  "marking": "The University uses two common assessment marking schemes – one for undergraduate and one for postgraduate – to mark all taught programmes leading to an award of the University. More detailed information on the common assessment marking scheme and the criteria can be found in the Course Syllabus, available on the University’s VLE.",
+  "assessmentTask": "This assessment requires producing a presentation of a data science solution solving a real-world problem. For example, you can use the programming with data skills that you acquired during the course to analyse the air pollution in London. You will need to submit a slide show consisting of a maximum 5 slides in PDF format and a 5-minute video presenting your slides. Your presentation should include a description of the problem, your chosen dataset, your applied data science methods, and appropriate data visualisations. Optionally, you may also have an opportunity to communicate your work to your fellow students in-class.",
+  "lateSubmissions": "Late Submission Policy",
+  "learningOutcomes": [
+    "Learning Outcome 1",
+    "Learning Outcome 2",
+    "Learning Outcome 3"
+  ],
+  "assessingFeedback": "Students can expect to receive feedback on all summative coursework within 20 working days of the submission deadline. The 28 calendar day deadline does not apply to work submitted late. Feedback can be accessed through the Turnitin assessment link on the course page. Further instructions on submitting an assessment and accessing feedback can be found on the University’s VLE.",
+  "assessmentDetails": {
+    "FHEQ": "Text",
+    "sitting": "Text",
+    "version": 4,
+    "issueDate": "01-01-2023",
+    "weighting": "50%",
+    "courseCode": "IS3500",
+    "handInDate": "01-01-2023",
+    "courseTitle": "Course Title Example",
+    "courseLeader": "Ian",
+    "restrictions": "Text",
+    "assessmentType": "Text",
+    "assessmentTitle": "Tittle",
+    "assessmentNumber": "Number",
+    "feedbackDeadline": "01-01-2023",
+    "modeOfSubmission": "Mode of Submission",
+    "anonymousMarketing": true
+  },
+  "academicMisconduct": "Any submission must be a student’s own work and, where facts or ideas have been used from other sources, these sources must be appropriately referenced. The Academic Misconduct Policy includes the definitions of all practices that will be deemed to constitute academic misconduct. Students should check this policy before submitting their work. Students suspected of committing Academic Misconduct will face action under the Policy. Where students are found to have committed an offence they will be subject to sanction, which may include failing an assessment, failing a course or being dismissed from the University depending upon the severity of the offence committed.",
+  "assessmentCriteria": {
+    "gradeRanges": [
+      {
+        "min": 70,
+        "max": 100,
+        "description": "There was evidence of the ability to perform all programming tasks correctly. The demonstration of the methods was excellent, coherent, well documented and clearly explained."
+      },
+      {
+        "min": 60,
+        "max": 69,
+        "description": "There was evidence of ability to perform some programming tasks correctly. The demonstration of the methods is good, coherent and reasonably detailed and explained."
+      },
+      {
+        "min": 0,
+        "max": 59,
+        "description": "Failure to solve the programming task in assignment. Methods were completely incorrect or absent."
+      }
+    ]
+  },
+  "extenuatingCircumstances": "The University’s Extenuating Circumstances procedure is in place if there are genuine circumstances that may prevent a student submitting an assessment. If the EC application is successful, there will be no academic penalty for missing the published submission deadline. Students are reminded that EC covers only short-term issues (within 28 days leading to the submission deadline) and that if they experience longer-term matters that impact on learning then they must contact Student Support and Development for advice."
+}

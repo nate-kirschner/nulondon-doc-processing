@@ -29,7 +29,7 @@ const getTemplate = async (
 ): Promise<Template> => {
   const slicedVersion = version.slice(1);
   const response = await axios.get<{ fields: { template: Template } }[]>(
-    `http://127.0.0.1:8000/template/${courseId}/${assessmentId}/${slicedVersion}`
+    `http://127.0.0.1:8000/template/${courseId}/${assessmentId}/${slicedVersion}/`
   );
   return response.data[0].fields.template;
 };
@@ -117,6 +117,7 @@ export const generateWordDocument = async (
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
   Packer.toBlob(doc).then((blob) => {
     const docblob = blob.slice(0, blob.size, mimeType);
+    console.log("docblob", docblob);
     saveAs(docblob, "testDoc.docx");
   });
 };
