@@ -18,16 +18,12 @@ HEADERS = {
 }
 
 # HTTP response helper function: list of Django model objects -> HTTP response
-
-
 def createHTTPResponse(object):
     ser_obj = serializers.serialize('json', object)
     response = HttpResponse(ser_obj, headers=HEADERS)
     return response
 
 # Returns an assessment object given a primary key
-
-
 def assessments(request, course_code):
     assessments = Assessment.objects.filter(course_code=course_code)
     assessmentsDict = [model_to_dict(l) for l in assessments]
@@ -43,16 +39,12 @@ def assessments(request, course_code):
     return response
 
 # Returns a list of learning outcomes given a course code
-
-
 def learning_outcomes(request, course_code):
     learning_outcomes = LearningOutcome.objects.filter(
         course_code=course_code)
     return createHTTPResponse(learning_outcomes)
 
 # Returns a list of courses
-
-
 def courses(request):
     courses = Course.objects.all()
     output = []
@@ -69,32 +61,8 @@ def courses(request):
     return response
 
 
-def courses_paginated(request, page, pageSize):
-    number_of_courses = Course.objects.all().count()
-    if page < 1 or page > number_of_courses // pageSize + 1:
-        return HttpResponse("Bad page number", status_code=400)
-
-    paginator = Paginator(Course.objects.all(), pageSize)
-    courses = paginator.get_page(page)
-    output = []
-
-    for course in courses:
-        course_with_assessments = {}
-        course_with_assessments['title'] = course.title
-        course_with_assessments['code'] = course.course_code
-        output.append(course_with_assessments)
-
-    dict_response = {
-        "total_courses": number_of_courses,
-        "courses": output,
-    }
-    json_string = json.dumps(dict_response)
-    response = HttpResponse(json_string, headers=HEADERS)
-    return response
 
 # Gets all templates associated with a certain course
-
-
 def course_templates(request, course_code):
     assessments = Assessment.objects.filter(course_code=course_code)
     assessments_list = list(assessments.values('id', 'activity'))
@@ -109,8 +77,6 @@ def course_templates(request, course_code):
     return response
 
 # Returns a template given based of a course code, assessment id and version
-
-
 def template(request, courseId, assessmentId, version):
     template = Template.objects.filter(
         version=version, assessment_key=assessmentId, course_code=courseId)
@@ -126,8 +92,6 @@ def template_by_id(request, templateId):
 
 
 # Autofills some fields when creating a new template given a course code and assessment id
-
-
 def new_version(request, course_code, assessment_id):
     new_v = {}
     course = get_object_or_404(Course, course_code=course_code)
@@ -162,8 +126,6 @@ def new_version(request, course_code, assessment_id):
 # error w/o csrf_exempt
 # Forbidden (CSRF cookie not set.): /send-approver-email/
 # "POST /send-approver-email/ HTTP/1.1" 403 2870
-
-
 @csrf_exempt
 def send_emails(request):
     """
@@ -181,6 +143,7 @@ def send_emails(request):
     return HttpResponse("/send-approver-email sent email", headers=HEADERS)
 
 
+# Approve template status based on given email and status data
 @csrf_exempt
 def update_template_status(request, hashedApproverEmail, templateId):
     if request.method == 'POST':
@@ -206,6 +169,7 @@ def update_template_status(request, hashedApproverEmail, templateId):
     return HttpResponse("/update_template_status successfully udpated status", headers=HEADERS)
 
 
+# Get list of templates to be approved
 def tobe_approved_list(request, approverID):
     tobe_approved_list = ApproverTemplate.objects.filter(
         approverID=approverID, templateID__status="Pending")
