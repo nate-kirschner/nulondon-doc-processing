@@ -30,5 +30,7 @@ urlpatterns = [
     path('template-by-id/<str:templateId>/', views.template_by_id),
     path('new_version/<str:course_code>/<str:assessment_id>/', views.new_version),
     path('send-approver-email/', views.send_emails),
-    path('update-template-status/<str:hashedApproverEmail>/<int:templateId>/', views.update_template_status) 
+    path('update-template-status/<str:hashedApproverEmail>/<int:templateId>/', views.update_template_status), 
+    path('get-approvers/', views.get_approvers),
+    path('tobe_approved_list/<str:approverID>/', views.tobe_approved_list),
 ]
