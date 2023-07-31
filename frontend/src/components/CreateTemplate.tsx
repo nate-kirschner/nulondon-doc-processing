@@ -27,6 +27,7 @@ import CSRFToken from "./csrftoken";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { NewVersion } from "../types/newVersion";
+import AddApprovers from "./TemplatePage/AddApprovers";
 
 const CreateTemplate: React.FC = () => {
   const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
@@ -202,15 +203,15 @@ const CreateTemplate: React.FC = () => {
               >
                 <AcademicMisconduct />
               </TemplateRow>
-
               <TemplateRow
-                title="Send Approver Email"
+                title="Add Approvers"
                 isExpanded={activeAccordion === 9}
                 index={9}
                 handleNextAccordion={handleNextAccordion}
                 handlePreviousAccordion={handlePreviousAccordion}
                 setActiveAccordion={setActiveAccordion}
               >
+                <AddApprovers/>
                 <CSRFToken />
                 <MockSendApproverEmail />
               </TemplateRow>
