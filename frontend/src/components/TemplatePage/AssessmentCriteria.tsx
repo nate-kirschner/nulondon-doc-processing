@@ -71,15 +71,6 @@ const AssessmentCriteriaComponent: React.FC<AssessmentCriteriaProps> = ({
     }
   };
 
-  // updates the field when the user types by iterating through the textFields
-  const handleChangeTextField = (id: number, field: string, value: string) => {
-    setTextFields((prevTextFields) =>
-      prevTextFields.map((entry) =>
-        entry.id === id ? { ...entry, [field]: value } : entry
-      )
-    );
-  };
-
   return (
     <Box>
       {textFields.map((entry) => (

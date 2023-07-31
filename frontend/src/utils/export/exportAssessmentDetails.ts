@@ -57,10 +57,7 @@ const creatAssessmentDetailsTable = (details: AssessmentDetails) => {
         "Hand In Deadline",
         new Date(details.handInDate).toISOString()
       ),
-      createTableRow(
-        "Planned Feedback Deadline",
-        new Date(details.feedbackDeadline).toISOString()
-      ),
+      createTableRow("Planned Feedback Deadline", details.feedbackDeadline),
       createTableRow("Mode of Submission", details.modeOfSubmission),
       createTableRow(
         "Anonymous Marking",

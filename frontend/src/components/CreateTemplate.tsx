@@ -67,6 +67,8 @@ const CreateTemplate: React.FC = () => {
   const [learningOutcome, setLearningOutcome] =
     useState<LearningOutcomeSections>();
 
+  const [approvers, setApprovers] = useState<number[]>([]);
+
   // handles accordion open and close
   const handleNextAccordion = () => {
     setActiveAccordion((prevIndex) => Math.min((prevIndex ?? 0) + 1, 10));
@@ -94,7 +96,7 @@ const CreateTemplate: React.FC = () => {
     fetchData();
   }, [getCode, getAE]);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (
       assessmentDetails === undefined ||
       assessmentTask === undefined ||
@@ -120,6 +122,10 @@ const CreateTemplate: React.FC = () => {
       extenuatingCircumstances: extenuatingCircumstances,
       academicMisconduct: academicMisconduct,
     };
+    await axios.post(
+      `http://127.0.0.1:8000/save-new-template/${getCode}/${getAE}/`,
+      { template, approvers }
+    );
   };
 
   return (
@@ -284,7 +290,7 @@ const CreateTemplate: React.FC = () => {
                   handlePreviousAccordion={handlePreviousAccordion}
                   setActiveAccordion={setActiveAccordion}
                 >
-                  <AddApprovers />
+                  <AddApprovers setApprovers={setApprovers} />
                   <CSRFToken />
                   <MockSendApproverEmail />
                 </TemplateRow>
@@ -292,7 +298,7 @@ const CreateTemplate: React.FC = () => {
             )}
           </Table>
         </TableContainer>
-        <SaveButtons />
+        <SaveButtons handleSave={handleSave} />
       </React.Fragment>
     </Box>
   );

@@ -6,10 +6,10 @@ import Spacer from "./Spacer";
 import { useNavigate } from "react-router-dom";
 
 interface SaveButtonsProps {
-  onSaveTemplate?: () => void; // Add a prop for the handler function to save all data
+  handleSave: () => void; // Add a prop for the handler function to save all data
 }
 
-const SaveButtons: React.FC<SaveButtonsProps> = ({ onSaveTemplate }) => {
+const SaveButtons: React.FC<SaveButtonsProps> = ({ handleSave }) => {
   const navigate = useNavigate();
   return (
     <Box style={{ display: "flex", justifyContent: "center", width: "100%" }}>
@@ -46,7 +46,7 @@ const SaveButtons: React.FC<SaveButtonsProps> = ({ onSaveTemplate }) => {
             opacity: 0.8,
           },
         }}
-        onClick={onSaveTemplate}
+        onClick={handleSave}
       >
         Save Version
       </Button>

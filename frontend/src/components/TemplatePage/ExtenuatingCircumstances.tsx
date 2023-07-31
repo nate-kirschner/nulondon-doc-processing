@@ -8,14 +8,13 @@ interface ExtenuatingCircumstancesProps {
 const ExtenuatingCircumstances: React.FC<ExtenuatingCircumstancesProps> = ({
   setExtenuatingCircumstances,
 }) => {
-  const [textFieldValue, setTextFieldValue] = useState<string>("");
+  const [textFieldValue, setTextFieldValue] = useState<string>(defaultText);
 
   useEffect(() => {
     if (textFieldValue === "") {
       return;
     }
     setExtenuatingCircumstances(textFieldValue);
-    console.log(textFieldValue);
   });
 
   return (
@@ -31,15 +30,13 @@ const ExtenuatingCircumstances: React.FC<ExtenuatingCircumstancesProps> = ({
         multiline
         rows={4}
         onChange={(e) => setTextFieldValue(e.target.value)}
-        defaultValue="The University’s Extenuating Circumstances procedure is in place if there are genuine 
-                circumstances that may prevent a student submitting an assessment. If the EC application is successful, 
-                there will be no academic penalty for missing the published submission deadline. Students are reminded 
-                that EC covers only short-term issues (within 28 days leading to the submission deadline) and that if 
-                they experience longer-term matters that impact on learning then they must contact Student Support and 
-                Development for advice. For further information, please refer to the Extenuating Circumstances Policy in the Academic Handbook."
+        value={textFieldValue}
       />
     </Box>
   );
 };
 
 export default ExtenuatingCircumstances;
+
+const defaultText =
+  "The University’s Extenuating Circumstances procedure is in place if there are genuine circumstances that may prevent a student submitting an assessment. If the EC application is successful, there will be no academic penalty for missing the published submission deadline. Students are reminded that EC covers only short-term issues (within 28 days leading to the submission deadline) and that if they experience longer-term matters that impact on learning then they must contact Student Support and Development for advice. For further information, please refer to the Extenuating Circumstances Policy in the Academic Handbook.";
