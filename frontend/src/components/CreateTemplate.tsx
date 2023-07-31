@@ -8,6 +8,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 import { colors } from "../theme";
 import AssessmentCriteria from "./TemplatePage/AssessmentCriteria";
@@ -52,19 +53,23 @@ const CreateTemplate: React.FC = () => {
     setActiveAccordion((prevIndex) => Math.max((prevIndex ?? 0) - 1, 0));
   };
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(
           "http://127.0.0.1:8000/new_version/" + getCode + "/" + getAE + "/"
         );
+        setLoading(false);
         setNewVersion(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
-  }, []);
+  }, [getCode, getAE]);
 
   return (
     <Box
@@ -90,6 +95,10 @@ const CreateTemplate: React.FC = () => {
                 </TableCell>
               </TableRow>
             </TableHead>
+            { loading ? 
+            <Box sx={{ backgroundColor: colors.gray, padding: "24px" }}>
+              <Typography sx={{ fontSize: "16px", textAlign: "center", color: colors.black }}>Loading...</Typography>
+            </Box> :
             <TableBody>
               <TableRow>
                 <TableCell colSpan={1}></TableCell>
@@ -206,6 +215,7 @@ const CreateTemplate: React.FC = () => {
                 <MockSendApproverEmail />
               </TemplateRow>
             </TableBody>
+            }
           </Table>
         </TableContainer>
         <SaveButtons />
