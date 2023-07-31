@@ -179,14 +179,8 @@ def update_template_status(request, hashedApproverEmail, templateId):
 
             # check if hashed_email has permission to approve assessment
             try:
-
                 approver = get_object_or_404(Approver, hashed_email=hashedApproverEmail)
                 get_object_or_404(ApproverTemplate, approverID=approver.id, templateID=templateId)
-
-                print("HERE")
-                print("UPDATE TEMPLATE STATUS TO: " + data["status"])
-                print(hashedApproverEmail)
-                print(templateId)
                 template = get_object_or_404(Template, id=templateId)
                 template.status = data["status"]
                 template.save()
@@ -194,11 +188,18 @@ def update_template_status(request, hashedApproverEmail, templateId):
             except Http404:
                 return HttpResponse("/update_template_status Unable to update template status", headers=HEADERS)    
 
-
         except json.JSONDecodeError:
             return HttpResponse("/update_template_status recieved invalid JSON", headers=HEADERS)    
 
     return HttpResponse("/update_template_status successfully udpated status", headers=HEADERS)   
 
 
-
+def get_approvers(request):
+    """
+    Returns all Approvers' names and emails
+    """
+    approvers = Approver.objects.all()
+    approvers_list = list(approvers.values('name', 'email'))
+    json_string = json.dumps(approvers_list)
+    response = HttpResponse(json_string, headers=HEADERS)
+    return response
