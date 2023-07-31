@@ -1,12 +1,9 @@
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import BrowseCourses from "./BrowseCourses";
 import CreateTemplate from "./CreateTemplate";
 import AssessmentRow from "./CoursesTable/AssessmentRow";
 import ApprovalTable from "./ApprovalPage/Approval";
+import FilledTemplateComponent from "./FilledTemplate";
 
 function AppRouter() {
   return (
@@ -15,6 +12,7 @@ function AppRouter() {
             <Route path="/" element={<BrowseCourses />} />
             <Route path="/template" element={<CreateTemplate />} />
             <Route path="/approval" element={<ApprovalTable />} />
+          <Route path="/filled-template" element={<FilledTemplateComponent />} />
         </Routes>
     </Router>
   );

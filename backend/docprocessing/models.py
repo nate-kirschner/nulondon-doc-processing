@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+import hashlib
 
 
 class Course(models.Model):
@@ -47,7 +48,7 @@ class Assessment(models.Model):
         return str(self.ae) + " " + self.course_code
 
 
-class LearningOutcomes(models.Model):
+class LearningOutcome(models.Model):
     class Types(models.TextChoices):
         KN_UNDERSTANDING = "K", _("Knowledge and Understanding")
         SUB_SPECIFIC = "S", _("Subject Specific Skills")
@@ -77,17 +78,34 @@ class Approval(models.Model):
         return "v" + str(self.version_num) + " of course " + self.course
 
 
-class Templates(models.Model):
+class Template(models.Model):
     class Meta:
         unique_together = (('version', 'assessment_key', 'course_code'),)
+    
+    class Status(models.TextChoices):
+        PENDING = "PENDING", _("Pending")
+        APPROVED = "APPROVED", _("Approved")
+        REJECTED = "REJECTED", _("Rejected")
 
     version = models.IntegerField()
     assessment_key = models.ForeignKey(Assessment, on_delete=models.CASCADE)
     course_code = models.ForeignKey(
         Course, to_field='course_code', on_delete=models.CASCADE)
+    status = models.CharField(max_length=10, choices=Status.choices, default=Status.PENDING)
     template = models.JSONField()
 
 # Table for mock approvers'emails
 class Approver(models.Model):
     name = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
+    hashed_email = models.CharField(max_length=255)
+
+    def save(self, *args, **kwargs):
+        self.hashed_email = hashlib.sha256(self.email.encode()).hexdigest()
+        super(Approver, self).save(*args, **kwargs)
+
+
+# Relation Table for approvers and templates
+class ApproverTemplate(models.Model):
+    approverID = models.ForeignKey(Approver, on_delete=models.CASCADE)
+    templateID = models.ForeignKey(Template, on_delete=models.CASCADE)
