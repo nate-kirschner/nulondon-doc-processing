@@ -4,7 +4,8 @@ Make sure you have `python` or `python3` installed first
 
 1. install django with `python -m pip install Django`
 2. install django's rest framework with `pip install djangorestframework`
-3. install mysqlclient using
+3. install django's CORS headers with `pip install django-cors-headers`
+4. install mysqlclient using
 
 Windows:
 ```
