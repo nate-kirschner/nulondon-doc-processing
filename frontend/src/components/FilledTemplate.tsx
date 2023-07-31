@@ -59,7 +59,7 @@ const FilledTemplateComponent: React.FC = () => {
           {filledTemplateData.template.extenuatingCircumstances}
         </p>
         <p>lateSubmissions: {filledTemplateData.template.lateSubmissions}</p>
-        <p>learningOutcomes: {filledTemplateData.template.learningOutcomes}</p>
+        {/* <p>learningOutcomes: {filledTemplateData.template.learningOutcomes}</p> */}
         <p>marking: {filledTemplateData.template.marking}</p>
       </div>
       <UpdateTemplateStatusButton

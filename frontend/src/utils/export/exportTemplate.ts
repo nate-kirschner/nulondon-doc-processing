@@ -113,7 +113,7 @@ export const generateWordDocument = async (
               }),
             ],
           }),
-          learningOutcomes,
+          ...learningOutcomes,
           assessingFeedback,
           lateSubmissions,
           extenuatingCircumstances,

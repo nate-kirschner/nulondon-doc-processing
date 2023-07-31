@@ -29,17 +29,32 @@ const AssessmentRow: React.FC<AssessmentRowProps> = ({
   courseId,
   assessmentId,
 }) => {
-  const versionToString = (version: number): string => {
-    return `v${version}`;
-  };
-
-  const [selectedVersion, setSelectedVersion] = useState(
-    versionToString(versions && versions[versions.length - 1]?.version)
+  const [selectedVersion, setSelectedVersion] = useState<Version | undefined>(
+    versions[versions.length - 1]
   );
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setSelectedVersion(event.target.value);
+  const versionToString = (version: Version): string => {
+    return `v${version.version}`;
   };
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setSelectedVersion(
+      versions.find(
+        (version) => event.target.value === versionToString(version)
+      )
+    );
+  };
+
+  const statusColor = (() => {
+    switch (selectedVersion?.status) {
+      case "APPROVED":
+        return "green";
+      case "PENDING":
+        return "#FDDA0D";
+      case "REJECTED":
+        return "red";
+    }
+  })();
 
   return (
     <AccordionDetails
@@ -54,18 +69,37 @@ const AssessmentRow: React.FC<AssessmentRowProps> = ({
     >
       <Typography sx={{ fontSize: "16px" }}>{activity}</Typography>
       <Box sx={{ display: "flex", columnGap: "24px" }}>
-        {versions.length > 0 && (
+        {selectedVersion && (
           <>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  height: "max-content",
+                  border: `2px solid ${statusColor}`,
+                  borderRadius: "15px",
+                  padding: "2px 5px",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: 900,
+                    color: statusColor,
+                  }}
+                >
+                  {selectedVersion.status}
+                </Typography>
+              </Box>
+            </Box>
             <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
               <InputLabel id="demo-simple-select-label">Version</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={selectedVersion}
+                value={versionToString(selectedVersion)}
                 label="Version"
                 onChange={handleChange}
               >
-                {versions.map(({ version }) => {
+                {versions.map((version) => {
                   return (
                     <MenuItem value={versionToString(version)}>
                       {versionToString(version)}
@@ -83,7 +117,11 @@ const AssessmentRow: React.FC<AssessmentRowProps> = ({
               }}
               color="secondary"
               onClick={() =>
-                generateWordDocument(courseId, assessmentId, selectedVersion)
+                generateWordDocument(
+                  courseId,
+                  assessmentId,
+                  versionToString(selectedVersion)
+                )
               }
             >
               Export

@@ -2,11 +2,30 @@
   "marking": "The University uses two common assessment marking schemes – one for undergraduate and one for postgraduate – to mark all taught programmes leading to an award of the University. More detailed information on the common assessment marking scheme and the criteria can be found in the Course Syllabus, available on the University’s VLE.",
   "assessmentTask": "This assessment requires producing a presentation of a data science solution solving a real-world problem. For example, you can use the programming with data skills that you acquired during the course to analyse the air pollution in London. You will need to submit a slide show consisting of a maximum 5 slides in PDF format and a 5-minute video presenting your slides. Your presentation should include a description of the problem, your chosen dataset, your applied data science methods, and appropriate data visualisations. Optionally, you may also have an opportunity to communicate your work to your fellow students in-class.",
   "lateSubmissions": "Late Submission Policy",
-  "learningOutcomes": [
-    "Learning Outcome 1",
-    "Learning Outcome 2",
-    "Learning Outcome 3"
-  ],
+  "learningOutcomes": {
+    "knowledge": [
+      {
+        "code": "K1a",
+        "text_desc": "Demonstrate knowledge and understanding of which data structure to use in Python."
+      },
+      {
+        "code": "K2a",
+        "text_desc": "Demonstrate knowledge and understanding of when to use an existing module and when to create a function."
+      }
+    ],
+    "subject": [
+      {
+        "code": "S1a",
+        "text_desc": "Engage in the theory behind the choice of an appropriate data structure."
+      }
+    ],
+    "transferable": [
+      {
+        "code": "T1a",
+        "text_desc": "Work independently, effectively, and to deadlines."
+      }
+    ]
+  },
   "assessingFeedback": "Students can expect to receive feedback on all summative coursework within 20 working days of the submission deadline. The 28 calendar day deadline does not apply to work submitted late. Feedback can be accessed through the Turnitin assessment link on the course page. Further instructions on submitting an assessment and accessing feedback can be found on the University’s VLE.",
   "assessmentDetails": {
     "FHEQ": "Text",
