@@ -27,6 +27,7 @@ urlpatterns = [
     path('assessments/<str:course_code>/', views.assessments),
     path('learning-outcomes/<str:course_code>/', views.learning_outcomes),
     path('template/<str:courseId>/<str:assessmentId>/<str:version>/', views.template),
+    path('template-by-id/<str:templateId>/', views.template_by_id),
     path('new_version/<str:course_code>/<str:assessment_id>/', views.new_version),
     path('send-approver-email/', views.send_emails),
     path('update-template-status/<str:hashedApproverEmail>/<int:templateId>/',
