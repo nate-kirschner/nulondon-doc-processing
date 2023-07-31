@@ -4,6 +4,7 @@ import { Template } from "../../types/template";
 import axios from "axios";
 import { exportAssessmentDetails } from "./exportAssessmentDetails";
 import { exportAssessmentCriteria } from "./exportAssessmentCriteria";
+import exportLearningOutcomes from "./exportLearningOutcomes";
 
 const createParagraphWithStringBody = (title: string, bodyText: string) => {
   return new Paragraph({
@@ -49,7 +50,7 @@ export const generateWordDocument = async (
     template.assessmentCriteria
   );
   const marking = createParagraphWithStringBody("Marking", template.marking);
-  const learningOutcomes = {};
+  const learningOutcomes = exportLearningOutcomes(template.learningOutcomes);
   const assessingFeedback = createParagraphWithStringBody(
     "Assessing Feedback",
     template.assessingFeedback
@@ -103,7 +104,16 @@ export const generateWordDocument = async (
           }),
           assessmentCriteria,
           marking,
-          //   learningOutcomes,
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: "Learning Outcomes",
+                break: 1,
+                size: 24,
+              }),
+            ],
+          }),
+          learningOutcomes,
           assessingFeedback,
           lateSubmissions,
           extenuatingCircumstances,

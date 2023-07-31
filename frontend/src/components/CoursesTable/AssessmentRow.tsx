@@ -9,9 +9,9 @@ import {
   SelectChangeEvent,
   Typography,
 } from "@mui/material";
-import { AssessmentPreview } from "../../types/assessments";
+import { AssessmentPreview, Version } from "../../types/assessments";
 import { colors } from "../../theme";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NewVersionB from "./NewVersionButton";
 
 import { generateWordDocument } from "../../utils/export/exportTemplate";
@@ -19,7 +19,7 @@ import { generateWordDocument } from "../../utils/export/exportTemplate";
 interface AssessmentRowProps extends AssessmentPreview {
   courseId: string;
   assessmentId: string;
-  versions: number[];
+  versions: Version[];
 }
 
 const AssessmentRow: React.FC<AssessmentRowProps> = ({
@@ -34,7 +34,7 @@ const AssessmentRow: React.FC<AssessmentRowProps> = ({
   };
 
   const [selectedVersion, setSelectedVersion] = useState(
-    versionToString(versions && versions[versions.length - 1])
+    versionToString(versions && versions[versions.length - 1]?.version)
   );
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -65,7 +65,7 @@ const AssessmentRow: React.FC<AssessmentRowProps> = ({
                 label="Version"
                 onChange={handleChange}
               >
-                {versions?.map((version) => {
+                {versions.map(({ version }) => {
                   return (
                     <MenuItem value={versionToString(version)}>
                       {versionToString(version)}

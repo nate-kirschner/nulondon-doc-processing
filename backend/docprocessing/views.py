@@ -34,10 +34,10 @@ def assessments(request, course_code):
     for a in assessmentsDict:
         versions = Template.objects.filter(
             course_code_id=course_code, assessment_key_id=a['id'])
-        a["versions  and status"] = []
+        a["versions"] = []
         for l in versions:
             ver_stat = {'version': l.version, 'status': l.status}
-            a["versions  and status"].append(ver_stat)
+            a["versions"].append(ver_stat)
     json_string = json.dumps(assessmentsDict)
     response = HttpResponse(json_string, headers=HEADERS)
     return response

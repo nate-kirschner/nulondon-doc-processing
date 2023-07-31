@@ -1,6 +1,6 @@
 type LearningOutcome = {
-    code: string;
-    text_desc: string;
-}
+  code: string;
+  text_desc: string;
+};
 
 export default LearningOutcome;
