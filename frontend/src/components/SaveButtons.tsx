@@ -6,7 +6,7 @@ import Spacer from "./Spacer";
 import { useNavigate } from "react-router-dom";
 
 interface SaveButtonsProps {
-  onSaveTemplate: () => void; // Add a prop for the handler function to save all data
+  onSaveTemplate?: () => void; // Add a prop for the handler function to save all data
 }
 
 const SaveButtons: React.FC<SaveButtonsProps> = ({ onSaveTemplate }) => {

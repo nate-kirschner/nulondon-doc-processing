@@ -21,6 +21,8 @@ import AcademicMisconduct from "./TemplatePage/AcademicMisconduct";
 import TemplateRow from "./TemplateRow";
 import SaveButtons from "./SaveButtons";
 import AssessmentDetails from "./TemplatePage/AssessmentDetails";
+import MockSendApproverEmail from "./TemplatePage/MockSendApproverEmail";
+import CSRFToken from "./csrftoken";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { NewVersion } from "../types/newVersion";
@@ -35,52 +37,6 @@ const CreateTemplate: React.FC = () => {
 
   const getAE = searchParams.get("assessmentId");
 
-  // const [];
-
-  // handler function to save all data from the child component
-  const handleSaveData = () => {
-    //   const templateData: Template = {
-    //     assessmentDetails: {
-    //       courseTitle: "",
-    //       courseCode: "",
-    //       FHEQ: "",
-    //       sitting: "",
-    //       assessmentTitle: "",
-    //       version: 0,
-    //       assessmentNumber: "",
-    //       weighting: "",
-    //       courseLeader: "",
-    //       assessmentType: "",
-    //       restrictions: "",
-    //       issueDate: "",
-    //       handInDate: "",
-    //       feedbackDeadline: "",
-    //       modeOfSubmission: "",
-    //       anonymousMarketing: true,
-    //     },
-    //     assessmentTask: "",
-    //     assessmentCriteria: {
-    //       gradeRanges: {
-    //         min: 0,
-    //         max: 0,
-    //         description: "",
-    //       },
-    //     },
-    //     marking: "",
-    //     learningOutcomes: {
-    //       knowledge: [],
-    //       subject: [],
-    //       transferable: [],
-    //     },
-    //     assessingFeedback: "",
-    //     lateSubmissions: "",
-    //     extenuatingCircumstances: "",
-    //     academicMisconduct: "",
-    //   };
-    //   console.log(templateData);
-    //   return templateData;
-  };
-
   const handleNextAccordion = () => {
     setActiveAccordion((prevIndex) => Math.min((prevIndex ?? 0) + 1, 0));
   };
@@ -93,7 +49,7 @@ const CreateTemplate: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/new_version/" + getCode + "/" + getAE
+          "http://127.0.0.1:8000/new_version/" + getCode + "/" + getAE + "/"
         );
         setNewVersion(response.data);
       } catch (error) {
@@ -230,10 +186,22 @@ const CreateTemplate: React.FC = () => {
               >
                 <AcademicMisconduct />
               </TemplateRow>
+
+              <TemplateRow
+                title="Send Approver Email"
+                isExpanded={activeAccordion === 9}
+                index={9}
+                handleNextAccordion={handleNextAccordion}
+                handlePreviousAccordion={handlePreviousAccordion}
+                setActiveAccordion={setActiveAccordion}
+              >
+                <CSRFToken />
+                <MockSendApproverEmail />
+              </TemplateRow>
             </TableBody>
           </Table>
         </TableContainer>
-        <SaveButtons onSaveTemplate={handleSaveData} />
+        <SaveButtons />
       </React.Fragment>
     </Box>
   );

@@ -44,3 +44,18 @@ export type Template = {
   extenuatingCircumstances: string;
   academicMisconduct: string;
 };
+
+export type FilledTemplate = {
+  id: number;
+  version: number;
+  assessment_key: number;
+  course_code: string;
+  status: TemplateStatus;
+  template: Template;
+};
+
+export enum TemplateStatus {
+  PENDING = "PENDING",
+  APPROVED = "APPROVED",
+  REJECTED = "REJECTED",
+}
