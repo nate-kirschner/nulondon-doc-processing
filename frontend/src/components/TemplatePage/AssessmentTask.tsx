@@ -8,14 +8,14 @@ interface AssessmentTaskProps {
 const AssessmentTask: React.FC<AssessmentTaskProps> = ({
   setAssessmentTask,
 }) => {
-  const [textFieldValue, setTextFieldValue] = useState<string>("");
+  const [textFieldValue, setTextFieldValue] = useState<string>(defaultText);
 
   useEffect(() => {
     if (textFieldValue === "") {
       return;
     }
     setAssessmentTask(textFieldValue);
-  });
+  }, [textFieldValue]);
 
   return (
     <Box>
@@ -30,10 +30,12 @@ const AssessmentTask: React.FC<AssessmentTaskProps> = ({
         multiline
         rows={4}
         onChange={(e) => setTextFieldValue(e.target.value)}
-        defaultValue="This assessment requires... You will be assessed on... "
+        value={textFieldValue}
       />
     </Box>
   );
 };
 
 export default AssessmentTask;
+
+const defaultText = "This assessment requires... You will be assessed on... ";

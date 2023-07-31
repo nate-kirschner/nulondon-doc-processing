@@ -7,14 +7,14 @@ interface MarkingProps {
 }
 
 const Marking: React.FC<MarkingProps> = ({ setMarking }) => {
-  const [textFieldValue, setTextFieldValue] = useState<string>("");
+  const [textFieldValue, setTextFieldValue] = useState<string>(defaultText);
 
   useEffect(() => {
     if (textFieldValue === "") {
       return;
     }
     setMarking(textFieldValue);
-  });
+  }, [textFieldValue]);
 
   return (
     <Box>
@@ -29,13 +29,13 @@ const Marking: React.FC<MarkingProps> = ({ setMarking }) => {
         multiline
         rows={4}
         onChange={(e) => setTextFieldValue(e.target.value)}
-        defaultValue="The University uses two common assessment marking schemes – 
-                one for undergraduate and one for postgraduate – to mark all taught programmes leading to
-                an award of the University. More detailed information on the common assessment marking scheme 
-                and the criteria can be found in the Course Syllabus, available on the University’s VLE."
+        value={textFieldValue}
       />
     </Box>
   );
 };
 
 export default Marking;
+
+const defaultText =
+  "The University uses two common assessment marking schemes – one for undergraduate and one for postgraduate – to mark all taught programmes leading to an award of the University. More detailed information on the common assessment marking scheme and the criteria can be found in the Course Syllabus, available on the University’s VLE.";

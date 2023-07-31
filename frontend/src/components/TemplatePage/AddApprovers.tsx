@@ -5,7 +5,11 @@ import { useEffect, useState } from "react";
 import { colors } from "../../theme";
 import Approver from "../../types/approver";
 
-const AddApprovers: React.FC = () => {
+interface AddApproversProps {
+  setApprovers: (approvers: number[]) => void;
+}
+
+const AddApprovers: React.FC<AddApproversProps> = ({ setApprovers }) => {
   const [approverField, setApproverField] = useState<Approver[]>([]);
   const [selectedApprovers, setSelectedApprovers] = useState<Approver[]>([
     { label: "", id: 0 },
@@ -30,6 +34,27 @@ const AddApprovers: React.FC = () => {
     }
   };
 
+  const handleTextChange = (
+    e: unknown,
+    value: Approver | null,
+    index: number
+  ) => {
+    setSelectedApprovers((prevApproverField) => {
+      return prevApproverField.map((app, appIndex) => {
+        if (appIndex === index) {
+          return (
+            value ?? {
+              label: "",
+              id: 0,
+            }
+          );
+        } else {
+          return app;
+        }
+      });
+    });
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -44,9 +69,13 @@ const AddApprovers: React.FC = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    setApprovers(selectedApprovers.map((app) => app.id));
+  }, [selectedApprovers]);
+
   return (
     <Box>
-      {selectedApprovers.map((entry) => (
+      {selectedApprovers.map((entry, index) => (
         <Box display="flex" alignItems="center">
           <Typography
             sx={{
@@ -65,6 +94,7 @@ const AddApprovers: React.FC = () => {
             options={approverField}
             sx={{ width: 300, paddingBottom: "10px" }}
             renderInput={(params) => <TextField {...params} label="Approver" />}
+            onChange={(e, value) => handleTextChange(e, value, index)}
           />
         </Box>
       ))}
