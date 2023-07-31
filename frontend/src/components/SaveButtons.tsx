@@ -22,7 +22,9 @@ const SaveButtons: React.FC = ()=> {
             opacity: 0.8,
           }
         }}
-        onClick={() => navigate("/")}
+        onClick={() => {
+          navigate("/");
+        }}
       >
         Cancel
       </Button>

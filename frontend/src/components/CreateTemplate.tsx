@@ -8,6 +8,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 import { colors } from "../theme";
 import AssessmentCriteria from "./TemplatePage/AssessmentCriteria";
@@ -26,6 +27,7 @@ import CSRFToken from "./csrftoken";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { NewVersion } from "../types/newVersion";
+import AddApprovers from "./TemplatePage/AddApprovers";
 
 const CreateTemplate: React.FC = () => {
   const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
@@ -52,19 +54,23 @@ const CreateTemplate: React.FC = () => {
     setActiveAccordion((prevIndex) => Math.max((prevIndex ?? 0) - 1, 0));
   };
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(
           "http://127.0.0.1:8000/new_version/" + getCode + "/" + getAE + "/"
         );
+        setLoading(false);
         setNewVersion(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
-  }, []);
+  }, [getCode, getAE]);
 
   return (
     <Box
@@ -90,6 +96,10 @@ const CreateTemplate: React.FC = () => {
                 </TableCell>
               </TableRow>
             </TableHead>
+            { loading ? 
+            <Box sx={{ backgroundColor: colors.gray, padding: "24px" }}>
+              <Typography sx={{ fontSize: "16px", textAlign: "center", color: colors.black }}>Loading...</Typography>
+            </Box> :
             <TableBody>
               <TableRow>
                 <TableCell colSpan={1}></TableCell>
@@ -193,19 +203,20 @@ const CreateTemplate: React.FC = () => {
               >
                 <AcademicMisconduct />
               </TemplateRow>
-
               <TemplateRow
-                title="Send Approver Email"
+                title="Add Approvers"
                 isExpanded={activeAccordion === 9}
                 index={9}
                 handleNextAccordion={handleNextAccordion}
                 handlePreviousAccordion={handlePreviousAccordion}
                 setActiveAccordion={setActiveAccordion}
               >
+                <AddApprovers/>
                 <CSRFToken />
                 <MockSendApproverEmail />
               </TemplateRow>
             </TableBody>
+            }
           </Table>
         </TableContainer>
         <SaveButtons />

@@ -18,16 +18,12 @@ HEADERS = {
 }
 
 # HTTP response helper function: list of Django model objects -> HTTP response
-
-
 def createHTTPResponse(object):
     ser_obj = serializers.serialize('json', object)
     response = HttpResponse(ser_obj, headers=HEADERS)
     return response
 
 # Returns an assessment object given a primary key
-
-
 def assessments(request, course_code):
     assessments = Assessment.objects.filter(course_code=course_code)
     assessmentsDict = [model_to_dict(l) for l in assessments]
@@ -43,16 +39,12 @@ def assessments(request, course_code):
     return response
 
 # Returns a list of learning outcomes given a course code
-
-
 def learning_outcomes(request, course_code):
     learning_outcomes = LearningOutcome.objects.filter(
         course_code=course_code)
     return createHTTPResponse(learning_outcomes)
 
 # Returns a list of courses
-
-
 def courses(request):
     courses = Course.objects.all()
     output = []
@@ -69,32 +61,8 @@ def courses(request):
     return response
 
 
-def courses_paginated(request, page, pageSize):
-    number_of_courses = Course.objects.all().count()
-    if page < 1 or page > number_of_courses // pageSize + 1:
-        return HttpResponse("Bad page number", status_code=400)
-
-    paginator = Paginator(Course.objects.all(), pageSize)
-    courses = paginator.get_page(page)
-    output = []
-
-    for course in courses:
-        course_with_assessments = {}
-        course_with_assessments['title'] = course.title
-        course_with_assessments['code'] = course.course_code
-        output.append(course_with_assessments)
-
-    dict_response = {
-        "total_courses": number_of_courses,
-        "courses": output,
-    }
-    json_string = json.dumps(dict_response)
-    response = HttpResponse(json_string, headers=HEADERS)
-    return response
 
 # Gets all templates associated with a certain course
-
-
 def course_templates(request, course_code):
     assessments = Assessment.objects.filter(course_code=course_code)
     assessments_list = list(assessments.values('id', 'activity'))
@@ -122,13 +90,8 @@ def template_by_id(request, templateId):
     template = get_object_or_404(Template, id=templateId)
     json_string = json.dumps(model_to_dict(template))
 
-    response = HttpResponse(json_string, headers=HEADERS)
-    return response
-   
 
 # Autofills some fields when creating a new template given a course code and assessment id
-
-
 def new_version(request, course_code, assessment_id):
     new_v = {}
     course = get_object_or_404(Course, course_code=course_code)
@@ -175,10 +138,12 @@ def send_emails(request):
             data = json.loads(request.body)
             send_email_to_approvers(data["ApproverIDs"], data["TemplateID"])
         except json.JSONDecodeError:
-            return HttpResponse("/send-approver-email recieved invalid JSON", headers=HEADERS)    
+            return HttpResponse("/send-approver-email recieved invalid JSON", headers=HEADERS)
 
-    return HttpResponse("/send-approver-email sent email", headers=HEADERS)   
+    return HttpResponse("/send-approver-email sent email", headers=HEADERS)
 
+
+# Approve template status based on given email and status data
 @csrf_exempt
 def update_template_status(request, hashedApproverEmail, templateId):
     if request.method == 'POST':
@@ -187,31 +152,42 @@ def update_template_status(request, hashedApproverEmail, templateId):
 
             # check if hashed_email has permission to approve assessment
             try:
-                approver = get_object_or_404(Approver, hashed_email=hashedApproverEmail)
-                get_object_or_404(ApproverTemplate, approverID=approver.id, templateID=templateId)
+                approver = get_object_or_404(
+                    Approver, hashed_email=hashedApproverEmail)
+                get_object_or_404(
+                    ApproverTemplate, approverID=approver.id, templateID=templateId)
                 template = get_object_or_404(Template, id=templateId)
                 template.status = data["status"]
                 template.save()
-   
+
             except Http404:
-                return HttpResponse("/update_template_status Unable to update template status", headers=HEADERS)    
+                return HttpResponse("/update_template_status Unable to update template status", headers=HEADERS)
 
         except json.JSONDecodeError:
-            return HttpResponse("/update_template_status recieved invalid JSON", headers=HEADERS)    
+            return HttpResponse("/update_template_status recieved invalid JSON", headers=HEADERS)
 
-    return HttpResponse("/update_template_status successfully udpated status", headers=HEADERS)   
-  
+    return HttpResponse("/update_template_status successfully udpated status", headers=HEADERS)
+
+
+# Get list of templates to be approved
 def tobe_approved_list(request, approverID):
-    tobe_approved_list = ApproverTemplate.objects.filter(approverID=approverID, templateID__status="Pending")
+    tobe_approved_list = ApproverTemplate.objects.filter(
+        approverID=approverID, templateID__status="Pending")
     return createHTTPResponse(tobe_approved_list)
 
 
 def get_approvers(request):
     """
-    Returns all Approvers' names and emails
+    Returns all Approvers' names (called labels) and ids
     """
     approvers = Approver.objects.all()
-    approvers_list = list(approvers.values('name', 'email'))
+    approvers_list = list(approvers.values('name', 'id'))
+
+    # rename "name" to "label"
+    for approver in approvers_list:
+        approver['label'] = approver.pop('name')
+
+
     json_string = json.dumps(approvers_list)
     response = HttpResponse(json_string, headers=HEADERS)
     return response
