@@ -22,7 +22,7 @@ const MockSendApproverEmail: React.FC = () => {
         console.log(response.data);
       })
       .catch((error) => {
-        console.log("Error From MockSendApproverEmail():", error);
+        console.log("Error From MockSendApproverEmail(): ", error);
       });
   };
 

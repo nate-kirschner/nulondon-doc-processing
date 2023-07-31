@@ -1,5 +1,5 @@
 # Create your views here.
-from .models import Course, Template, Assessment, LearningOutcome
+from .models import Course, Template, Assessment, LearningOutcome, Approver, ApproverTemplate
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.forms.models import model_to_dict
@@ -8,6 +8,7 @@ from django.core.paginator import Paginator
 import json
 from django.views.decorators.csrf import csrf_exempt
 from .sendEmails import send_email_to_approvers
+from django.http import Http404
 
 # Global headers for all responses
 HEADERS = {
@@ -106,10 +107,16 @@ def course_templates(request, course_code):
     return response
 
 
-def template(request, courseId, assessmentId, version):
-    template = Template.objects.filter(
-        version=version, assessment_key=assessmentId, course_code=courseId)
-    return createHTTPResponse(template)
+def template(request, templateId):
+    """
+    Gets a template by its id
+    """
+    template = get_object_or_404(Template, id=templateId)
+    json_string = json.dumps(model_to_dict(template))
+
+    response = HttpResponse(json_string, headers=HEADERS)
+    return response
+   
 
 # Autofills some fields when creating a new template given a course code and assessment id
 
@@ -163,6 +170,35 @@ def send_emails(request):
             return HttpResponse("/send-approver-email recieved invalid JSON", headers=HEADERS)    
 
     return HttpResponse("/send-approver-email sent email", headers=HEADERS)   
+
+@csrf_exempt
+def update_template_status(request, hashedApproverEmail, templateId):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+
+            # check if hashed_email has permission to approve assessment
+            try:
+
+                approver = get_object_or_404(Approver, hashed_email=hashedApproverEmail)
+                get_object_or_404(ApproverTemplate, approverID=approver.id, templateID=templateId)
+
+                print("HERE")
+                print("UPDATE TEMPLATE STATUS TO: " + data["status"])
+                print(hashedApproverEmail)
+                print(templateId)
+                template = get_object_or_404(Template, id=templateId)
+                template.status = data["status"]
+                template.save()
+   
+            except Http404:
+                return HttpResponse("/update_template_status Unable to update template status", headers=HEADERS)    
+
+
+        except json.JSONDecodeError:
+            return HttpResponse("/update_template_status recieved invalid JSON", headers=HEADERS)    
+
+    return HttpResponse("/update_template_status successfully udpated status", headers=HEADERS)   
 
 
 

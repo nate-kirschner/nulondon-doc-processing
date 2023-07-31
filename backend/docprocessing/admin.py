@@ -64,7 +64,8 @@ class TemplateAdmin(admin.ModelAdmin):
         'version',
         'assessment_key',
         'course_code',
-        'template'
+        'template',
+        'status',
     )
 
 class ApproverAdmin(admin.ModelAdmin):

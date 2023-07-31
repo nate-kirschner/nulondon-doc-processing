@@ -1,19 +1,17 @@
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import BrowseCourses from "./BrowseCourses";
 import CreateTemplate from "./CreateTemplate";
 import AssessmentRow from "./CoursesTable/AssessmentRow";
+import FilledTemplateComponent from "./FilledTemplate";
 
 function AppRouter() {
   return (
     <Router>
-        <Routes>
-            <Route path="/" element={<BrowseCourses />} />
-            <Route path="/template" element={<CreateTemplate />} />
-        </Routes>
+      <Routes>
+        <Route path="/" element={<BrowseCourses />} />
+        <Route path="/template" element={<CreateTemplate />} />
+        <Route path="/filled-template" element={<FilledTemplateComponent />} />
+      </Routes>
     </Router>
   );
 }
