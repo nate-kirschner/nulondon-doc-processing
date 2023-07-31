@@ -2,6 +2,7 @@ from .models import ApproverTemplate,  Approver
 import smtplib
 from email.mime.text import MIMEText
 
+
 def send_email_to_approvers(approverIDs: list, templateID: int):
     for approverID in approverIDs:
         # check if Approver is allowed to approve this template
@@ -10,7 +11,8 @@ def send_email_to_approvers(approverIDs: list, templateID: int):
             link = f"http://localhost:3000/filled-template?approver={approver.hashed_email}&templateID={templateID}"
             send_email_to_approvers_helper(approver.name, approver.email, link)
         else:
-            print(f"{approver.email} does not have permission to approve template {templateID}.")
+            print("LKSJDGHG")
+            # print(f"{approver.email} does not have permission to approve template {templateID}.")
 
 
 def send_email_to_approvers_helper(receiver_name: str, receiver_email: str, link: str):
@@ -20,7 +22,8 @@ def send_email_to_approvers_helper(receiver_name: str, receiver_email: str, link
     sender_email = 'processordoc@gmail.com'
     sender_password = 'TD14OkKwmNSx0pE3'
 
-    message = MIMEText(f"Hi {receiver_name}, \nClick the link to see the Assessment:\n{link}")
+    message = MIMEText(
+        f"Hi {receiver_name}, \nClick the link to see the Assessment:\n{link}")
     message['From'] = sender_email
     message['To'] = receiver_email
     message['Subject'] = 'Requested Assessment Approval'

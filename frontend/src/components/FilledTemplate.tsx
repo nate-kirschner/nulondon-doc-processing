@@ -52,7 +52,7 @@ const FilledTemplateComponent: React.FC = () => {
       }
     };
     fetchTemplateData();
-  }, []);
+  }, [template_id]);
 
   if (!filledTemplateData) {
     return <div>Loading...</div>;

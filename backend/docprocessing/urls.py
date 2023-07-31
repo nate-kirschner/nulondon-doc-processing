@@ -22,7 +22,6 @@ from docprocessing import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('courses/', views.courses),
-    path('courses/<int:page>/<int:pageSize>', views.courses_paginated),
     path('courses/templates/<str:course_code>/', views.course_templates),
     path('assessments/<str:course_code>/', views.assessments),
     path('learning-outcomes/<str:course_code>/', views.learning_outcomes),
@@ -34,4 +33,6 @@ urlpatterns = [
          views.update_template_status),
     path('get-approvers/', views.get_approvers),
     path('tobe_approved_list/<str:approverID>/', views.tobe_approved_list),
+    path('save-new-template/<str:course_code>/<str:assessment_id>/', views.save_new_template),
+
 ]

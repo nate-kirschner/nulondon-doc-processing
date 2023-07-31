@@ -1,5 +1,5 @@
 import { AssessmentPreview } from "./assessments";
-import LearningOutcome from "./learningOutcome";
+import LearningOutcome, { LearningOutcomeSections } from "./learningOutcome";
 
 export interface CourseBase {
   title: string;
@@ -7,7 +7,7 @@ export interface CourseBase {
 }
 
 export interface CourseNewVersion extends CourseBase{
-  learning_outcomes: LearningOutcome[];
+  learning_outcomes: LearningOutcomeSections;
 }
 
 export interface CoursePreview extends CourseBase {

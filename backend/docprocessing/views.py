@@ -69,32 +69,7 @@ def courses(request):
     return response
 
 
-def courses_paginated(request, page, pageSize):
-    number_of_courses = Course.objects.all().count()
-    if page < 1 or page > number_of_courses // pageSize + 1:
-        return HttpResponse("Bad page number", status_code=400)
-
-    paginator = Paginator(Course.objects.all(), pageSize)
-    courses = paginator.get_page(page)
-    output = []
-
-    for course in courses:
-        course_with_assessments = {}
-        course_with_assessments['title'] = course.title
-        course_with_assessments['code'] = course.course_code
-        output.append(course_with_assessments)
-
-    dict_response = {
-        "total_courses": number_of_courses,
-        "courses": output,
-    }
-    json_string = json.dumps(dict_response)
-    response = HttpResponse(json_string, headers=HEADERS)
-    return response
-
 # Gets all templates associated with a certain course
-
-
 def course_templates(request, course_code):
     assessments = Assessment.objects.filter(course_code=course_code)
     assessments_list = list(assessments.values('id', 'activity'))
@@ -129,8 +104,6 @@ def template_by_id(request, templateId):
 
 
 # Autofills some fields when creating a new template given a course code and assessment id
-
-
 def new_version(request, course_code, assessment_id):
     new_v = {}
     course = get_object_or_404(Course, course_code=course_code)
@@ -147,15 +120,34 @@ def new_version(request, course_code, assessment_id):
         " and ", ",").split(",")
     learning_outcome_codes_list = list(
         dict.fromkeys(learning_outcome_codes_list))
-    full_learning_outcomes = []
+
+    knowledge_lo = []
+    subject_lo = []
+    transferable_lo = []
 
     for learning_outcome in learning_outcome_codes_list:
         learning_out = LearningOutcome.objects.filter(
             code=learning_outcome, course_code=course_code)
         for lo in learning_out:
-            lo = model_to_dict(lo, fields=["id", "text_desc"])
+            if (lo.type == 'K'):
+                lo = model_to_dict(lo, fields=["id", "text_desc"])
+                lo["code"] = learning_outcome
+                knowledge_lo.append(lo)
+            elif (lo.type == 'S'):
+                lo = model_to_dict(lo, fields=["id", "text_desc"])
+                lo["code"] = learning_outcome
+                subject_lo.append(lo)
+            else:
+                lo = model_to_dict(lo, fields=["id", "text_desc"])
+                lo["code"] = learning_outcome
+                transferable_lo.append(lo)
             lo["code"] = learning_outcome
-            full_learning_outcomes.append(lo)
+    full_learning_outcomes = {
+        'knowledge': knowledge_lo,
+        'subject': subject_lo,
+        'transferable': transferable_lo
+    }
+    print(full_learning_outcomes)
     new_v["learning_outcomes"] = full_learning_outcomes
 
     json_string = json.dumps(new_v)
@@ -184,6 +176,7 @@ def send_emails(request):
     return HttpResponse("/send-approver-email sent email", headers=HEADERS)
 
 
+# Approve template status based on given email and status data
 @csrf_exempt
 def update_template_status(request, hashedApproverEmail, templateId):
     if request.method == 'POST':
@@ -209,6 +202,7 @@ def update_template_status(request, hashedApproverEmail, templateId):
     return HttpResponse("/update_template_status successfully udpated status", headers=HEADERS)
 
 
+# Get list of templates to be approved
 def tobe_approved_list(request, approverID):
     tobe_approved_list = ApproverTemplate.objects.filter(
         approverID=approverID, templateID__status="Pending")
@@ -217,10 +211,42 @@ def tobe_approved_list(request, approverID):
 
 def get_approvers(request):
     """
-    Returns all Approvers' names and emails
+    Returns all Approvers' names (called labels) and ids
     """
     approvers = Approver.objects.all()
-    approvers_list = list(approvers.values('name', 'email'))
+    approvers_list = list(approvers.values('name', 'id'))
+
+    # rename "name" to "label"
+    for approver in approvers_list:
+        approver['label'] = approver.pop('name')
+
     json_string = json.dumps(approvers_list)
     response = HttpResponse(json_string, headers=HEADERS)
     return response
+
+
+@csrf_exempt
+def save_new_template(request, course_code, assessment_id):
+    """
+    Saves a new template to the Template table. Takes a POST request from the frontend 
+    containing course_code, assessment_id, and request.body containing JSON template content.
+    """
+    if request.method == 'POST':
+        try:
+            body = json.loads(request.body)
+            new_template_data = body.get('template')
+            approvers = body.get('approvers')
+            new_template_version = Template.objects.filter(
+                course_code=course_code, assessment_key_id=assessment_id).count() + 1
+            new_version = Template.objects.create(version=new_template_version, assessment_key_id=assessment_id,
+                                                  course_code=Course.objects.get(course_code=course_code), template=new_template_data)
+            for id in approvers:
+                ApproverTemplate.objects.create(
+                    approverID=Approver.objects.get(id=id), templateID=Template.objects.get(id=new_version.id))
+
+            send_email_to_approvers(approvers, new_version.id)
+
+            return HttpResponse("/save_new_template Successfully added new Template", headers=HEADERS)
+
+        except json.JSONDecodeError:
+            return HttpResponse("/save_new_template recieved invalid JSON", headers=HEADERS)
