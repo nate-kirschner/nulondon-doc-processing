@@ -20,10 +20,14 @@ const BrowseCourses: React.FC = () => {
 
   const [totalRows, setTotalRows] = useState(0);
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const response = await axios.get(`http://127.0.0.1:8000/courses/`);
+        setLoading(false);
         setAllRows(response.data);
         setTotalRows(response.data.length);
       } catch (error) {
@@ -73,12 +77,17 @@ const BrowseCourses: React.FC = () => {
           }}
         />
         <Spacer height={"16px"} />
-        <CourseTable
-          rows={visibleRows}
-          totalRows={filteredRows.length}
-          paginatedTableProps={paginatedTableProps}
-        />
-      </Box>
+        { loading ? 
+        <Box sx={{ backgroundColor: colors.gray, padding: "24px" }}>
+          <Typography sx={{ fontSize: "16px", textAlign: "center", color: colors.black }}>Loading...</Typography>
+        </Box> 
+        : <CourseTable
+            rows={visibleRows}
+            totalRows={filteredRows.length}
+            paginatedTableProps={paginatedTableProps}
+          /> 
+        }
+      </Box> 
     </Box>
   );
 };
