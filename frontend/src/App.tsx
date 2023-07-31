@@ -5,6 +5,7 @@ import { Box, createTheme, ThemeProvider } from "@mui/material";
 import { useState } from "react";
 import CreateTemplate from "./components/CreateTemplate";
 import AppRouter from "./components/Routers";
+import ApprovalTable from "./components/ApprovalPage/Approval";
 
 const theme = createTheme({
   typography: {
@@ -14,6 +15,20 @@ const theme = createTheme({
 
 function App() {
   const [page, setPage] = useState<string>("Browse Courses");
+  // return (
+  //   <ThemeProvider theme={theme}>
+  //       <Box
+  //       sx={{
+  //         display: "flex",
+  //         flexDirection: "column",
+  //         alignItems: "center",
+  //       }}
+  //     >
+  //       <Header />
+  //       <ApprovalTable />
+  //     </Box>
+  //   </ThemeProvider>
+  // );
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -24,7 +39,7 @@ function App() {
         }}
       >
         <Header />
-        <AppRouter />
+        <ApprovalTable />
       </Box>
     </ThemeProvider>
   );
