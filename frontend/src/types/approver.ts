@@ -1,6 +1,6 @@
 interface Approver  {
     label: string;
-    email: string;
+    id: number;
 }
 
 export default Approver;

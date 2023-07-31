@@ -1,51 +1,52 @@
 import { Autocomplete, Button, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { colors } from "../../theme";
 import Approver from "../../types/approver";
 
-
 const AddApprovers: React.FC = () => {
-  const [approverField, setApproverField] = useState<Approver[]>([
-    { label: "", email: "" },
+  const [approverField, setApproverField] = useState<Approver[]>([]);
+  const [selectedApprovers, setSelectedApprovers] = useState<Approver[]>([
+    { label: "", id: 0 },
   ]);
 
   // adds a new field
   const handleAddUserField = () => {
-    setApproverField((prevApproverField) => [
+    setSelectedApprovers((prevApproverField) => [
       ...prevApproverField,
       {
         label: "",
-        email: "",
+        id: 0,
       },
     ]);
   };
 
   // deletes a field
   const handleDeleteApproverField = () => {
-    if (approverField.length > 1) {
-      const updatedTextFields = approverField.slice(0, -1);
-      setApproverField(updatedTextFields);
+    if (selectedApprovers.length > 1) {
+      const updatedTextFields = selectedApprovers.slice(0, -1);
+      setSelectedApprovers(updatedTextFields);
     }
   };
-/*
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/new_version/" + getCode + "/" + getAE + "/"
+          "http://127.0.0.1:8000/get-approvers/"
         );
-        setNewVersion(response.data);
+        setApproverField(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
   }, []);
-*/
+
   return (
     <Box>
-      {approverField.map((entry) => (
+      {selectedApprovers.map((entry) => (
         <Box display="flex" alignItems="center">
           <Typography
             sx={{
@@ -62,7 +63,7 @@ const AddApprovers: React.FC = () => {
             disablePortal
             id="combo-box-demo"
             options={approverField}
-            sx={{ width: 300 }}
+            sx={{ width: 300, paddingBottom: "10px" }}
             renderInput={(params) => <TextField {...params} label="Approver" />}
           />
         </Box>
