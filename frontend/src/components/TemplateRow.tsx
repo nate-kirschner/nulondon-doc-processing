@@ -17,6 +17,7 @@ interface TemplateRowProps extends PropsWithChildren {
   handlePreviousAccordion: () => void;
   handleNextAccordion: () => void;
   setActiveAccordion: (active: number | null) => void;
+  // getContent: () => (content: string | JSX.Element);
 }
 
 const TemplateRow: React.FC<TemplateRowProps> = ({
@@ -35,6 +36,7 @@ const TemplateRow: React.FC<TemplateRowProps> = ({
       setActiveAccordion(index);
     }
   };
+
   return (
     <TableRow>
       <TableCell colSpan={1}>

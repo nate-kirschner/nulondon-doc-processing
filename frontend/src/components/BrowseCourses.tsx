@@ -9,23 +9,23 @@ import useSearchTable from "../hooks/useSearchTable";
 import { colors } from "../theme";
 import axios from "axios";
 
-interface BrowseCourseProps {
-  setPage: (page: string) => void;
-}
-
-const BrowseCourses: React.FC<BrowseCourseProps> = ({ setPage }) => {
+const BrowseCourses: React.FC = () => {
   const [allRows, setAllRows] = useState<CoursePreview[]>([]);
   const [filteredRows, setFilteredRows] = useState<CoursePreview[]>(allRows);
 
   const { value, onChange } = useSearchTable(allRows, setFilteredRows);
 
-  const { paginatedTableProps, visibleRows } = usePagination(filteredRows);
+  const { paginatedTableProps, visibleRows, pageSize, currentPage } =
+    usePagination(filteredRows);
+
+  const [totalRows, setTotalRows] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/courses/");
+        const response = await axios.get(`http://127.0.0.1:8000/courses/`);
         setAllRows(response.data);
+        setTotalRows(response.data.length);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -77,7 +77,6 @@ const BrowseCourses: React.FC<BrowseCourseProps> = ({ setPage }) => {
           rows={visibleRows}
           totalRows={filteredRows.length}
           paginatedTableProps={paginatedTableProps}
-          setPage={setPage}
         />
       </Box>
     </Box>

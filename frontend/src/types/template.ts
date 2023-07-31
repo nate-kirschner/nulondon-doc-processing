@@ -7,12 +7,12 @@ export type AssessmentDetails = {
   version: number;
   assessmentNumber: string;
   weighting: string;
-  courseLeaser: string;
+  courseLeader: string;
   assessmentType: string;
   restrictions: string;
-  issueDate: Date;
-  handInDate: Date;
-  feedbackDeadline: Date;
+  issueDate: string;
+  handInDate: string;
+  feedbackDeadline: string;
   modeOfSubmission: string;
   anonymousMarketing: boolean;
 };

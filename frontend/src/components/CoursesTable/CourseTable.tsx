@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -18,21 +18,24 @@ import { CoursePreview } from "../../types/courses";
 import { PaginatedTableProps } from "../../hooks/usePagination";
 import AssessmentRow from "./AssessmentRow";
 import { colors } from "../../theme";
+import AssessmentDropdown from "./AssessmentDropdown";
 
 interface CourseTableProps {
   rows: CoursePreview[];
   totalRows: number;
   paginatedTableProps: PaginatedTableProps;
-  setPage: (page: string) => void;
 }
 
 const CourseTable: React.FC<CourseTableProps> = ({
   rows,
   totalRows,
   paginatedTableProps,
-  setPage,
 }) => {
   const [openRow, setOpenRow] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    setOpenRow(undefined);
+  }, [paginatedTableProps.page]);
 
   const handleChange =
     (panelIndex: number) =>
@@ -84,13 +87,7 @@ const CourseTable: React.FC<CourseTableProps> = ({
                           </Typography>
                         </Box>
                       </AccordionSummary>
-                      <AccordionDetails>
-                        {row.assessments.map((assessment) => {
-                          return (
-                            <AssessmentRow setPage={setPage} {...assessment} />
-                          );
-                        })}
-                      </AccordionDetails>
+                      <AssessmentDropdown courseCode={row.code} />
                     </Accordion>
                   </TableCell>
                 </TableRow>

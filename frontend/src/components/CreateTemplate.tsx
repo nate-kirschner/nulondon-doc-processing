@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Paper,
@@ -21,31 +21,87 @@ import AcademicMisconduct from "./TemplatePage/AcademicMisconduct";
 import TemplateRow from "./TemplateRow";
 import SaveButtons from "./SaveButtons";
 import AssessmentDetails from "./TemplatePage/AssessmentDetails";
+import axios from "axios";
+import { useSearchParams } from "react-router-dom";
+import { NewVersion } from "../types/newVersion";
+import { Template } from "../types/template";
 
-interface CreateTemplateProps {
-  setPage: (page: string) => void;
-}
-
-const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage }) => {
+const CreateTemplate: React.FC = () => {
   const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
+  const [newVersion, setNewVersion] = useState<NewVersion | undefined>();
+  const [searchParams] = useSearchParams();
 
-  const [assessmentDetails, setAssessmentDetails] = useState(undefined);
+  const getCode = searchParams.get("courseId");
+
+  const getAE = searchParams.get("assessmentId");
+
+  // const [];
+
+  // handler function to save all data from the child component
+  const handleSaveData = () => {
+    //   const templateData: Template = {
+    //     assessmentDetails: {
+    //       courseTitle: "",
+    //       courseCode: "",
+    //       FHEQ: "",
+    //       sitting: "",
+    //       assessmentTitle: "",
+    //       version: 0,
+    //       assessmentNumber: "",
+    //       weighting: "",
+    //       courseLeader: "",
+    //       assessmentType: "",
+    //       restrictions: "",
+    //       issueDate: "",
+    //       handInDate: "",
+    //       feedbackDeadline: "",
+    //       modeOfSubmission: "",
+    //       anonymousMarketing: true,
+    //     },
+    //     assessmentTask: "",
+    //     assessmentCriteria: {
+    //       gradeRanges: {
+    //         min: 0,
+    //         max: 0,
+    //         description: "",
+    //       },
+    //     },
+    //     marking: "",
+    //     learningOutcomes: {
+    //       knowledge: [],
+    //       subject: [],
+    //       transferable: [],
+    //     },
+    //     assessingFeedback: "",
+    //     lateSubmissions: "",
+    //     extenuatingCircumstances: "",
+    //     academicMisconduct: "",
+    //   };
+    //   console.log(templateData);
+    //   return templateData;
+  };
 
   const handleNextAccordion = () => {
-    setActiveAccordion((prevIndex) => {
-      if (prevIndex === 9) {
-        // if the active accordion is the last one, close it by setting the activeAccordion to null
-        return null;
-      } else {
-        // otherwise, move to the next accordion
-        return prevIndex !== null ? prevIndex + 1 : 0;
-      }
-    });
+    setActiveAccordion((prevIndex) => Math.min((prevIndex ?? 0) + 1, 0));
   };
 
   const handlePreviousAccordion = () => {
     setActiveAccordion((prevIndex) => Math.max((prevIndex ?? 0) - 1, 0));
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://127.0.0.1:8000/new_version/" + getCode + "/" + getAE
+        );
+        setNewVersion(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
     <Box
@@ -84,7 +140,7 @@ const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage }) => {
                 handlePreviousAccordion={handlePreviousAccordion}
                 setActiveAccordion={setActiveAccordion}
               >
-                <AssessmentDetails />
+                <AssessmentDetails newVersion={newVersion} />
               </TemplateRow>
 
               <TemplateRow
@@ -128,7 +184,7 @@ const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage }) => {
                 handlePreviousAccordion={handlePreviousAccordion}
                 setActiveAccordion={setActiveAccordion}
               >
-                <LearningOutcomes />
+                <LearningOutcomes newVersion={newVersion} />
               </TemplateRow>
 
               <TemplateRow
@@ -177,7 +233,7 @@ const CreateTemplate: React.FC<CreateTemplateProps> = ({ setPage }) => {
             </TableBody>
           </Table>
         </TableContainer>
-        <SaveButtons setPage={setPage} />
+        <SaveButtons onSaveTemplate={handleSaveData} />
       </React.Fragment>
     </Box>
   );

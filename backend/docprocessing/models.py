@@ -5,13 +5,12 @@ from django.utils.translation import gettext_lazy as _
 class Course(models.Model):
     """Python Class representaiton of the Courses Table"""
     title = models.CharField(max_length=255)  # eg Global Objects in Context
-    course_code = models.CharField(
-        max_length=255, primary_key=True)  # eg LADES5261
+    course_code = models.CharField(max_length=255, primary_key=True)  # eg LADES5261
     discipline = models.CharField(max_length=255)  # eg Art and Design
     uk_credit = models.IntegerField()
     us_credit = models.IntegerField()
     fheq_level = models.IntegerField()
-    date_approved = models.DateField()
+    date_approved = models.CharField(max_length=255)
     core_attributes = models.CharField(max_length=255)
     # list of course_codes, eg "is2500,cs2500"
     pre_requisites = models.CharField(max_length=255)
@@ -52,7 +51,7 @@ class LearningOutcomes(models.Model):
     class Types(models.TextChoices):
         KN_UNDERSTANDING = "K", _("Knowledge and Understanding")
         SUB_SPECIFIC = "S", _("Subject Specific Skills")
-        TRANSFERABLE = "J", _("Transferable and Employability Skills")
+        TRANSFERABLE = "T", _("Transferable and Employability Skills")
 
     code = models.CharField(max_length=3)  # eg K2c
     type = models.CharField(max_length=1, choices=Types.choices)  # enum above
@@ -87,3 +86,13 @@ class Templates(models.Model):
     course_code = models.ForeignKey(
         Course, to_field='course_code', on_delete=models.CASCADE)
     template = models.JSONField()
+
+# Table for mock approvers'emails
+class Approver(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.CharField(max_length=255)
+
+# Relation Table for approvers and templates
+class ApproversTeamplates(models.Model):
+    approverID = models.ForeignKey(Approver, on_delete=models.CASCADE)
+    templateID = models.ForeignKey(Templates, on_delete=models.CASCADE)

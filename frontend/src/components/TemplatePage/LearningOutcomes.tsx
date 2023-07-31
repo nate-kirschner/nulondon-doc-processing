@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import {
   TextField,
   Button,
@@ -9,36 +8,33 @@ import {
   Checkbox,
 } from "@mui/material";
 import { colors } from "../../theme";
+import LearningOutcome from "../../types/learningOutcome";
+import { NewVersion } from "../../types/newVersion";
 
-const LearningOutcomes: React.FC = () => {
-  const [checkedItems, setCheckedItems] = useState<string[]>([]);
+interface LearningOutcomesProps {
+  newVersion: NewVersion | undefined;
+}
 
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const label =
-      event.target.labels?.[0]?.innerText ||
-      event.target.getAttribute("label") ||
-      "";
-    const isChecked = event.target.checked;
-    const category = event.target.getAttribute("aria-label");
-
-    // add or remove the checkbox value from the list of checked items
-    if (isChecked) {
-      setCheckedItems((prevChecked) => [...prevChecked, label]);
-    } else {
-      setCheckedItems((prevChecked) =>
-        prevChecked.filter((item) => item !== label)
+const LearningOutcomes: React.FC<LearningOutcomesProps> = ({ newVersion }) => {
+  function isType(learning_outcome: LearningOutcome, key: string) {
+    if (learning_outcome.code.startsWith(key)) {
+      return (
+        <FormControlLabel
+          control={
+            <Checkbox
+              sx={{
+                "&.Mui-checked": { color: colors.red },
+              }}
+            />
+          }
+          label={learning_outcome.code + ": " + learning_outcome.text_desc}
+        />
       );
     }
-  };
-
-  useEffect(() => {
-    console.log(checkedItems);
-  }, [checkedItems]);
-
-  const getCheckedItemsList = () => {
-    return checkedItems;
-  };
-
+  }
+  if (!newVersion) {
+    return null;
+  }
   return (
     <Box>
       <Typography sx={{ fontSize: "16px" }}>
@@ -48,104 +44,25 @@ const LearningOutcomes: React.FC = () => {
         Knowledge and Understanding
       </Typography>
       <FormGroup>
-        <FormControlLabel
-          control={
-            <Checkbox
-              aria-label="knowledge"
-              onChange={handleCheckboxChange}
-              sx={{
-                "&.Mui-checked": { color: colors.red },
-              }}
-            />
-          }
-          label="Requirement 1 when we figure out the data stuff"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              aria-label="knowledge"
-              onChange={handleCheckboxChange}
-              sx={{
-                "&.Mui-checked": { color: colors.red },
-              }}
-            />
-          }
-          label="p"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              aria-label="knowledge"
-              onChange={handleCheckboxChange}
-              sx={{
-                "&.Mui-checked": { color: colors.red },
-              }}
-            />
-          }
-          label="pp"
-        />
+        {newVersion.learning_outcomes.map((learning_outcome) => {
+          return isType(learning_outcome, "K");
+        })}
       </FormGroup>
       <Typography sx={{ fontSize: "16px", fontWeight: 700, marginTop: "24px" }}>
         Subject-Specific Skills
       </Typography>
       <FormGroup>
-        <FormControlLabel
-          control={
-            <Checkbox
-              aria-label="subject"
-              data-label="ppp"
-              onChange={handleCheckboxChange}
-              sx={{
-                "&.Mui-checked": { color: colors.red },
-              }}
-            />
-          }
-          label="ppp"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              aria-label="subject"
-              data-label="pppp"
-              onChange={handleCheckboxChange}
-              sx={{
-                "&.Mui-checked": { color: colors.red },
-              }}
-            />
-          }
-          label="pppp"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              aria-label="subject"
-              data-label="ppppp"
-              onChange={handleCheckboxChange}
-              sx={{
-                "&.Mui-checked": { color: colors.red },
-              }}
-            />
-          }
-          label="poopoo"
-        />
+        {newVersion.learning_outcomes.map((learning_outcome) => {
+          return isType(learning_outcome, "S");
+        })}
       </FormGroup>
       <Typography sx={{ fontSize: "16px", fontWeight: 700, marginTop: "24px" }}>
         Transferable Skills
       </Typography>
-      <FormGroup aria-label="transferable">
-        <FormControlLabel
-          control={
-            <Checkbox
-              aria-label="knowledge"
-              data-label="pppppp"
-              onChange={handleCheckboxChange}
-              sx={{
-                "&.Mui-checked": { color: colors.red },
-              }}
-            />
-          }
-          label="pppppp"
-        />
+      <FormGroup>
+        {newVersion.learning_outcomes.map((learning_outcome) => {
+          return isType(learning_outcome, "T");
+        })}
       </FormGroup>
     </Box>
   );

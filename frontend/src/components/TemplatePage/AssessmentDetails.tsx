@@ -12,35 +12,29 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { colors } from "../../theme";
-import React, { useState } from "react";
-import { AssessmentDetails } from "../../types/templates";
+import { NewVersion } from "../../types/newVersion";
+import React, { useEffect, useState } from "react";
+import { AssessmentDetails } from "../../types/template";
 
-const Details: React.FC = () => {
-  const courseDummy = {
-    title: "Course 1",
-    code: "IS3500",
-    credits: 4,
-    assessments: [
-      { title: "Assessment 2", weighting: 50, versions: [1, 2, 3] },
-    ],
-  };
+interface AssessmentDetailsProps {
+  newVersion: NewVersion | undefined;
+}
+
+const AssessmentDetailsComponent: React.FC<AssessmentDetailsProps> = ({
+  newVersion,
+}) => {
   const displayCourse = [
-    { displayName: "Course Title", displayValue: courseDummy.title },
-    { displayName: "Course Code", displayValue: courseDummy.code },
+    { displayName: "Course Title", displayValue: newVersion?.title },
+    { displayName: "Course Code", displayValue: newVersion?.code },
     { displayName: "FHEQ", displayValue: "Level 4" },
-    { displayName: "Sitting", displayValue: "First Sitting" },
     {
-      displayName: "Assessment",
-      displayValue: courseDummy.assessments[0].title,
+      displayName: "Assessment Activity",
+      displayValue: newVersion?.activity,
     },
-    {
-      displayName: "Version",
-      displayValue: courseDummy.assessments[0].versions[2],
-    },
-    { displayName: "Assessment Number", displayValue: "AE4" },
+    { displayName: "Assessment Number", displayValue: "AE" + newVersion?.ae },
     {
       displayName: "Assessment Weighting",
-      displayValue: courseDummy.assessments[0].weighting + " %",
+      displayValue: newVersion?.weight + " %",
     },
   ];
 
@@ -54,16 +48,20 @@ const Details: React.FC = () => {
       version: 0,
       assessmentNumber: "",
       weighting: "",
-      courseLeaser: "",
+      courseLeader: "",
       assessmentType: "",
       restrictions: "",
-      issueDate: new Date(),
-      handInDate: new Date(),
-      feedbackDeadline: new Date(),
+      issueDate: "",
+      handInDate: "",
+      feedbackDeadline: "",
       modeOfSubmission: "",
       anonymousMarketing: false,
     }
   );
+
+  if (!newVersion) {
+    return null;
+  }
 
   const handleAssessmentDetailsChange = (
     field: keyof AssessmentDetails,
@@ -121,15 +119,15 @@ const Details: React.FC = () => {
               Course Leader
             </TableCell>
             <TableCell align="right">
-              <TextField
-                variant="outlined"
-                size="small"
-                fullWidth
-                value={assessmentDetails.courseLeaser}
-                onChange={(e) =>
-                  handleAssessmentDetailsChange("courseLeaser", e.target.value)
-                }
-              />
+              <TextField variant="outlined" size="small" fullWidth />
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell variant="head" sx={{ fontWeight: "bold" }}>
+              Sitting
+            </TableCell>
+            <TableCell align="right">
+              <TextField variant="outlined" size="small" fullWidth />
             </TableCell>
           </TableRow>
           <TableRow>
@@ -137,18 +135,7 @@ const Details: React.FC = () => {
               Assessment Type
             </TableCell>
             <TableCell align="right">
-              <TextField
-                variant="outlined"
-                size="small"
-                fullWidth
-                value={assessmentDetails.assessmentType}
-                onChange={(e) =>
-                  handleAssessmentDetailsChange(
-                    "assessmentType",
-                    e.target.value
-                  )
-                }
-              />
+              <TextField variant="outlined" size="small" fullWidth />
             </TableCell>
           </TableRow>
           <TableRow>
@@ -156,15 +143,7 @@ const Details: React.FC = () => {
               Restrictions on Time/Length
             </TableCell>
             <TableCell align="right">
-              <TextField
-                variant="outlined"
-                size="small"
-                fullWidth
-                value={assessmentDetails.restrictions}
-                onChange={(e) =>
-                  handleAssessmentDetailsChange("restrictions", e.target.value)
-                }
-              />
+              <TextField variant="outlined" size="small" fullWidth />
             </TableCell>
           </TableRow>
           <TableRow>
@@ -172,18 +151,7 @@ const Details: React.FC = () => {
               Individual/Group
             </TableCell>
             <TableCell align="right">
-              <Select
-                label=""
-                size="small"
-                fullWidth
-                value={assessmentDetails.modeOfSubmission}
-                onChange={(e) =>
-                  handleAssessmentDetailsChange(
-                    "modeOfSubmission",
-                    e.target.value
-                  )
-                }
-              >
+              <Select label="" size="small" fullWidth>
                 <MenuItem value={"Individual"}>Individual</MenuItem>
                 <MenuItem value={"Group"}>Group</MenuItem>
               </Select>
@@ -214,18 +182,7 @@ const Details: React.FC = () => {
               Planned Feedback Deadline
             </TableCell>
             <TableCell align="right">
-              <TextField
-                variant="outlined"
-                size="small"
-                fullWidth
-                value={assessmentDetails.feedbackDeadline}
-                onChange={(e) =>
-                  handleAssessmentDetailsChange(
-                    "feedbackDeadline",
-                    e.target.value
-                  )
-                }
-              />
+              <TextField variant="outlined" size="small" fullWidth />
             </TableCell>
           </TableRow>
           <TableRow>
@@ -253,13 +210,6 @@ const Details: React.FC = () => {
                     backgroundColor: colors.red,
                   },
                 }}
-                checked={assessmentDetails.anonymousMarketing}
-                onChange={(e) =>
-                  handleAssessmentDetailsChange(
-                    "anonymousMarketing",
-                    e.target.checked
-                  )
-                }
               />
             </TableCell>
           </TableRow>
@@ -269,4 +219,4 @@ const Details: React.FC = () => {
   );
 };
 
-export default Details;
+export default AssessmentDetailsComponent;

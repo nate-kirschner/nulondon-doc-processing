@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { TextField, Button, Typography, Box } from "@mui/material";
 import { colors } from "../../theme";
-import { AssessmentCriteria, GradeRange } from "../../types/templates";
+import { AssessmentCriteria, GradeRange } from "../../types/template";
 
 interface TextFieldData {
   id: number;
