@@ -123,6 +123,9 @@ def template_by_id(request, templateId):
     """
     template = get_object_or_404(Template, id=templateId)
     json_string = json.dumps(model_to_dict(template))
+    response = HttpResponse(json_string, headers=HEADERS)
+    return response
+
 
 
 # Autofills some fields when creating a new template given a course code and assessment id
