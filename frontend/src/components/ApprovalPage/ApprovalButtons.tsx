@@ -1,12 +1,9 @@
-// SaveButtons.tsx is used to add the 'Save Version' and 'Cancel' buttons to the CreateTemplate.tsx file
-
 import { Box, Button } from "@mui/material";
-import { colors } from "../theme";
-import Spacer from "./Spacer";
 import { useNavigate } from "react-router-dom";
+import { colors } from "../../theme";
+import Spacer from "../Spacer";
 
-const SaveButtons: React.FC = ()=> {
-  const navigate = useNavigate();
+const ApprovalButtons: React.FC = ()=> {
   return (
     <Box style={{ display: "flex", justifyContent: "center", width: "100%" }}>
       <Button
@@ -22,11 +19,8 @@ const SaveButtons: React.FC = ()=> {
             opacity: 0.8,
           }
         }}
-        onClick={() => {
-          navigate("/");
-        }}
       >
-        Cancel
+        Back To Home
       </Button>
       <Spacer width={"24px"} />
       <Button
@@ -43,10 +37,10 @@ const SaveButtons: React.FC = ()=> {
           },
         }}
       >
-        Save Version
+        Confirm Approval Status
       </Button>
     </Box>
   );
 };
 
-export default SaveButtons;
+export default ApprovalButtons;

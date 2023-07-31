@@ -1,17 +1,10 @@
-import {
-  Document,
-  Packer,
-  Paragraph,
-  TextRun,
-  Table,
-  TableRow,
-  TableCell,
-  WidthType,
-  AlignmentType,
-} from "docx";
+import { Document, Packer, Paragraph, TextRun, AlignmentType } from "docx";
 import { saveAs } from "file-saver";
-import { AssessmentDetails, Template } from "../types/template";
+import { Template } from "../../types/template";
 import axios from "axios";
+import { exportAssessmentDetails } from "./exportAssessmentDetails";
+import { exportAssessmentCriteria } from "./exportAssessmentCriteria";
+import exportLearningOutcomes from "./exportLearningOutcomes";
 
 const createParagraphWithStringBody = (title: string, bodyText: string) => {
   return new Paragraph({
@@ -30,52 +23,6 @@ const createParagraphWithStringBody = (title: string, bodyText: string) => {
   });
 };
 
-const createTableRow = (left: string, right: string) => {
-  return new TableRow({
-    children: [
-      new TableCell({
-        width: { size: 10, type: WidthType.PERCENTAGE },
-        children: [new Paragraph(left)],
-      }),
-      new TableCell({
-        width: { size: 10, type: WidthType.PERCENTAGE },
-        children: [new Paragraph(right)],
-      }),
-    ],
-  });
-};
-
-const createAssessmentDetailsTable = (details: AssessmentDetails) => {
-  return new Table({
-    rows: [
-      createTableRow("Course Title", details.courseTitle),
-      createTableRow("Course Code", details.courseCode),
-      createTableRow("Course Leader", details.courseLeader),
-      createTableRow("Level", details.FHEQ),
-      createTableRow("Sitting", details.sitting),
-      createTableRow("Assessment Title", details.assessmentTitle),
-      createTableRow("Assessment Number", details.assessmentNumber),
-      createTableRow("Assessement Type", details.assessmentType),
-      createTableRow("Restrictions on Time/Length", details.restrictions),
-      createTableRow("Assessment Weighting", details.weighting),
-      createTableRow("Issue Date", new Date(details.issueDate).toISOString()),
-      createTableRow(
-        "Hand In Deadline",
-        new Date(details.handInDate).toISOString()
-      ),
-      createTableRow(
-        "Planned Feedback Deadline",
-        new Date(details.feedbackDeadline).toISOString()
-      ),
-      createTableRow("Mode of Submission", details.modeOfSubmission),
-      createTableRow(
-        "Anonymous Marking",
-        details.anonymousMarketing ? "Yes" : "No"
-      ),
-    ],
-  });
-};
-
 const getTemplate = async (
   courseId: string,
   assessmentId: string,
@@ -83,7 +30,7 @@ const getTemplate = async (
 ): Promise<Template> => {
   const slicedVersion = version.slice(1);
   const response = await axios.get<{ fields: { template: Template } }[]>(
-    `http://127.0.0.1:8000/template/${courseId}/${assessmentId}/${slicedVersion}`
+    `http://127.0.0.1:8000/template/${courseId}/${assessmentId}/${slicedVersion}/`
   );
   return response.data[0].fields.template;
 };
@@ -94,22 +41,16 @@ export const generateWordDocument = async (
   version: string
 ) => {
   const template = await getTemplate(courseId, assessmentId, version);
-  const assessmentDetails = new Paragraph({
-    children: [
-      new TextRun({
-        text: "",
-        size: 24,
-      }),
-      createAssessmentDetailsTable(template.assessmentDetails),
-    ],
-  });
+  const assessmentDetails = exportAssessmentDetails(template.assessmentDetails);
   const assessmentTask = createParagraphWithStringBody(
     "Assessment Task",
     template.assessmentTask
   );
-  const assessmentCriteria = {};
+  const assessmentCriteria = exportAssessmentCriteria(
+    template.assessmentCriteria
+  );
   const marking = createParagraphWithStringBody("Marking", template.marking);
-  const learningOutcomes = {};
+  const learningOutcomes = exportLearningOutcomes(template.learningOutcomes);
   const assessingFeedback = createParagraphWithStringBody(
     "Assessing Feedback",
     template.assessingFeedback
@@ -138,7 +79,6 @@ export const generateWordDocument = async (
               new TextRun({
                 text: "Assessment Brief: Coursework 2022-23",
                 size: 32,
-                break: 1,
               }),
             ],
           }),
@@ -153,9 +93,27 @@ export const generateWordDocument = async (
           }),
           assessmentDetails,
           assessmentTask,
-          //   assessmentCriteria,
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: "Assessment Criteria",
+                break: 1,
+                size: 24,
+              }),
+            ],
+          }),
+          assessmentCriteria,
           marking,
-          //   learningOutcomes,
+          new Paragraph({
+            children: [
+              new TextRun({
+                text: "Learning Outcomes",
+                break: 1,
+                size: 24,
+              }),
+            ],
+          }),
+          ...learningOutcomes,
           assessingFeedback,
           lateSubmissions,
           extenuatingCircumstances,
@@ -169,6 +127,7 @@ export const generateWordDocument = async (
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
   Packer.toBlob(doc).then((blob) => {
     const docblob = blob.slice(0, blob.size, mimeType);
+    console.log("docblob", docblob);
     saveAs(docblob, "testDoc.docx");
   });
 };
