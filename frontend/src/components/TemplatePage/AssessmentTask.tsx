@@ -1,6 +1,22 @@
 import { Box, TextField, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 
-const AssessmentTask: React.FC = () => {
+interface AssessmentTaskProps {
+  setAssessmentTask: (details: string) => void;
+}
+
+const AssessmentTask: React.FC<AssessmentTaskProps> = ({
+  setAssessmentTask,
+}) => {
+  const [textFieldValue, setTextFieldValue] = useState<string>("");
+
+  useEffect(() => {
+    if (textFieldValue === "") {
+      return;
+    }
+    setAssessmentTask(textFieldValue);
+  });
+
   return (
     <Box>
       <Typography
@@ -13,7 +29,8 @@ const AssessmentTask: React.FC = () => {
         id="outlined-multiline-static"
         multiline
         rows={4}
-        defaultValue=""
+        onChange={(e) => setTextFieldValue(e.target.value)}
+        defaultValue="This assessment requires... You will be assessed on... "
       />
     </Box>
   );

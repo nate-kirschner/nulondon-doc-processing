@@ -1,6 +1,21 @@
 import { Box, TextField, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { text } from "stream/consumers";
 
-const Marking: React.FC = () => {
+interface MarkingProps {
+  setMarking: (details: string) => void;
+}
+
+const Marking: React.FC<MarkingProps> = ({ setMarking }) => {
+  const [textFieldValue, setTextFieldValue] = useState<string>("");
+
+  useEffect(() => {
+    if (textFieldValue === "") {
+      return;
+    }
+    setMarking(textFieldValue);
+  });
+
   return (
     <Box>
       <Typography
@@ -13,6 +28,7 @@ const Marking: React.FC = () => {
         id="outlined-multiline-static"
         multiline
         rows={4}
+        onChange={(e) => setTextFieldValue(e.target.value)}
         defaultValue="The University uses two common assessment marking schemes – 
                 one for undergraduate and one for postgraduate – to mark all taught programmes leading to
                 an award of the University. More detailed information on the common assessment marking scheme 

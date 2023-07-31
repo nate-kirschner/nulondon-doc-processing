@@ -11,7 +11,6 @@ import {
   Typography,
 } from "@mui/material";
 import { colors } from "../theme";
-import AssessmentCriteria from "./TemplatePage/AssessmentCriteria";
 import LearningOutcomes from "./TemplatePage/LearningOutcomes";
 import AssessmentTask from "./TemplatePage/AssessmentTask";
 import Marking from "./TemplatePage/Marking";
@@ -21,12 +20,19 @@ import ExtenuatingCircumstances from "./TemplatePage/ExtenuatingCircumstances";
 import AcademicMisconduct from "./TemplatePage/AcademicMisconduct";
 import TemplateRow from "./TemplateRow";
 import SaveButtons from "./SaveButtons";
-import AssessmentDetails from "./TemplatePage/AssessmentDetails";
 import MockSendApproverEmail from "./TemplatePage/MockSendApproverEmail";
 import CSRFToken from "./csrftoken";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { NewVersion } from "../types/newVersion";
+import {
+  AssessmentCriteria,
+  AssessmentDetails,
+  Template,
+} from "../types/template";
+import AssessmentDetailsComponent from "./TemplatePage/AssessmentDetails";
+import AssessmentCriteriaComponent from "./TemplatePage/AssessmentCriteria";
+import { LearningOutcomeSections } from "../types/learningOutcome";
 import AddApprovers from "./TemplatePage/AddApprovers";
 
 const CreateTemplate: React.FC = () => {
@@ -38,16 +44,32 @@ const CreateTemplate: React.FC = () => {
 
   const getAE = searchParams.get("assessmentId");
 
+  // useStates for each template section
+  const [assessmentDetails, setAssessmentDetails] =
+    useState<AssessmentDetails>();
+
+  const [assessmentTask, setAssessmentTask] = useState<string>();
+
+  const [assessmentCriteria, setAssessmentCriteria] =
+    useState<AssessmentCriteria>();
+
+  const [marking, setMarking] = useState<string>();
+
+  const [assessingFeedback, setAssessingFeedback] = useState<string>();
+
+  const [lateSubmission, setLateSubmission] = useState<string>();
+
+  const [extenuatingCircumstances, setExtenuatingCircumstances] =
+    useState<string>();
+
+  const [academicMisconduct, setAcademicMisconduct] = useState<string>();
+
+  const [learningOutcome, setLearningOutcome] =
+    useState<LearningOutcomeSections>();
+
+  // handles accordion open and close
   const handleNextAccordion = () => {
-    setActiveAccordion((prevIndex) => {
-      if (prevIndex === 9) {
-        // if the active accordion is the last one, close it by setting the activeAccordion to null
-        return null;
-      } else {
-        // otherwise, move to the next accordion
-        return prevIndex !== null ? prevIndex + 1 : 0;
-      }
-    });
+    setActiveAccordion((prevIndex) => Math.min((prevIndex ?? 0) + 1, 10));
   };
 
   const handlePreviousAccordion = () => {
@@ -71,6 +93,34 @@ const CreateTemplate: React.FC = () => {
     };
     fetchData();
   }, [getCode, getAE]);
+
+  const handleSave = () => {
+    if (
+      assessmentDetails === undefined ||
+      assessmentTask === undefined ||
+      assessmentCriteria === undefined ||
+      marking === undefined ||
+      learningOutcome === undefined ||
+      assessingFeedback === undefined ||
+      lateSubmission === undefined ||
+      extenuatingCircumstances === undefined ||
+      academicMisconduct === undefined
+    ) {
+      alert("Please fill in all fields");
+      return;
+    }
+    const template: Template = {
+      assessmentDetails: assessmentDetails,
+      assessmentTask: assessmentTask,
+      assessmentCriteria: assessmentCriteria,
+      marking: marking,
+      learningOutcomes: learningOutcome,
+      assessingFeedback: assessingFeedback,
+      lateSubmissions: lateSubmission,
+      extenuatingCircumstances: extenuatingCircumstances,
+      academicMisconduct: academicMisconduct,
+    };
+  };
 
   return (
     <Box
@@ -96,127 +146,150 @@ const CreateTemplate: React.FC = () => {
                 </TableCell>
               </TableRow>
             </TableHead>
-            { loading ? 
-            <Box sx={{ backgroundColor: colors.gray, padding: "24px" }}>
-              <Typography sx={{ fontSize: "16px", textAlign: "center", color: colors.black }}>Loading...</Typography>
-            </Box> :
-            <TableBody>
-              <TableRow>
-                <TableCell colSpan={1}></TableCell>
-              </TableRow>
+            {loading ? (
+              <Box sx={{ backgroundColor: colors.gray, padding: "24px" }}>
+                <Typography
+                  sx={{
+                    fontSize: "16px",
+                    textAlign: "center",
+                    color: colors.black,
+                  }}
+                >
+                  Loading...
+                </Typography>
+              </Box>
+            ) : (
+              <TableBody>
+                <TableRow>
+                  <TableCell colSpan={1}></TableCell>
+                </TableRow>
 
-              <TemplateRow
-                title="Assessment Details"
-                isExpanded={activeAccordion === 0}
-                index={0}
-                handleNextAccordion={handleNextAccordion}
-                handlePreviousAccordion={handlePreviousAccordion}
-                setActiveAccordion={setActiveAccordion}
-              >
-                <AssessmentDetails newVersion={newVersion} />
-              </TemplateRow>
+                <TemplateRow
+                  title="Assessment Details"
+                  isExpanded={activeAccordion === 0}
+                  index={0}
+                  handleNextAccordion={handleNextAccordion}
+                  handlePreviousAccordion={handlePreviousAccordion}
+                  setActiveAccordion={setActiveAccordion}
+                >
+                  <AssessmentDetailsComponent
+                    newVersion={newVersion}
+                    setAssessmentDetails={setAssessmentDetails}
+                  />
+                </TemplateRow>
 
-              <TemplateRow
-                title="Assessment Task"
-                isExpanded={activeAccordion === 1}
-                index={1}
-                handleNextAccordion={handleNextAccordion}
-                handlePreviousAccordion={handlePreviousAccordion}
-                setActiveAccordion={setActiveAccordion}
-              >
-                <AssessmentTask />
-              </TemplateRow>
+                <TemplateRow
+                  title="Assessment Task"
+                  isExpanded={activeAccordion === 1}
+                  index={1}
+                  handleNextAccordion={handleNextAccordion}
+                  handlePreviousAccordion={handlePreviousAccordion}
+                  setActiveAccordion={setActiveAccordion}
+                >
+                  <AssessmentTask setAssessmentTask={setAssessmentTask} />
+                </TemplateRow>
 
-              <TemplateRow
-                title="Assessment Criteria"
-                index={2}
-                isExpanded={activeAccordion === 2}
-                handleNextAccordion={handleNextAccordion}
-                handlePreviousAccordion={handlePreviousAccordion}
-                setActiveAccordion={setActiveAccordion}
-              >
-                <AssessmentCriteria />
-              </TemplateRow>
+                <TemplateRow
+                  title="Assessment Criteria"
+                  index={2}
+                  isExpanded={activeAccordion === 2}
+                  handleNextAccordion={handleNextAccordion}
+                  handlePreviousAccordion={handlePreviousAccordion}
+                  setActiveAccordion={setActiveAccordion}
+                >
+                  <AssessmentCriteriaComponent
+                    setAssessmentCriteria={setAssessmentCriteria}
+                  />
+                </TemplateRow>
 
-              <TemplateRow
-                title="Marking"
-                isExpanded={activeAccordion === 3}
-                index={3}
-                handleNextAccordion={handleNextAccordion}
-                handlePreviousAccordion={handlePreviousAccordion}
-                setActiveAccordion={setActiveAccordion}
-              >
-                <Marking />
-              </TemplateRow>
+                <TemplateRow
+                  title="Marking"
+                  isExpanded={activeAccordion === 3}
+                  index={3}
+                  handleNextAccordion={handleNextAccordion}
+                  handlePreviousAccordion={handlePreviousAccordion}
+                  setActiveAccordion={setActiveAccordion}
+                >
+                  <Marking setMarking={setMarking} />
+                </TemplateRow>
 
-              <TemplateRow
-                title="Learning Outcomes"
-                isExpanded={activeAccordion === 4}
-                index={4}
-                handleNextAccordion={handleNextAccordion}
-                handlePreviousAccordion={handlePreviousAccordion}
-                setActiveAccordion={setActiveAccordion}
-              >
-                <LearningOutcomes newVersion={newVersion} />
-              </TemplateRow>
+                <TemplateRow
+                  title="Learning Outcomes"
+                  isExpanded={activeAccordion === 4}
+                  index={4}
+                  handleNextAccordion={handleNextAccordion}
+                  handlePreviousAccordion={handlePreviousAccordion}
+                  setActiveAccordion={setActiveAccordion}
+                >
+                  <LearningOutcomes
+                    newVersion={newVersion}
+                    setLearningOutcomes={setLearningOutcome}
+                  />
+                </TemplateRow>
 
-              <TemplateRow
-                title="Assessing Feedback"
-                isExpanded={activeAccordion === 5}
-                index={5}
-                handleNextAccordion={handleNextAccordion}
-                handlePreviousAccordion={handlePreviousAccordion}
-                setActiveAccordion={setActiveAccordion}
-              >
-                <AssessingFeedback />
-              </TemplateRow>
+                <TemplateRow
+                  title="Assessing Feedback"
+                  isExpanded={activeAccordion === 5}
+                  index={5}
+                  handleNextAccordion={handleNextAccordion}
+                  handlePreviousAccordion={handlePreviousAccordion}
+                  setActiveAccordion={setActiveAccordion}
+                >
+                  <AssessingFeedback
+                    setAssessingFeedback={setAssessingFeedback}
+                  />
+                </TemplateRow>
 
-              <TemplateRow
-                title="Late Submissions"
-                isExpanded={activeAccordion === 6}
-                index={6}
-                handleNextAccordion={handleNextAccordion}
-                handlePreviousAccordion={handlePreviousAccordion}
-                setActiveAccordion={setActiveAccordion}
-              >
-                <LateSubmission />
-              </TemplateRow>
+                <TemplateRow
+                  title="Late Submissions"
+                  isExpanded={activeAccordion === 6}
+                  index={6}
+                  handleNextAccordion={handleNextAccordion}
+                  handlePreviousAccordion={handlePreviousAccordion}
+                  setActiveAccordion={setActiveAccordion}
+                >
+                  <LateSubmission setLateSubmission={setLateSubmission} />
+                </TemplateRow>
 
-              <TemplateRow
-                title="Extenuating Circumstances"
-                isExpanded={activeAccordion === 7}
-                index={7}
-                handleNextAccordion={handleNextAccordion}
-                handlePreviousAccordion={handlePreviousAccordion}
-                setActiveAccordion={setActiveAccordion}
-              >
-                <ExtenuatingCircumstances />
-              </TemplateRow>
+                <TemplateRow
+                  title="Extenuating Circumstances"
+                  isExpanded={activeAccordion === 7}
+                  index={7}
+                  handleNextAccordion={handleNextAccordion}
+                  handlePreviousAccordion={handlePreviousAccordion}
+                  setActiveAccordion={setActiveAccordion}
+                >
+                  <ExtenuatingCircumstances
+                    setExtenuatingCircumstances={setExtenuatingCircumstances}
+                  />
+                </TemplateRow>
 
-              <TemplateRow
-                title="Academic Misconduct"
-                isExpanded={activeAccordion === 8}
-                index={8}
-                handleNextAccordion={handleNextAccordion}
-                handlePreviousAccordion={handlePreviousAccordion}
-                setActiveAccordion={setActiveAccordion}
-              >
-                <AcademicMisconduct />
-              </TemplateRow>
-              <TemplateRow
-                title="Add Approvers"
-                isExpanded={activeAccordion === 9}
-                index={9}
-                handleNextAccordion={handleNextAccordion}
-                handlePreviousAccordion={handlePreviousAccordion}
-                setActiveAccordion={setActiveAccordion}
-              >
-                <AddApprovers/>
-                <CSRFToken />
-                <MockSendApproverEmail />
-              </TemplateRow>
-            </TableBody>
-            }
+                <TemplateRow
+                  title="Academic Misconduct"
+                  isExpanded={activeAccordion === 8}
+                  index={8}
+                  handleNextAccordion={handleNextAccordion}
+                  handlePreviousAccordion={handlePreviousAccordion}
+                  setActiveAccordion={setActiveAccordion}
+                >
+                  <AcademicMisconduct
+                    setAcademicMisconduct={setAcademicMisconduct}
+                  />
+                </TemplateRow>
+                <TemplateRow
+                  title="Add Approvers"
+                  isExpanded={activeAccordion === 9}
+                  index={9}
+                  handleNextAccordion={handleNextAccordion}
+                  handlePreviousAccordion={handlePreviousAccordion}
+                  setActiveAccordion={setActiveAccordion}
+                >
+                  <AddApprovers />
+                  <CSRFToken />
+                  <MockSendApproverEmail />
+                </TemplateRow>
+              </TableBody>
+            )}
           </Table>
         </TableContainer>
         <SaveButtons />

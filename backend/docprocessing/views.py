@@ -108,15 +108,34 @@ def new_version(request, course_code, assessment_id):
         " and ", ",").split(",")
     learning_outcome_codes_list = list(
         dict.fromkeys(learning_outcome_codes_list))
-    full_learning_outcomes = []
+
+    knowledge_lo = []
+    subject_lo = []
+    transferable_lo = []
 
     for learning_outcome in learning_outcome_codes_list:
         learning_out = LearningOutcome.objects.filter(
             code=learning_outcome, course_code=course_code)
         for lo in learning_out:
-            lo = model_to_dict(lo, fields=["id", "text_desc"])
+            if (lo.type == 'K'):
+                lo = model_to_dict(lo, fields=["id", "text_desc"])
+                lo["code"] = learning_outcome
+                knowledge_lo.append(lo)
+            elif (lo.type == 'S'):
+                lo = model_to_dict(lo, fields=["id", "text_desc"])
+                lo["code"] = learning_outcome
+                subject_lo.append(lo)
+            else: 
+                lo = model_to_dict(lo, fields=["id", "text_desc"])
+                lo["code"] = learning_outcome
+                transferable_lo.append(lo) 
             lo["code"] = learning_outcome
-            full_learning_outcomes.append(lo)
+    full_learning_outcomes = {
+        'knowledge': knowledge_lo,
+        'subject': subject_lo,
+        'transferable': transferable_lo
+    }
+    print(full_learning_outcomes)
     new_v["learning_outcomes"] = full_learning_outcomes
 
     json_string = json.dumps(new_v)

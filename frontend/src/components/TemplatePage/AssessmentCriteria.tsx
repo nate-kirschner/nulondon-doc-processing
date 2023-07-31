@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TextField, Button, Typography, Box } from "@mui/material";
 import { colors } from "../../theme";
+import { AssessmentCriteria, GradeRange } from "../../types/template";
 
 interface TextFieldData {
   id: number;
@@ -9,10 +10,45 @@ interface TextFieldData {
   description: string;
 }
 
-const AssessmentCriteria: React.FC = () => {
+interface AssessmentCriteriaProps {
+  setAssessmentCriteria: (details: AssessmentCriteria) => void;
+}
+
+const AssessmentCriteriaComponent: React.FC<AssessmentCriteriaProps> = ({
+  setAssessmentCriteria,
+}) => {
   const [textFields, setTextFields] = useState<TextFieldData[]>([
     { id: 1, minValue: "", maxValue: "", description: "" },
   ]);
+
+  useEffect(() => {
+    const assessmentCriteria = createAssessmentCriteria();
+  }, [textFields]);
+
+  // updates text field upon user edit
+  const updateTextField = (
+    id: number,
+    field: keyof TextFieldData,
+    value: string
+  ) => {
+    setTextFields((prevTextFields) =>
+      prevTextFields.map((entry) =>
+        entry.id === id ? { ...entry, [field]: value } : entry
+      )
+    );
+    const assessmentCriteria = createAssessmentCriteria();
+    setAssessmentCriteria(assessmentCriteria);
+  };
+
+  // creates type AssessmentCriteria from current fields
+  const createAssessmentCriteria = (): AssessmentCriteria => {
+    const gradeRanges: GradeRange[] = textFields.map((entry) => ({
+      min: parseInt(entry.minValue, 10),
+      max: parseInt(entry.maxValue, 10),
+      description: entry.description,
+    }));
+    return { gradeRanges };
+  };
 
   // adds a new field
   const handleAddTextField = () => {
@@ -67,7 +103,7 @@ const AssessmentCriteria: React.FC = () => {
               size="small"
               value={entry.minValue}
               onChange={(e) =>
-                handleChangeTextField(entry.id, "minValue", e.target.value)
+                updateTextField(entry.id, "minValue", e.target.value)
               }
             />
             <Typography
@@ -88,7 +124,7 @@ const AssessmentCriteria: React.FC = () => {
               size="small"
               value={entry.maxValue}
               onChange={(e) =>
-                handleChangeTextField(entry.id, "maxValue", e.target.value)
+                updateTextField(entry.id, "maxValue", e.target.value)
               }
             />
             <Typography
@@ -110,7 +146,7 @@ const AssessmentCriteria: React.FC = () => {
               size="small"
               value={entry.description}
               onChange={(e) =>
-                handleChangeTextField(entry.id, "description", e.target.value)
+                updateTextField(entry.id, "description", e.target.value)
               }
             />
           </Box>
@@ -147,4 +183,4 @@ const AssessmentCriteria: React.FC = () => {
   );
 };
 
-export default AssessmentCriteria;
+export default AssessmentCriteriaComponent;

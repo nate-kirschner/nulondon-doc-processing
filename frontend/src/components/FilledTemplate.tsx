@@ -23,7 +23,9 @@ const FilledTemplateComponent: React.FC = () => {
     const fetchTemplateData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://127.0.0.1:8000/template/" + template_id + "/");
+        const response = await axios.get(
+          "http://127.0.0.1:8000/template/" + template_id + "/"
+        );
         setLoading(false);
         setFilledTemplateData(response.data);
       } catch (error) {
@@ -39,37 +41,42 @@ const FilledTemplateComponent: React.FC = () => {
 
   return (
     <Box>
-      {loading ? 
-      <Box sx={{ backgroundColor: colors.gray, padding: "24px" }}>
-        <Typography sx={{ fontSize: "16px", textAlign: "center", color: colors.black }}>Loading...</Typography>
-      </Box> : 
-      <div>
-        <h1>Assessment Details</h1>
-        <p>id: {filledTemplateData.id}</p>
-        <p>version: {filledTemplateData.version}</p>
-        <p>course_code: {filledTemplateData.course_code}</p>
-        <p>status: {filledTemplateData.status}</p>
-        <p>assessment_key: {filledTemplateData.assessment_key}</p>
+      {loading ? (
+        <Box sx={{ backgroundColor: colors.gray, padding: "24px" }}>
+          <Typography
+            sx={{ fontSize: "16px", textAlign: "center", color: colors.black }}
+          >
+            Loading...
+          </Typography>
+        </Box>
+      ) : (
+        <div>
+          <h1>Assessment Details</h1>
+          <p>id: {filledTemplateData.id}</p>
+          <p>version: {filledTemplateData.version}</p>
+          <p>course_code: {filledTemplateData.course_code}</p>
+          <p>status: {filledTemplateData.status}</p>
+          <p>assessment_key: {filledTemplateData.assessment_key}</p>
 
-        <h1>Template Details</h1>
-        <p>
-          academicMisconduct: {filledTemplateData.template.academicMisconduct}
-        </p>
-        <p>
-          academicMisconduct: {filledTemplateData.template.assessingFeedback}
-        </p>
-        {/* <p>assessmentCriteria: {filledTemplateData.template.assessmentCriteria}</p>
+          <h1>Template Details</h1>
+          <p>
+            academicMisconduct: {filledTemplateData.template.academicMisconduct}
+          </p>
+          <p>
+            academicMisconduct: {filledTemplateData.template.assessingFeedback}
+          </p>
+          {/* <p>assessmentCriteria: {filledTemplateData.template.assessmentCriteria}</p>
         <p>assessmentDetails: {filledTemplateData.template.assessmentDetails}</p> */}
-        <p>assessmentTask: {filledTemplateData.template.assessmentTask}</p>
-        <p>
-          extenuatingCircumstances:{" "}
-          {filledTemplateData.template.extenuatingCircumstances}
-        </p>
-        <p>lateSubmissions: {filledTemplateData.template.lateSubmissions}</p>
-        {/* <p>learningOutcomes: {filledTemplateData.template.learningOutcomes}</p> */}
-        <p>marking: {filledTemplateData.template.marking}</p>
-      </div>
-      }
+          <p>assessmentTask: {filledTemplateData.template.assessmentTask}</p>
+          <p>
+            extenuatingCircumstances:{" "}
+            {filledTemplateData.template.extenuatingCircumstances}
+          </p>
+          <p>lateSubmissions: {filledTemplateData.template.lateSubmissions}</p>
+          {/* <p>learningOutcomes: {filledTemplateData.template.learningOutcomes}</p> */}
+          <p>marking: {filledTemplateData.template.marking}</p>
+        </div>
+      )}
       <UpdateTemplateStatusButton
         hashed_email={hashed_email}
         template_id={template_id}

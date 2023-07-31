@@ -1,8 +1,25 @@
-import { Box, TextField, Typography } from "@mui/material";
+import { TextField, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 
-const AssessingFeedback: React.FC = () => {
+interface LateSubmissionProps {
+  setLateSubmission: (details: string) => void;
+}
+
+const AssessingFeedback: React.FC<LateSubmissionProps> = ({
+  setLateSubmission,
+}) => {
+  const [textFieldValue, setTextFieldValue] = useState<string>("");
+
+  useEffect(() => {
+    if (textFieldValue === "") {
+      return;
+    }
+    setLateSubmission(textFieldValue);
+    console.log(textFieldValue);
+  });
+
   return (
-    <Box>
+    <div>
       <Typography
         sx={{ fontSize: "15px", fontWeight: 700, paddingBottom: "14px" }}
       >
@@ -13,6 +30,7 @@ const AssessingFeedback: React.FC = () => {
         id="outlined-multiline-static"
         multiline
         rows={4}
+        onChange={(e) => setTextFieldValue(e.target.value)}
         defaultValue="Students Are Reminded to:
                 Submit their assessment ahead of the published deadline. However, if assessments are submitted late without approved Extenuating Circumstances, there are penalties:
                 ● Up to one day late of the published submission deadline = 5% points deducted from mark. For example, an assessment awarded 58% from the
@@ -23,7 +41,7 @@ const AssessingFeedback: React.FC = () => {
                 ● Students who do not submit their assessment within two days, and have no approved extenuating circumstances, are deemed to have failed that assessment element and the mark recorded will be 0%.
                 For further information, please refer to AQF7 Academic Regulations for Taught Awards in the Academic Handbook."
       />
-    </Box>
+    </div>
   );
 };
 

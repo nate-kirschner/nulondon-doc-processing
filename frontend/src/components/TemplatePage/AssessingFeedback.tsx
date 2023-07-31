@@ -1,6 +1,27 @@
 import { Box, TextField, Typography } from "@mui/material";
+import { useState } from "react";
 
-const AssessingFeedback: React.FC = () => {
+interface AssessingFeedbackProps {
+  setAssessingFeedback: (details: string) => void;
+}
+
+const AssessingFeedback: React.FC<AssessingFeedbackProps> = ({
+  setAssessingFeedback,
+}) => {
+  const [textFieldValue, setTextFieldValue] = useState<string>("");
+
+  const handleTextFieldChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const newValue = event.target.value;
+    setTextFieldValue(newValue);
+    console.log(newValue);
+  };
+
+  const saveTemplate = () => {
+    return textFieldValue;
+  };
+
   return (
     <Box>
       <Typography
@@ -13,6 +34,7 @@ const AssessingFeedback: React.FC = () => {
         id="outlined-multiline-static"
         multiline
         rows={4}
+        onChange={handleTextFieldChange}
         defaultValue="Students can expect to receive feedback on all summative coursework within 20 
                 working days of the submission deadline. The 28 calendar day deadline does not apply to work 
                 submitted late. Feedback can be accessed through the Turnitin assessment link on the course page. 
