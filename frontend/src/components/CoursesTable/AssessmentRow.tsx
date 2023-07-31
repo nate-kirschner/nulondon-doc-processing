@@ -14,7 +14,7 @@ import { colors } from "../../theme";
 import { useState } from "react";
 import NewVersionB from "./NewVersionButton";
 
-import { generateWordDocument } from "../../utils/exportTemplate";
+import { generateWordDocument } from "../../utils/export/exportTemplate";
 
 interface AssessmentRowProps extends AssessmentPreview {
   courseId: string;

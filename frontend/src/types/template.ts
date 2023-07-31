@@ -17,13 +17,13 @@ export type AssessmentDetails = {
   anonymousMarketing: boolean;
 };
 
-type GradeRange = {
+export type GradeRange = {
   min: number;
   max: number;
   description: string;
 };
 
-type AssessmentCriteria = {
+export type AssessmentCriteria = {
   gradeRanges: GradeRange[];
 };
 
