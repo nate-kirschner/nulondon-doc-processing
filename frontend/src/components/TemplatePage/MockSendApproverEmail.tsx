@@ -8,7 +8,7 @@ const MockSendApproverEmail: React.FC = () => {
   const handleClick = () => {
     const url = "http://127.0.0.1:8000/send-approver-email/";
     // HARDCODED VALUES!!!!!!
-    const data = { ApproverIDs: [3], TemplateID: 8 };
+    const data = { ApproverIDs: [3], TemplateID: 9 };
     const csrftoken = getCookie("csrftoken");
 
     axios
