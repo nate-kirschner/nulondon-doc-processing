@@ -3,10 +3,11 @@ import { Box } from "@mui/system";
 import { useState } from "react";
 import { colors } from "../../theme";
 
-interface Users {
+interface TextFieldData {
   id: number;
-  name: string;
-  email: string;
+  minValue: string;
+  maxValue: string;
+  description: string;
 }
 const top100Films = [
   { label: "The Shawshank Redemption", year: 1994 },
@@ -24,34 +25,35 @@ const top100Films = [
   { label: "Fight Club", year: 1999 }
 ];
 const AddApprovers: React.FC = () => {
-  const [user, setUser] = useState<Users[]>([
-    { id: 1, name: "", email : "" },
+  const [textFields, setTextFields] = useState<TextFieldData[]>([
+    { id: 1, minValue: "", maxValue: "", description: "" },
   ]);
 
   // adds a new field
   const handleAddTextField = () => {
-    setUser((prevUser) => [
-      ...prevUser,
+    setTextFields((prevTextFields) => [
+      ...prevTextFields,
       {
-        id: prevUser.length + 1,
-        name: "",
-        email: ""
+        id: prevTextFields.length + 1,
+        minValue: "",
+        maxValue: "",
+        description: "",
       },
     ]);
   };
 
   // deletes a field
   const handleDeleteTextField = () => {
-    if (user.length > 1) {
-      const updatedTextFields = user.slice(0, -1);
-      setUser(updatedTextFields);
+    if (textFields.length > 1) {
+      const updatedTextFields = textFields.slice(0, -1);
+      setTextFields(updatedTextFields);
     }
   };
 
   // updates the field when the user types by iterating through the textFields
   const handleChangeTextField = (id: number, field: string, value: string) => {
-    setUser((prevUser) =>
-      prevUser.map((entry) =>
+    setTextFields((prevTextFields) =>
+      prevTextFields.map((entry) =>
         entry.id === id ? { ...entry, [field]: value } : entry
       )
     );
@@ -59,7 +61,7 @@ const AddApprovers: React.FC = () => {
 
   return (
     <Box>
-      {user.map((entry) => (
+      {textFields.map((entry) => (
         <Box key={entry.id} style={{ marginBottom: "10px" }}>
           <Box display="flex" alignItems="center">
             <Typography
