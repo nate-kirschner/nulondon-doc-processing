@@ -197,10 +197,16 @@ def tobe_approved_list(request, approverID):
 
 def get_approvers(request):
     """
-    Returns all Approvers' names and emails
+    Returns all Approvers' names (called labels) and ids
     """
     approvers = Approver.objects.all()
-    approvers_list = list(approvers.values('name', 'email'))
+    approvers_list = list(approvers.values('name', 'id'))
+
+    # rename "name" to "label"
+    for approver in approvers_list:
+        approver['label'] = approver.pop('name')
+
+
     json_string = json.dumps(approvers_list)
     response = HttpResponse(json_string, headers=HEADERS)
     return response

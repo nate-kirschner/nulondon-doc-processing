@@ -33,6 +33,7 @@ import {
 import AssessmentDetailsComponent from "./TemplatePage/AssessmentDetails";
 import AssessmentCriteriaComponent from "./TemplatePage/AssessmentCriteria";
 import { LearningOutcomeSections } from "../types/learningOutcome";
+import AddApprovers from "./TemplatePage/AddApprovers";
 
 const CreateTemplate: React.FC = () => {
   const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
@@ -275,15 +276,15 @@ const CreateTemplate: React.FC = () => {
                     setAcademicMisconduct={setAcademicMisconduct}
                   />
                 </TemplateRow>
-
                 <TemplateRow
-                  title="Send Approver Email"
+                  title="Add Approvers"
                   isExpanded={activeAccordion === 9}
                   index={9}
                   handleNextAccordion={handleNextAccordion}
                   handlePreviousAccordion={handlePreviousAccordion}
                   setActiveAccordion={setActiveAccordion}
                 >
+                  <AddApprovers />
                   <CSRFToken />
                   <MockSendApproverEmail />
                 </TemplateRow>
