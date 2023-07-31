@@ -32,5 +32,5 @@ urlpatterns = [
     path('update-template-status/<str:hashedApproverEmail>/<int:templateId>/',
          views.update_template_status),
     path('get-approvers/', views.get_approvers),
-    path('tobe_approved_list/<str:approverID>/', views.tobe_approved_list)
+    path('tobe_approved_list/<str:approverID>/', views.tobe_approved_list),
 ]
