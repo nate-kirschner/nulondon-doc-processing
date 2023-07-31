@@ -15,20 +15,6 @@ const theme = createTheme({
 
 function App() {
   const [page, setPage] = useState<string>("Browse Courses");
-  // return (
-  //   <ThemeProvider theme={theme}>
-  //       <Box
-  //       sx={{
-  //         display: "flex",
-  //         flexDirection: "column",
-  //         alignItems: "center",
-  //       }}
-  //     >
-  //       <Header />
-  //       <ApprovalTable />
-  //     </Box>
-  //   </ThemeProvider>
-  // );
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -39,7 +25,7 @@ function App() {
         }}
       >
         <Header />
-        <ApprovalTable />
+        <AppRouter />
       </Box>
     </ThemeProvider>
   );
