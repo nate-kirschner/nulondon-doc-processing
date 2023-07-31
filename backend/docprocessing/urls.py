@@ -22,7 +22,6 @@ from docprocessing import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('courses/', views.courses),
-    path('courses/<int:page>/<int:pageSize>', views.courses_paginated),
     path('courses/templates/<str:course_code>/', views.course_templates),
     path('assessments/<str:course_code>/', views.assessments),
     path('learning-outcomes/<str:course_code>/', views.learning_outcomes),
