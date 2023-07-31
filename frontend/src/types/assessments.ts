@@ -3,8 +3,13 @@ export interface AssessmentBase {
   activity: string;
 }
 
+export type Version = {
+  version: number;
+  status: "PENDING" | "APPROVED" | "REJECTED";
+};
+
 export interface AssessmentPreview extends AssessmentBase {
-  versions: number[];
+  versions: Version[];
 }
 
 export interface AssessmentNewVersion extends AssessmentBase {

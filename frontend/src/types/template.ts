@@ -1,3 +1,5 @@
+import LearningOutcome, { LearningOutcomeSections } from "./learningOutcome";
+
 export type AssessmentDetails = {
   courseTitle: string;
   courseCode: string;
@@ -17,13 +19,13 @@ export type AssessmentDetails = {
   anonymousMarketing: boolean;
 };
 
-type GradeRange = {
+export type GradeRange = {
   min: number;
   max: number;
   description: string;
 };
 
-type AssessmentCriteria = {
+export type AssessmentCriteria = {
   gradeRanges: GradeRange[];
 };
 
@@ -32,7 +34,7 @@ export type Template = {
   assessmentTask: string;
   assessmentCriteria: AssessmentCriteria;
   marking: string;
-  learningOutcomes: string[];
+  learningOutcomes: LearningOutcomeSections;
   assessingFeedback: string;
   lateSubmissions: string;
   extenuatingCircumstances: string;
