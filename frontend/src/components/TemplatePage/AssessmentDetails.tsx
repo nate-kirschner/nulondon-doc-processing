@@ -14,14 +14,20 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { colors } from "../../theme";
 import { NewVersion } from "../../types/newVersion";
 import React, { useEffect, useState } from "react";
-import { AssessmentDetails } from "../../types/template";
+import {
+  AssessmentDetails,
+  GroupType,
+  ModeOfSubmission,
+} from "../../types/template";
 
 interface AssessmentDetailsProps {
   newVersion: NewVersion | undefined;
+  setAssessmentDetails: (details: AssessmentDetails) => void;
 }
 
 const AssessmentDetailsComponent: React.FC<AssessmentDetailsProps> = ({
   newVersion,
+  setAssessmentDetails,
 }) => {
   const displayCourse = [
     { displayName: "Course Title", displayValue: newVersion?.title },
@@ -38,50 +44,72 @@ const AssessmentDetailsComponent: React.FC<AssessmentDetailsProps> = ({
     },
   ];
 
-  const [assessmentDetails, setAssessmentDetails] = useState<AssessmentDetails>(
-    {
-      courseTitle: "",
-      courseCode: "",
-      FHEQ: "",
-      sitting: "",
-      assessmentTitle: "",
-      version: 0,
-      assessmentNumber: "",
-      weighting: "",
-      courseLeader: "",
-      assessmentType: "",
-      restrictions: "",
-      issueDate: "",
-      handInDate: "",
-      feedbackDeadline: "",
-      modeOfSubmission: "",
-      anonymousMarketing: false,
+  const [courseLeader, setCourseLeader] = useState("");
+  const [sitting, setSitting] = useState("");
+  const [assessmentType, setAssessmentType] = useState("");
+  const [restrictions, setRestrictions] = useState("");
+  const [groupType, setGroupType] = useState<GroupType | undefined>();
+  const [issueDate, setIssueDate] = useState<Date | null>(null);
+  const [handInDeadline, setHandInDeadline] = useState<Date | null>(null);
+  const [feedbackDeadline, setFeedbackDeadline] = useState("");
+  const [modeOfSubmission, setModeOfSubmission] = useState<
+    ModeOfSubmission | undefined
+  >();
+  const [anonymousMarketing, setAnonymousMarketing] = useState<
+    boolean | undefined
+  >();
+
+  useEffect(() => {
+    if (
+      courseLeader === "" ||
+      sitting === "" ||
+      assessmentType === "" ||
+      restrictions === "" ||
+      groupType === undefined ||
+      issueDate === null ||
+      handInDeadline === null ||
+      feedbackDeadline === "" ||
+      modeOfSubmission === undefined ||
+      anonymousMarketing === undefined ||
+      newVersion === undefined
+    ) {
+      return;
     }
-  );
+    const updatedDetails: AssessmentDetails = {
+      courseTitle: newVersion.title,
+      courseLeader,
+      sitting,
+      assessmentType,
+      restrictions,
+      groupType,
+      issueDate: issueDate.toISOString(),
+      handInDate: handInDeadline.toISOString(),
+      feedbackDeadline,
+      modeOfSubmission,
+      courseCode: newVersion.code,
+      FHEQ: newVersion.fheq,
+      assessmentTitle: newVersion.activity,
+      assessmentNumber: newVersion.ae,
+      weighting: newVersion.weight.toString(),
+      anonymousMarketing: anonymousMarketing,
+    };
+    setAssessmentDetails(updatedDetails);
+  }, [
+    courseLeader,
+    sitting,
+    assessmentType,
+    restrictions,
+    groupType,
+    issueDate,
+    handInDeadline,
+    feedbackDeadline,
+    modeOfSubmission,
+    anonymousMarketing,
+  ]);
 
   if (!newVersion) {
     return null;
   }
-
-  const handleAssessmentDetailsChange = (
-    field: keyof AssessmentDetails,
-    value: string | number | Date | boolean | null
-  ) => {
-    setAssessmentDetails((prevDetails) => {
-      // handles date fields
-      if (field === "issueDate" || field === "handInDate") {
-        return {
-          ...prevDetails,
-          [field]: value === null ? new Date() : value,
-        };
-      }
-      return {
-        ...prevDetails,
-        [field]: value,
-      };
-    });
-    console.log(assessmentDetails);
-  };
 
   return (
     <React.Fragment>
@@ -119,7 +147,12 @@ const AssessmentDetailsComponent: React.FC<AssessmentDetailsProps> = ({
               Course Leader
             </TableCell>
             <TableCell align="right">
-              <TextField variant="outlined" size="small" fullWidth />
+              <TextField
+                variant="outlined"
+                size="small"
+                fullWidth
+                onChange={(e) => setCourseLeader(e.target.value)}
+              />
             </TableCell>
           </TableRow>
           <TableRow>
@@ -127,7 +160,12 @@ const AssessmentDetailsComponent: React.FC<AssessmentDetailsProps> = ({
               Sitting
             </TableCell>
             <TableCell align="right">
-              <TextField variant="outlined" size="small" fullWidth />
+              <TextField
+                variant="outlined"
+                size="small"
+                fullWidth
+                onChange={(e) => setSitting(e.target.value)}
+              />
             </TableCell>
           </TableRow>
           <TableRow>
@@ -135,7 +173,12 @@ const AssessmentDetailsComponent: React.FC<AssessmentDetailsProps> = ({
               Assessment Type
             </TableCell>
             <TableCell align="right">
-              <TextField variant="outlined" size="small" fullWidth />
+              <TextField
+                variant="outlined"
+                size="small"
+                fullWidth
+                onChange={(e) => setAssessmentType(e.target.value)}
+              />
             </TableCell>
           </TableRow>
           <TableRow>
@@ -143,7 +186,12 @@ const AssessmentDetailsComponent: React.FC<AssessmentDetailsProps> = ({
               Restrictions on Time/Length
             </TableCell>
             <TableCell align="right">
-              <TextField variant="outlined" size="small" fullWidth />
+              <TextField
+                variant="outlined"
+                size="small"
+                fullWidth
+                onChange={(e) => setRestrictions(e.target.value)}
+              />
             </TableCell>
           </TableRow>
           <TableRow>
@@ -151,7 +199,16 @@ const AssessmentDetailsComponent: React.FC<AssessmentDetailsProps> = ({
               Individual/Group
             </TableCell>
             <TableCell align="right">
-              <Select label="" size="small" fullWidth>
+              <Select
+                label=""
+                size="small"
+                fullWidth
+                onChange={(e) =>
+                  setGroupType(
+                    e.target.value === "Individual" ? "Individual" : "Group"
+                  )
+                }
+              >
                 <MenuItem value={"Individual"}>Individual</MenuItem>
                 <MenuItem value={"Group"}>Group</MenuItem>
               </Select>
@@ -163,7 +220,10 @@ const AssessmentDetailsComponent: React.FC<AssessmentDetailsProps> = ({
             </TableCell>
             <TableCell align="right">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker />
+                <DatePicker
+                  value={issueDate}
+                  onChange={(value) => setIssueDate(value)}
+                />
               </LocalizationProvider>
             </TableCell>
           </TableRow>
@@ -173,7 +233,10 @@ const AssessmentDetailsComponent: React.FC<AssessmentDetailsProps> = ({
             </TableCell>
             <TableCell align="right">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker />
+                <DatePicker
+                  value={handInDeadline}
+                  onChange={(value) => setHandInDeadline(value)}
+                />
               </LocalizationProvider>
             </TableCell>
           </TableRow>
@@ -182,7 +245,12 @@ const AssessmentDetailsComponent: React.FC<AssessmentDetailsProps> = ({
               Planned Feedback Deadline
             </TableCell>
             <TableCell align="right">
-              <TextField variant="outlined" size="small" fullWidth />
+              <TextField
+                variant="outlined"
+                size="small"
+                fullWidth
+                onChange={(e) => setFeedbackDeadline(e.target.value)}
+              />
             </TableCell>
           </TableRow>
           <TableRow>
@@ -190,7 +258,15 @@ const AssessmentDetailsComponent: React.FC<AssessmentDetailsProps> = ({
               Mode of Submission
             </TableCell>
             <TableCell align="right">
-              <Select fullWidth size="small">
+              <Select
+                fullWidth
+                size="small"
+                onChange={(e) =>
+                  setModeOfSubmission(
+                    e.target.value === "Online" ? "Online" : "InPerson"
+                  )
+                }
+              >
                 <MenuItem value={"online"}>Online</MenuItem>
                 <MenuItem value={"in-person"}>In person</MenuItem>
               </Select>
@@ -210,6 +286,7 @@ const AssessmentDetailsComponent: React.FC<AssessmentDetailsProps> = ({
                     backgroundColor: colors.red,
                   },
                 }}
+                onChange={(e) => setAnonymousMarketing(e.target.checked)}
               />
             </TableCell>
           </TableRow>

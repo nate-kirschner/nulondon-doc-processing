@@ -17,7 +17,6 @@ interface TemplateRowProps extends PropsWithChildren {
   handlePreviousAccordion: () => void;
   handleNextAccordion: () => void;
   setActiveAccordion: (active: number | null) => void;
-  // getContent: () => (content: string | JSX.Element);
 }
 
 const TemplateRow: React.FC<TemplateRowProps> = ({

@@ -1,19 +1,21 @@
 import { TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const AssessingFeedback: React.FC = () => {
+interface AcademicMinsconductProps {
+  setAcademicMisconduct: (details: string) => void;
+}
+
+const AcademicMisconduct: React.FC<AcademicMinsconductProps> = ({
+  setAcademicMisconduct,
+}) => {
   const [textFieldValue, setTextFieldValue] = useState<string>("");
 
-  const handleTextFieldChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const newValue = event.target.value;
-    setTextFieldValue(newValue);
-  };
-
-  const saveTemplate = () => {
-    return textFieldValue;
-  };
+  useEffect(() => {
+    if (textFieldValue === "") {
+      return;
+    }
+    setAcademicMisconduct(textFieldValue);
+  });
 
   return (
     <div>
@@ -27,7 +29,7 @@ const AssessingFeedback: React.FC = () => {
         id="outlined-multiline-static"
         multiline
         rows={4}
-        onChange={handleTextFieldChange}
+        onChange={(e) => setTextFieldValue(e.target.value)}
         defaultValue="Any submission must be a student’s own work and, where facts or ideas have been used 
                 from other sources, these sources must be appropriately referenced. The Academic Misconduct Policy 
                 includes the definitions of all practices that will be deemed to constitute academic misconduct. 
@@ -41,4 +43,4 @@ const AssessingFeedback: React.FC = () => {
   );
 };
 
-export default AssessingFeedback;
+export default AcademicMisconduct;

@@ -10,7 +10,13 @@ interface TextFieldData {
   description: string;
 }
 
-const AssessmentCriterias: React.FC = () => {
+interface AssessmentCriteriaProps {
+  setAssessmentCriteria: (details: AssessmentCriteria) => void;
+}
+
+const AssessmentCriteriaComponent: React.FC<AssessmentCriteriaProps> = ({
+  setAssessmentCriteria,
+}) => {
   const [textFields, setTextFields] = useState<TextFieldData[]>([
     { id: 1, minValue: "", maxValue: "", description: "" },
   ]);
@@ -31,6 +37,7 @@ const AssessmentCriterias: React.FC = () => {
       )
     );
     const assessmentCriteria = createAssessmentCriteria();
+    setAssessmentCriteria(assessmentCriteria);
   };
 
   // creates type AssessmentCriteria from current fields
@@ -40,7 +47,6 @@ const AssessmentCriterias: React.FC = () => {
       max: parseInt(entry.maxValue, 10),
       description: entry.description,
     }));
-
     return { gradeRanges };
   };
 
@@ -177,4 +183,4 @@ const AssessmentCriterias: React.FC = () => {
   );
 };
 
-export default AssessmentCriterias;
+export default AssessmentCriteriaComponent;

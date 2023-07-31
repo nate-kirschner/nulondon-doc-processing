@@ -10,7 +10,6 @@ import {
   TableRow,
 } from "@mui/material";
 import { colors } from "../theme";
-import AssessmentCriteria from "./TemplatePage/AssessmentCriteria";
 import LearningOutcomes from "./TemplatePage/LearningOutcomes";
 import AssessmentTask from "./TemplatePage/AssessmentTask";
 import Marking from "./TemplatePage/Marking";
@@ -20,13 +19,19 @@ import ExtenuatingCircumstances from "./TemplatePage/ExtenuatingCircumstances";
 import AcademicMisconduct from "./TemplatePage/AcademicMisconduct";
 import TemplateRow from "./TemplateRow";
 import SaveButtons from "./SaveButtons";
-import AssessmentDetails from "./TemplatePage/AssessmentDetails";
 import MockSendApproverEmail from "./TemplatePage/MockSendApproverEmail";
 import CSRFToken from "./csrftoken";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { NewVersion } from "../types/newVersion";
-import { Template } from "../types/template";
+import {
+  AssessmentCriteria,
+  AssessmentDetails,
+  Template,
+} from "../types/template";
+import AssessmentDetailsComponent from "./TemplatePage/AssessmentDetails";
+import AssessmentCriteriaComponent from "./TemplatePage/AssessmentCriteria";
+import { LearningOutcomeSections } from "../types/learningOutcome";
 
 const CreateTemplate: React.FC = () => {
   const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
@@ -37,6 +42,30 @@ const CreateTemplate: React.FC = () => {
 
   const getAE = searchParams.get("assessmentId");
 
+  // useStates for each template section
+  const [assessmentDetails, setAssessmentDetails] =
+    useState<AssessmentDetails>();
+
+  const [assessmentTask, setAssessmentTask] = useState<string>();
+
+  const [assessmentCriteria, setAssessmentCriteria] =
+    useState<AssessmentCriteria>();
+
+  const [marking, setMarking] = useState<string>();
+
+  const [assessingFeedback, setAssessingFeedback] = useState<string>();
+
+  const [lateSubmission, setLateSubmission] = useState<string>();
+
+  const [extenuatingCircumstances, setExtenuatingCircumstances] =
+    useState<string>();
+
+  const [academicMisconduct, setAcademicMisconduct] = useState<string>();
+
+  const [learningOutcome, setLearningOutcome] =
+    useState<LearningOutcomeSections>();
+
+  // handles accordion open and close
   const handleNextAccordion = () => {
     setActiveAccordion((prevIndex) => Math.min((prevIndex ?? 0) + 1, 0));
   };
@@ -96,7 +125,10 @@ const CreateTemplate: React.FC = () => {
                 handlePreviousAccordion={handlePreviousAccordion}
                 setActiveAccordion={setActiveAccordion}
               >
-                <AssessmentDetails newVersion={newVersion} />
+                <AssessmentDetailsComponent
+                  newVersion={newVersion}
+                  setAssessmentDetails={setAssessmentDetails}
+                />
               </TemplateRow>
 
               <TemplateRow
@@ -107,7 +139,7 @@ const CreateTemplate: React.FC = () => {
                 handlePreviousAccordion={handlePreviousAccordion}
                 setActiveAccordion={setActiveAccordion}
               >
-                <AssessmentTask />
+                <AssessmentTask setAssessmentTask={setAssessmentTask} />
               </TemplateRow>
 
               <TemplateRow
@@ -118,7 +150,9 @@ const CreateTemplate: React.FC = () => {
                 handlePreviousAccordion={handlePreviousAccordion}
                 setActiveAccordion={setActiveAccordion}
               >
-                <AssessmentCriteria />
+                <AssessmentCriteriaComponent
+                  setAssessmentCriteria={setAssessmentCriteria}
+                />
               </TemplateRow>
 
               <TemplateRow
@@ -129,7 +163,7 @@ const CreateTemplate: React.FC = () => {
                 handlePreviousAccordion={handlePreviousAccordion}
                 setActiveAccordion={setActiveAccordion}
               >
-                <Marking />
+                <Marking setMarking={setMarking} />
               </TemplateRow>
 
               <TemplateRow
@@ -140,7 +174,10 @@ const CreateTemplate: React.FC = () => {
                 handlePreviousAccordion={handlePreviousAccordion}
                 setActiveAccordion={setActiveAccordion}
               >
-                <LearningOutcomes newVersion={newVersion} />
+                <LearningOutcomes
+                  newVersion={newVersion}
+                  setLearningOutcomes={setLearningOutcome}
+                />
               </TemplateRow>
 
               <TemplateRow
@@ -151,7 +188,9 @@ const CreateTemplate: React.FC = () => {
                 handlePreviousAccordion={handlePreviousAccordion}
                 setActiveAccordion={setActiveAccordion}
               >
-                <AssessingFeedback />
+                <AssessingFeedback
+                  setAssessingFeedback={setAssessingFeedback}
+                />
               </TemplateRow>
 
               <TemplateRow
@@ -162,7 +201,7 @@ const CreateTemplate: React.FC = () => {
                 handlePreviousAccordion={handlePreviousAccordion}
                 setActiveAccordion={setActiveAccordion}
               >
-                <LateSubmission />
+                <LateSubmission setLateSubmission={setLateSubmission} />
               </TemplateRow>
 
               <TemplateRow
@@ -173,7 +212,9 @@ const CreateTemplate: React.FC = () => {
                 handlePreviousAccordion={handlePreviousAccordion}
                 setActiveAccordion={setActiveAccordion}
               >
-                <ExtenuatingCircumstances />
+                <ExtenuatingCircumstances
+                  setExtenuatingCircumstances={setExtenuatingCircumstances}
+                />
               </TemplateRow>
 
               <TemplateRow
@@ -184,7 +225,9 @@ const CreateTemplate: React.FC = () => {
                 handlePreviousAccordion={handlePreviousAccordion}
                 setActiveAccordion={setActiveAccordion}
               >
-                <AcademicMisconduct />
+                <AcademicMisconduct
+                  setAcademicMisconduct={setAcademicMisconduct}
+                />
               </TemplateRow>
 
               <TemplateRow

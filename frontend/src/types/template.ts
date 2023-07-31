@@ -4,18 +4,22 @@ export type AssessmentDetails = {
   FHEQ: string;
   sitting: string;
   assessmentTitle: string;
-  version: number;
   assessmentNumber: string;
   weighting: string;
   courseLeader: string;
   assessmentType: string;
   restrictions: string;
+  groupType: GroupType;
   issueDate: string;
   handInDate: string;
   feedbackDeadline: string;
-  modeOfSubmission: string;
+  modeOfSubmission: ModeOfSubmission;
   anonymousMarketing: boolean;
 };
+
+export type ModeOfSubmission = 'Online' | 'InPerson'
+
+export type GroupType = 'Individual' | 'Group';
 
 export type GradeRange = {
   min: number;

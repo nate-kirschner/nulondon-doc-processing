@@ -1,7 +1,13 @@
 import { Box, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 
-const AssessingFeedback: React.FC = () => {
+interface AssessingFeedbackProps {
+  setAssessingFeedback: (details: string) => void;
+}
+
+const AssessingFeedback: React.FC<AssessingFeedbackProps> = ({
+  setAssessingFeedback,
+}) => {
   const [textFieldValue, setTextFieldValue] = useState<string>("");
 
   const handleTextFieldChange = (

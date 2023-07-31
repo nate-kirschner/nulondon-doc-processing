@@ -1,20 +1,21 @@
 import { Box, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const AssessmentTask: React.FC = () => {
+interface AssessmentTaskProps {
+  setAssessmentTask: (details: string) => void;
+}
+
+const AssessmentTask: React.FC<AssessmentTaskProps> = ({
+  setAssessmentTask,
+}) => {
   const [textFieldValue, setTextFieldValue] = useState<string>("");
 
-  const handleTextFieldChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const newValue = event.target.value;
-    setTextFieldValue(newValue);
-    console.log(newValue);
-  };
-
-  const saveTemplate = () => {
-    return textFieldValue;
-  };
+  useEffect(() => {
+    if (textFieldValue === "") {
+      return;
+    }
+    setAssessmentTask(textFieldValue);
+  });
 
   return (
     <Box>
@@ -28,8 +29,8 @@ const AssessmentTask: React.FC = () => {
         id="outlined-multiline-static"
         multiline
         rows={4}
-        onChange={handleTextFieldChange}
-        defaultValue=""
+        onChange={(e) => setTextFieldValue(e.target.value)}
+        defaultValue="This assessment requires... You will be assessed on... "
       />
     </Box>
   );
