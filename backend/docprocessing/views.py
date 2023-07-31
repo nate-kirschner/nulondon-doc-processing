@@ -201,4 +201,7 @@ def update_template_status(request, hashedApproverEmail, templateId):
     return HttpResponse("/update_template_status successfully udpated status", headers=HEADERS)   
 
 
+def tobe_approved_list(request, approverID):
+    tobe_approved_list = ApproverTemplate.objects.filter(approverID=approverID, templateID__status="Pending")
+    return createHTTPResponse(tobe_approved_list)
 
