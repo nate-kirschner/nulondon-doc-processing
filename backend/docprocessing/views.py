@@ -107,7 +107,7 @@ def course_templates(request, course_code):
     return response
 
 
-def template(request, templateId):
+def template_by_id(request, templateId):
     """
     Gets a template by its id
     """

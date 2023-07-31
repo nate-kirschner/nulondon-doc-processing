@@ -20,7 +20,7 @@ const FilledTemplateComponent: React.FC = () => {
   useEffect(() => {
     const fetchTemplateData = async () => {
       try {
-        const ep = "http://127.0.0.1:8000/template/" + template_id + "/";
+        const ep = "http://127.0.0.1:8000/template-by-id/" + template_id + "/";
         const response = await axios.get(ep);
         setFilledTemplateData(response.data);
       } catch (error) {
