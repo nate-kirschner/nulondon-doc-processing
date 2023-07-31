@@ -50,6 +50,7 @@ const TemplateRow: React.FC<TemplateRowProps> = ({
               <TableRow>
                 <TableCell colSpan={1}>
                   <Button
+                    sx={{ margin: "4px" }}
                     variant="outlined"
                     onClick={handlePreviousAccordion}
                     color="error"
@@ -57,6 +58,7 @@ const TemplateRow: React.FC<TemplateRowProps> = ({
                     Back
                   </Button>
                   <Button
+                    sx={{ margin: "4px" }}
                     variant="outlined"
                     onClick={handleNextAccordion}
                     color="error"
@@ -64,6 +66,7 @@ const TemplateRow: React.FC<TemplateRowProps> = ({
                     Next
                   </Button>
                   <Button
+                    sx={{ margin: "4px" }}
                     variant="outlined"
                     onClick={() => setActiveAccordion(null)}
                     color="error"
