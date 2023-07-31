@@ -192,6 +192,10 @@ def update_template_status(request, hashedApproverEmail, templateId):
             return HttpResponse("/update_template_status recieved invalid JSON", headers=HEADERS)    
 
     return HttpResponse("/update_template_status successfully udpated status", headers=HEADERS)   
+  
+def tobe_approved_list(request, approverID):
+    tobe_approved_list = ApproverTemplate.objects.filter(approverID=approverID, templateID__status="Pending")
+    return createHTTPResponse(tobe_approved_list)
 
 
 def get_approvers(request):
@@ -203,3 +207,4 @@ def get_approvers(request):
     json_string = json.dumps(approvers_list)
     response = HttpResponse(json_string, headers=HEADERS)
     return response
+
