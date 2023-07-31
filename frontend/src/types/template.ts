@@ -1,3 +1,5 @@
+import LearningOutcome, { LearningOutcomeSections } from "./learningOutcome";
+
 export type AssessmentDetails = {
   courseTitle: string;
   courseCode: string;
@@ -42,7 +44,7 @@ export type Template = {
   assessmentTask: string;
   assessmentCriteria: AssessmentCriteria;
   marking: string;
-  learningOutcomes: LearningOutcomes;
+  learningOutcomes: LearningOutcomeSections;
   assessingFeedback: string;
   lateSubmissions: string;
   extenuatingCircumstances: string;

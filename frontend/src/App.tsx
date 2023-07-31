@@ -5,6 +5,7 @@ import { Box, createTheme, ThemeProvider } from "@mui/material";
 import { useState } from "react";
 import CreateTemplate from "./components/CreateTemplate";
 import AppRouter from "./components/Routers";
+import ApprovalTable from "./components/ApprovalPage/Approval";
 
 const theme = createTheme({
   typography: {

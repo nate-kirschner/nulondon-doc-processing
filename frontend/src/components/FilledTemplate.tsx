@@ -1,8 +1,9 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
 import { FilledTemplate, TemplateStatus } from "../types/template";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { colors } from "../theme";
 
 type UpdateTemplateStatusButtonProp = {
   hashed_email: string | null;
@@ -16,19 +17,23 @@ const FilledTemplateComponent: React.FC = () => {
   const template_id = searchParams.get("templateID");
   const [filledTemplateData, setFilledTemplateData] =
     useState<FilledTemplate>();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchTemplateData = async () => {
       try {
-        const ep = "http://127.0.0.1:8000/template/" + template_id + "/";
-        const response = await axios.get(ep);
+        setLoading(true);
+        const response = await axios.get(
+          "http://127.0.0.1:8000/template/" + template_id + "/"
+        );
+        setLoading(false);
         setFilledTemplateData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchTemplateData();
-  }, []);
+  }, [template_id]);
 
   if (!filledTemplateData) {
     return <div>Loading...</div>;
@@ -36,35 +41,42 @@ const FilledTemplateComponent: React.FC = () => {
 
   return (
     <Box>
-      <div>
-        <h1>Assessment Details</h1>
-        <p>id: {filledTemplateData.id}</p>
-        <p>version: {filledTemplateData.version}</p>
-        <p>course_code: {filledTemplateData.course_code}</p>
-        <p>status: {filledTemplateData.status}</p>
-        <p>assessment_key: {filledTemplateData.assessment_key}</p>
+      {loading ? (
+        <Box sx={{ backgroundColor: colors.gray, padding: "24px" }}>
+          <Typography
+            sx={{ fontSize: "16px", textAlign: "center", color: colors.black }}
+          >
+            Loading...
+          </Typography>
+        </Box>
+      ) : (
+        <div>
+          <h1>Assessment Details</h1>
+          <p>id: {filledTemplateData.id}</p>
+          <p>version: {filledTemplateData.version}</p>
+          <p>course_code: {filledTemplateData.course_code}</p>
+          <p>status: {filledTemplateData.status}</p>
+          <p>assessment_key: {filledTemplateData.assessment_key}</p>
 
-        <h1>Template Details</h1>
-        <p>
-          academicMisconduct: {filledTemplateData.template.academicMisconduct}
-        </p>
-        <p>
-          academicMisconduct: {filledTemplateData.template.assessingFeedback}
-        </p>
-        {/* <p>assessmentCriteria: {filledTemplateData.template.assessmentCriteria}</p>
+          <h1>Template Details</h1>
+          <p>
+            academicMisconduct: {filledTemplateData.template.academicMisconduct}
+          </p>
+          <p>
+            academicMisconduct: {filledTemplateData.template.assessingFeedback}
+          </p>
+          {/* <p>assessmentCriteria: {filledTemplateData.template.assessmentCriteria}</p>
         <p>assessmentDetails: {filledTemplateData.template.assessmentDetails}</p> */}
-        <p>assessmentTask: {filledTemplateData.template.assessmentTask}</p>
-        <p>
-          extenuatingCircumstances:{" "}
-          {filledTemplateData.template.extenuatingCircumstances}
-        </p>
-        <p>lateSubmissions: {filledTemplateData.template.lateSubmissions}</p>
-        <p>
-          learningOutcomes:{" "}
-          {filledTemplateData.template.learningOutcomes.knowledge}
-        </p>
-        <p>marking: {filledTemplateData.template.marking}</p>
-      </div>
+          <p>assessmentTask: {filledTemplateData.template.assessmentTask}</p>
+          <p>
+            extenuatingCircumstances:{" "}
+            {filledTemplateData.template.extenuatingCircumstances}
+          </p>
+          <p>lateSubmissions: {filledTemplateData.template.lateSubmissions}</p>
+          {/* <p>learningOutcomes: {filledTemplateData.template.learningOutcomes}</p> */}
+          <p>marking: {filledTemplateData.template.marking}</p>
+        </div>
+      )}
       <UpdateTemplateStatusButton
         hashed_email={hashed_email}
         template_id={template_id}
