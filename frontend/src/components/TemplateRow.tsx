@@ -35,6 +35,7 @@ const TemplateRow: React.FC<TemplateRowProps> = ({
       setActiveAccordion(index);
     }
   };
+
   return (
     <TableRow>
       <TableCell colSpan={1}>

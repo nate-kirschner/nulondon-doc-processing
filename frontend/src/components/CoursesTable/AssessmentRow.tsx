@@ -120,7 +120,8 @@ const AssessmentRow: React.FC<AssessmentRowProps> = ({
                 generateWordDocument(
                   courseId,
                   assessmentId,
-                  versionToString(selectedVersion)
+                  versionToString(selectedVersion),
+                  activity
                 )
               }
             >

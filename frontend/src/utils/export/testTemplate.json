@@ -1,69 +1,79 @@
 {
-  "marking": "The University uses two common assessment marking schemes – one for undergraduate and one for postgraduate – to mark all taught programmes leading to an award of the University. More detailed information on the common assessment marking scheme and the criteria can be found in the Course Syllabus, available on the University’s VLE.",
-  "assessmentTask": "This assessment requires producing a presentation of a data science solution solving a real-world problem. For example, you can use the programming with data skills that you acquired during the course to analyse the air pollution in London. You will need to submit a slide show consisting of a maximum 5 slides in PDF format and a 5-minute video presenting your slides. Your presentation should include a description of the problem, your chosen dataset, your applied data science methods, and appropriate data visualisations. Optionally, you may also have an opportunity to communicate your work to your fellow students in-class.",
-  "lateSubmissions": "Late Submission Policy",
-  "learningOutcomes": {
-    "knowledge": [
-      {
-        "code": "K1a",
-        "text_desc": "Demonstrate knowledge and understanding of which data structure to use in Python."
-      },
-      {
-        "code": "K2a",
-        "text_desc": "Demonstrate knowledge and understanding of when to use an existing module and when to create a function."
-      }
-    ],
-    "subject": [
-      {
-        "code": "S1a",
-        "text_desc": "Engage in the theory behind the choice of an appropriate data structure."
-      }
-    ],
-    "transferable": [
-      {
-        "code": "T1a",
-        "text_desc": "Work independently, effectively, and to deadlines."
-      }
-    ]
+  "template": {
+    "assessmentDetails": {
+      "courseTitle": "Introductory Art and Design Directed Study I ",
+      "courseLeader": "Ian",
+      "sitting": "Idk",
+      "assessmentType": "Type",
+      "restrictions": "10 min",
+      "groupType": "Group",
+      "issueDate": "2023-07-18T23:00:00.000Z",
+      "handInDate": "2023-07-12T23:00:00.000Z",
+      "feedbackDeadline": "Tomorrow",
+      "modeOfSubmission": "InPerson",
+      "courseCode": "LADES4249",
+      "FHEQ": 4,
+      "assessmentTitle": "Set Exercises",
+      "assessmentNumber": 1,
+      "weighting": "40",
+      "anonymousMarketing": true
+    },
+    "assessmentTask": "This assessment requires... You will be assessed on... ",
+    "assessmentCriteria": {
+      "gradeRanges": [
+        { "min": 50, "max": 100, "description": "Good Work" },
+        { "min": 0, "max": 50, "description": "Ba work" }
+      ]
+    },
+    "marking": "The University uses two common assessment marking schemes – one for undergraduate and one for postgraduate – to mark all taught programmes leading to an award of the University. More detailed information on the common assessment marking scheme and the criteria can be found in the Course Syllabus, available on the University’s VLE.",
+    "learningOutcomes": {
+      "knowledge": [
+        {
+          "id": 769,
+          "text_desc": "Identify and describe key information about a specific challenge, figure, or topic in Art History and Design and its / their relevance in the wider discipline.",
+          "code": "K1a",
+          "checked": true
+        },
+        {
+          "id": 770,
+          "text_desc": "Explain and discuss key claims, concepts, or principles in the scholarly literature relating to the challenge, figure, or topic.",
+          "code": "K2a",
+          "checked": true
+        }
+      ],
+      "subject": [
+        {
+          "id": 771,
+          "text_desc": "Apply well-established analytical, evaluative or interpretative techniques or frameworks to the specific challenge, figure, or topic.",
+          "code": "S1a",
+          "checked": true
+        },
+        {
+          "id": 772,
+          "text_desc": "Engage in informed argument or discussion about the specific challenge, figure, or topic, engaging with prominent considerations in the discipline.",
+          "code": "S2a",
+          "checked": false
+        }
+      ],
+      "transferable": [
+        {
+          "id": 773,
+          "text_desc": "Research and study effectively in a guided and structured environment.",
+          "code": "T2a",
+          "checked": true
+        },
+        {
+          "id": 774,
+          "text_desc": "Display a developing technical proficiency in written English and an ability to communicate clearly and accurately in structured and coherent pieces of writing.",
+          "code": "T3a",
+          "checked": true
+        }
+      ]
+    },
+    "assessingFeedback": "Students can expect to receive feedback on all summative coursework within 20 working days of the submission deadline. The 28 calendar day deadline does not apply to work submitted late. Feedback can be accessed through the Turnitin assessment link on the course page. Further instructions on submitting an assessment and accessing feedback can be found on the University’s VLE.",
+    "lateSubmissions": "Students Are Reminded to: Submit their assessment ahead of the published deadline. However, if assessments are submitted late without approved Extenuating Circumstances, there are penalties: Up to one day late of the published submission deadline = 5% points deducted from mark. For example, an assessment awarded 58% from the final mark recorded will be 53%. If the assessment is awarded 42% from the markers, the final mark recorded will be 37%. Two days late: any mark of 40% or higher will be capped at 40% for undergraduate students. Any mark of 50% or higher will be capped at 50% for postgraduate students. Any mark below 40% for undergraduate students and below 50% for postgraduate students, will stand. Students who do not submit their assessment within two days, and have no approved extenuating circumstances, are deemed to have failed that assessment element and the mark recorded will be 0%. For further information, please refer to AQF7 Academic Regulations for Taught Awards in the Academic Handbook.",
+    "extenuatingCircumstances": "The University’s Extenuating Circumstances procedure is in place if there are genuine circumstances that may prevent a student submitting an assessment. If the EC application is successful, there will be no academic penalty for missing the published submission deadline. Students are reminded that EC covers only short-term issues (within 28 days leading to the submission deadline) and that if they experience longer-term matters that impact on learning then they must contact Student Support and Development for advice. For further information, please refer to the Extenuating Circumstances Policy in the Academic Handbook.",
+    "academicMisconduct": "Any submission must be a student’s own work and, where facts or ideas have been used from other sources, these sources must be appropriately referenced. The Academic Misconduct Policy includes the definitions of all practices that will be deemed to constitute academic misconduct. Students should check this policy before submitting their work. Students suspected of committing Academic Misconduct will face action under the Policy. Where students are found to have committed an offence they will be subject to sanction, which may include failing an assessment, failing a course or being dismissed from the University depending upon the severity of the offence committed. For further information, please refer to the Academic Misconduct Policy in the Academic Handbook."
   },
-  "assessingFeedback": "Students can expect to receive feedback on all summative coursework within 20 working days of the submission deadline. The 28 calendar day deadline does not apply to work submitted late. Feedback can be accessed through the Turnitin assessment link on the course page. Further instructions on submitting an assessment and accessing feedback can be found on the University’s VLE.",
-  "assessmentDetails": {
-    "FHEQ": "Text",
-    "sitting": "Text",
-    "version": 4,
-    "issueDate": "01-01-2023",
-    "weighting": "50%",
-    "courseCode": "IS3500",
-    "handInDate": "01-01-2023",
-    "courseTitle": "Course Title Example",
-    "courseLeader": "Ian",
-    "restrictions": "Text",
-    "assessmentType": "Text",
-    "assessmentTitle": "Tittle",
-    "assessmentNumber": "Number",
-    "feedbackDeadline": "01-01-2023",
-    "modeOfSubmission": "Mode of Submission",
-    "anonymousMarketing": true
-  },
-  "academicMisconduct": "Any submission must be a student’s own work and, where facts or ideas have been used from other sources, these sources must be appropriately referenced. The Academic Misconduct Policy includes the definitions of all practices that will be deemed to constitute academic misconduct. Students should check this policy before submitting their work. Students suspected of committing Academic Misconduct will face action under the Policy. Where students are found to have committed an offence they will be subject to sanction, which may include failing an assessment, failing a course or being dismissed from the University depending upon the severity of the offence committed.",
-  "assessmentCriteria": {
-    "gradeRanges": [
-      {
-        "min": 70,
-        "max": 100,
-        "description": "There was evidence of the ability to perform all programming tasks correctly. The demonstration of the methods was excellent, coherent, well documented and clearly explained."
-      },
-      {
-        "min": 60,
-        "max": 69,
-        "description": "There was evidence of ability to perform some programming tasks correctly. The demonstration of the methods is good, coherent and reasonably detailed and explained."
-      },
-      {
-        "min": 0,
-        "max": 59,
-        "description": "Failure to solve the programming task in assignment. Methods were completely incorrect or absent."
-      }
-    ]
-  },
-  "extenuatingCircumstances": "The University’s Extenuating Circumstances procedure is in place if there are genuine circumstances that may prevent a student submitting an assessment. If the EC application is successful, there will be no academic penalty for missing the published submission deadline. Students are reminded that EC covers only short-term issues (within 28 days leading to the submission deadline) and that if they experience longer-term matters that impact on learning then they must contact Student Support and Development for advice."
+  "approvers": [0, 0]
 }
