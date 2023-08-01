@@ -147,7 +147,6 @@ def new_version(request, course_code, assessment_id):
         'subject': subject_lo,
         'transferable': transferable_lo
     }
-    print(full_learning_outcomes)
     new_v["learning_outcomes"] = full_learning_outcomes
 
     json_string = json.dumps(new_v)
