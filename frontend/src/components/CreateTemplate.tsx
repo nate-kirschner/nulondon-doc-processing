@@ -34,8 +34,10 @@ import AssessmentDetailsComponent from "./TemplatePage/AssessmentDetails";
 import AssessmentCriteriaComponent from "./TemplatePage/AssessmentCriteria";
 import { LearningOutcomeSections } from "../types/learningOutcome";
 import AddApprovers from "./TemplatePage/AddApprovers";
+import { useNavigate } from "react-router-dom";
 
 const CreateTemplate: React.FC = () => {
+  const navigate = useNavigate();
   const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
   const [newVersion, setNewVersion] = useState<NewVersion | undefined>();
   const [searchParams] = useSearchParams();
@@ -122,10 +124,15 @@ const CreateTemplate: React.FC = () => {
       extenuatingCircumstances: extenuatingCircumstances,
       academicMisconduct: academicMisconduct,
     };
-    await axios.post(
-      `http://127.0.0.1:8000/save-new-template/${getCode}/${getAE}/`,
-      { template, approvers }
-    );
+    try {
+      await axios.post(
+        `http://127.0.0.1:8000/save-new-template/${getCode}/${getAE}/`,
+        { template, approvers }
+      );
+      navigate("/");
+    } catch (e) {
+      alert("Oops, something went wrong");
+    }
   };
 
   return (
