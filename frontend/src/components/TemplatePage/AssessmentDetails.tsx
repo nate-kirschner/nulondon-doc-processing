@@ -55,9 +55,7 @@ const AssessmentDetailsComponent: React.FC<AssessmentDetailsProps> = ({
   const [modeOfSubmission, setModeOfSubmission] = useState<
     ModeOfSubmission | undefined
   >();
-  const [anonymousMarketing, setAnonymousMarketing] = useState<
-    boolean | undefined
-  >();
+  const [anonymousMarketing, setAnonymousMarketing] = useState<boolean>(false);
 
   useEffect(() => {
     if (
@@ -70,7 +68,6 @@ const AssessmentDetailsComponent: React.FC<AssessmentDetailsProps> = ({
       handInDeadline === null ||
       feedbackDeadline === "" ||
       modeOfSubmission === undefined ||
-      anonymousMarketing === undefined ||
       newVersion === undefined
     ) {
       return;
@@ -91,7 +88,7 @@ const AssessmentDetailsComponent: React.FC<AssessmentDetailsProps> = ({
       assessmentTitle: newVersion.activity,
       assessmentNumber: newVersion.ae,
       weighting: newVersion.weight.toString(),
-      anonymousMarketing: anonymousMarketing,
+      anonymousMarketing,
     };
     setAssessmentDetails(updatedDetails);
   }, [

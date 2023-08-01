@@ -38,7 +38,8 @@ const getTemplate = async (
 export const generateWordDocument = async (
   courseId: string,
   assessmentId: string,
-  version: string
+  version: string,
+  assessmentName: string
 ) => {
   const template = await getTemplate(courseId, assessmentId, version);
   const assessmentDetails = exportAssessmentDetails(template.assessmentDetails);
@@ -125,9 +126,10 @@ export const generateWordDocument = async (
 
   const mimeType =
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+  const docName = `${courseId}-${assessmentName}-${version}.docx`;
   Packer.toBlob(doc).then((blob) => {
     const docblob = blob.slice(0, blob.size, mimeType);
     console.log("docblob", docblob);
-    saveAs(docblob, "testDoc.docx");
+    saveAs(docblob, docName);
   });
 };

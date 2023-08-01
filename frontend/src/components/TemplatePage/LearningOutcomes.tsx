@@ -62,9 +62,9 @@ const LearningOutcomes: React.FC<LearningOutcomesProps> = ({
 
   useEffect(() => {
     setLearningOutcomes({
-      knowledge,
-      subject,
-      transferable,
+      knowledge: knowledge.filter((outcome) => outcome.checked === true),
+      subject: subject.filter((outcome) => outcome.checked === true),
+      transferable: transferable.filter((outcome) => outcome.checked === true),
     });
   }, [knowledge, subject, transferable]);
 

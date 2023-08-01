@@ -21,14 +21,17 @@ import TemplateRow from "./TemplateRow";
 import AssessmentDetailsApproval from "./ApprovalPages/AssessmentDetailsApproval";
 import AssessmentCriteriaApproval from "./ApprovalPages/AssessmentCriteriaApproval";
 import LearningOutcomesApproval from "./ApprovalPages/LearningOutcomesApproval";
+import { useNavigate } from "react-router-dom";
 
 type UpdateTemplateStatusButtonProp = {
   hashed_email: string | null;
   template_id: string | null;
   new_status: TemplateStatus;
+  navigateHome: () => void;
 };
 
 const FilledTemplateComponent: React.FC = () => {
+  const navigate = useNavigate();
   const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
   const [newVersion, setNewVersion] = useState<NewVersion | undefined>();
   const [searchParams] = useSearchParams();
@@ -350,6 +353,7 @@ const FilledTemplateComponent: React.FC = () => {
             </TableBody>
           </Table>
         </TableContainer>
+        <Spacer height={"24px"} />
         <Box
           style={{ display: "flex", justifyContent: "center", width: "100%" }}
         >
@@ -357,15 +361,18 @@ const FilledTemplateComponent: React.FC = () => {
             hashed_email={hashed_email}
             template_id={template_id}
             new_status={TemplateStatus.APPROVED}
+            navigateHome={() => navigate("/")}
           />
           <Spacer width={"24px"} />
           <UpdateTemplateStatusButton
             hashed_email={hashed_email}
             template_id={template_id}
             new_status={TemplateStatus.REJECTED}
+            navigateHome={() => navigate("/")}
           />
         </Box>
       </React.Fragment>
+      <Spacer height={"64px"} />
     </Box>
   );
 };
@@ -374,6 +381,7 @@ const UpdateTemplateStatusButton: React.FC<UpdateTemplateStatusButtonProp> = ({
   hashed_email,
   template_id,
   new_status,
+  navigateHome,
 }) => {
   const handleClick = () => {
     const url =
@@ -390,8 +398,12 @@ const UpdateTemplateStatusButton: React.FC<UpdateTemplateStatusButtonProp> = ({
           "Content-Type": "appication/json",
         },
       })
+      .then(() => {
+        navigateHome();
+      })
       .catch((error) => {
         console.log("Error Approving Assessment: ", error);
+        alert("Oops, something went wrong");
       });
   };
   return (
