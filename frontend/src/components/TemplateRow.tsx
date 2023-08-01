@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { PropsWithChildren } from "react";
+import Spacer from "./Spacer";
 
 interface TemplateRowProps extends PropsWithChildren {
   title: string;
@@ -49,7 +50,10 @@ const TemplateRow: React.FC<TemplateRowProps> = ({
             {children}
             <Box style={{ display: "grid", placeItems: "center" }}>
               <TableRow>
-                <TableCell colSpan={1}>
+                <TableCell
+                  colSpan={1}
+                  sx={{ display: "flex", columnGap: "16px" }}
+                >
                   <Button
                     sx={{ margin: "4px" }}
                     variant="outlined"
