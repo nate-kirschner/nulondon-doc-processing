@@ -292,7 +292,6 @@ const CreateTemplate: React.FC = () => {
                 >
                   <AddApprovers setApprovers={setApprovers} />
                   <CSRFToken />
-                  <MockSendApproverEmail />
                 </TemplateRow>
               </TableBody>
             )}
