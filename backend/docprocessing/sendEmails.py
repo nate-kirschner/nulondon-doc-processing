@@ -6,13 +6,13 @@ from email.mime.text import MIMEText
 def send_email_to_approvers(approverIDs: list, templateID: int):
     for approverID in approverIDs:
         # check if Approver is allowed to approve this template
+        approver = Approver.objects.filter(id=approverID).first()
+        assert(approver.exists())
         if ApproverTemplate.objects.filter(approverID=approverID, templateID=templateID).exists():
-            approver = Approver.objects.get(id=approverID)
             link = f"http://localhost:3000/filled-template?approver={approver.hashed_email}&templateID={templateID}"
             send_email_to_approvers_helper(approver.name, approver.email, link)
         else:
-            print("LKSJDGHG")
-            # print(f"{approver.email} does not have permission to approve template {templateID}.")
+            print(f"{approver.email} does not have permission to approve template {templateID}.")
 
 
 def send_email_to_approvers_helper(receiver_name: str, receiver_email: str, link: str):
